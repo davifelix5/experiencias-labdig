@@ -25,12 +25,12 @@ module contador_m_tb;
   reg         conta_in;
 
   // Output signals
-  wire [12:0] q_out;
+  wire [3:0]  q_out;
   wire        fim_out;
   wire        meio_out;
 
   // Component to be tested (Device Under Test -- DUT)
-  contador_m_v #( .M(5000), .N(13) ) 
+  contador_m #( .M(16), .N(4) ) 
   dut (
     .clock  ( clock_in ),
     .zera_as( zera_as_in ),

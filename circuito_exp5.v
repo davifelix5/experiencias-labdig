@@ -16,11 +16,13 @@ module circuito_exp5(
     input reset,
     input iniciar,
     input [3:0] chaves,
+    input nivel,
 
     output acertou,
     output errou,
     output pronto,
     output [3:0] leds,
+
     output db_igual,
     output [6:0] db_contagem,
     output [6:0] db_memoria,
@@ -30,71 +32,102 @@ module circuito_exp5(
     output db_tem_jogada
 );
 
-//Fios que saem da UC
-wire contaC, registraR, zeraC, zeraR;
-wire [3:0] db_estado_wire;
-//Fios que saem do FD
-wire fimC, igual_wire, jogada_feita;
-wire [3:0] db_contagem_wire, db_memoria_wire, db_jogada_wire;
+    // Sinais de controle
+    wire contaC, registraR, registraN, zeraC, zeraR;
 
-//Fluxo de Dados
-    exp5_fluxo_dados exp5_fluxo_dados (
-        .clock(clock),
-        .chaves(chaves),
-        .zeraR(zeraR),
-        .registraR(registraR),
-        .zeraC(zeraC),
-        .contaC(contaC),
-        .db_contagem(db_contagem_wire),
-        .db_memoria(db_memoria_wire),
-        .db_jogada(db_jogada_wire),
-        .igual(igual_wire),
-        .jogada_feita(jogada_feita),
-        .db_tem_jogada(db_tem_jogada),
-        .fimC(fimC)
-    );
+    // Sinais de condição
+    wire fimC, igual, jogada_feita, nivel_reg, meioC;
 
-//Unidade de controle
-    exp5_unidade_controle exp5_unidade_controle(
-        .clock(clock),
-        .reset(reset),
-        .iniciar(iniciar),
-        .fim(fimC),
-        .jogada(jogada_feita),
-        .igual(igual_wire),
-        .zeraC(zeraC),
-        .contaC(contaC),
-        .zeraR(zeraR),
-        .registraR(registraR),
-        .acertou(acertou),
-        .errou(errou),
-        .pronto(pronto),
-        .db_estado(db_estado_wire)
-    );
+    // Sinais de saída
+    wire[3:0] s_jogada;
 
-//Displays
-    //Contagem
-        hexa7seg HEX0 (
-            .hexa(db_contagem_wire),
-            .display(db_contagem)
-        );
 
-    //Memoria
-        hexa7seg HEX1 (
-            .hexa(db_memoria_wire),
-            .display(db_memoria)
-        );
-		
-	 //Estado
-        hexa7seg HEX3 (
-            .hexa(db_estado_wire),
-            .display(db_estado)
-        );
+    // Sinais de depuração
+    wire [3:0] s_db_contagem, s_db_memoria, s_db_jogada;
+    wire [3:0] s_db_estado;
 
+    // Setando sinais de depuração
     assign db_iniciar = iniciar;
     assign db_clock = clock;
-	assign db_igual = igual_wire;
-	assign leds = db_jogada_wire;
+	assign db_igual = igual;
 	 
+    // Setando sinais de saída
+	assign leds = s_jogada;
+
+    //Fluxo de Dados
+    exp5_fluxo_dados exp5_fluxo_dados (
+        // Sinais de entrada
+        .clock        ( clock  ),
+        .chaves       ( chaves ),
+        .nivel        ( nivel  ),
+
+        // Sinais de controle
+        .zeraR        ( zeraR     ),
+        .registraR    ( registraR ),
+        .zeraC        ( zeraC     ),
+        .contaC       ( contaC    ),
+        .registraN    ( registraN ),
+
+        // Sinais de condição
+        .igual        ( igual        ),
+        .jogada_feita ( jogada_feita ),
+        .nivel_reg    ( nivel_reg    ),
+        .fimC         ( fimC         ),
+        .meioC        ( meioC        ),
+
+        // Sinais de saída
+        .jogada       ( s_jogada ),
+
+        // Sinais de depuração
+        .db_tem_jogada( db_tem_jogada ),
+        .db_memoria   ( s_db_memoria  ),
+        .db_contagem  ( s_db_contagem )
+    );
+
+    //Unidade de controle
+    exp5_unidade_controle exp5_unidade_controle(
+        .clock    ( clock     ),
+        .reset    ( reset     ),
+        .iniciar  ( iniciar   ),
+        .nivel    ( nivel_reg ),
+
+        .fim      ( fimC         ),
+        .jogada   ( jogada_feita ),
+        .igual    ( igual        ),
+        .meio     ( meioC        ),
+
+        .zeraC    ( zeraC     ),
+        .contaC   ( contaC    ),
+        .zeraR    ( zeraR     ),
+        .registraR( registraR ),
+        .registraN( registraN ),
+
+        .acertou  ( acertou ),
+        .errou    ( errou   ),
+        .pronto   ( pronto  ),
+
+        .db_estado( s_db_estado )
+    );
+
+    //Displays
+
+    //Contagem
+    hexa7seg HEX0 (
+        .hexa   ( s_db_contagem),
+        .display( db_contagem  )
+    );
+
+    //Memoria
+    hexa7seg HEX1 (
+        .hexa   ( s_db_memoria ),
+        .display( db_memoria   )
+    );
+		
+	 //Estado
+    hexa7seg HEX3 (
+        .hexa   ( s_db_estado ),
+        .display( db_estado   )
+    );
+
 	 
 endmodule

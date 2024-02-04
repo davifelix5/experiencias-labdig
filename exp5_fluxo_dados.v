@@ -13,78 +13,100 @@
 
 
 module exp5_fluxo_dados (
+    // Entradas
     input clock,
     input [3:0] chaves,
+    input nivel,
+    
+    // Sinais de controle
     input zeraR,
     input registraR,
     input zeraC,
     input contaC,
-
-    output [3:0] db_contagem,
-    output [3:0] db_memoria,
-    output [3:0] db_jogada,
+    input registraN,
+    
+    // Sinais de codição
     output igual,
     output jogada_feita,
+    output nivel_reg,
+    output fimC,
+    output meioC,
+
+    // Sinais de saída
+    output [3:0] jogada,
+
+    // Sinais de depuração
     output db_tem_jogada,
-    output fimC
+    output [3:0] db_memoria,
+    output [3:0] db_contagem
+);
+
+    // Sinais internos
+    wire[3:0] valor_memoria, contagem;
+
+    // OR das chaves
+    assign tem_jogada = |chaves;
+
+    // Sinais de depuração
+    assign db_memoria = valor_memoria;
+    assign db_contagem = contagem;
+    assign db_tem_jogada = tem_jogada;
+
+    // Registrdor no nível
+    registrador_n #(.SIZE(1)) reg_nivel (
+        .D     ( nivel     ),
+        .Q     ( nivel_reg ),
+        .clear ( zeraR     ),
+        .clock ( clock     ),
+        .enable( registraN )
     );
 
-    wire or_chaves;
-    wire [3:0] out_Q, out_memory, out_reg;
-
-    assign or_chaves = |chaves;
-    assign db_tem_jogada = or_chaves;
-    assign db_memoria = out_memory;
-    assign db_jogada = out_reg;
-	assign db_contagem = out_Q;
-
-//Edge Detector
+    //Edge Detector
     edge_detector edge_detector (
-        .clock(clock),
-        .reset(1'b0), 
-        .sinal(or_chaves), 
-        .pulso(jogada_feita)
-        );
+        .clock( clock        ),
+        .reset( 1'b0         ), 
+        .sinal( tem_jogada   ), 
+        .pulso( jogada_feita )
+    );
 
-//Contador 74163
-    contador_163 contador_163 (
-        .clock(clock), 
-        .clr(~zeraC), 
-        .enp(contaC), 
-        .ent(1'b1), 
-        .ld(1'b1), 
-        .D(4'b0000), 
-        .Q(out_Q),
-        .rco(fimC)
-        );
+    //Contador com meio de módulo 15 e 4 bits
+    contador_m #(.M(16), .N(4)) contador_m (
+        .clock  ( clock    ), 
+        .zera_as( zeraC    ), 
+        .zera_s ( 1'b0     ), 
+        .conta  ( contaC   ), 
+        .Q      ( contagem ),
+        .fim    ( fimC     ),
+        .meio   ( meioC    )
+    );
         
-//Memoria ROM sincrona 16 palavras de 4 bits
+    //Memoria ROM sincrona 16 palavras de 4 bits
     sync_rom_16x4 sync_rom_16x4 (
-        .clock(clock), 
-        .address(out_Q), 
-        .data_out(out_memory)
-        );
+        .clock   ( clock         ), 
+        .address ( contagem      ), 
+        .data_out( valor_memoria )
+    );
 
-//Comparador 7485
+    //Comparador 7485
     comparador_85 comparador_85 (
-        .AEBi(1'b1), 
-        .AGBi(1'b0), 
-        .ALBi(1'b0), 
-        .A(out_memory), 
-        .B(out_reg), 
-        .AEBo(igual),
-        .AGBo(),
-        .ALBo()
-        );
+        .AEBi( 1'b1          ), 
+        .AGBi( 1'b0          ), 
+        .ALBi( 1'b0          ), 
+        .A   ( valor_memoria ), 
+        .B   ( jogada ), 
+        .AEBo( igual  ),
+        .AGBo(        ),
+        .ALBo(        )
+    );
 
-//Registrador 4 bits
-    registrador_4 registrador_4 (
-        .D(chaves),
-        .clear(zeraR),
-        .clock(clock),
-        .enable(registraR),
-        .Q(out_reg)
-        );
+    //Registrador 4 bits
+    registrador_n #(.SIZE(4)) registrador_4 (
+        .D     ( chaves    ),
+        .clear ( zeraR     ),
+        .clock ( clock     ),
+        .enable( registraR ),
+        .Q     ( jogada    )
+    );
 
 
 endmodule
