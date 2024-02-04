@@ -64,8 +64,8 @@ module exp5_unidade_controle (
             registra:               Eprox = compara;
             compara:                Eprox = ~igual ? fim_erro : (((fim & nivel) || (meio & !nivel)) ? fim_acertos : proximo);
             proximo:                Eprox = espera_jogada;
-            fim_acertos:            Eprox = iniciar ? inicial: fim_acertos;
-            fim_erro:               Eprox = iniciar ? inicial: fim_erro;
+            fim_acertos:            Eprox = iniciar ? inicializa_elementos : fim_acertos;
+            fim_erro:               Eprox = iniciar ? inicializa_elementos : fim_erro;
             default:                Eprox = inicial;
         endcase
     end
@@ -79,7 +79,7 @@ module exp5_unidade_controle (
         pronto    = (Eatual == fim_erro || Eatual == fim_acertos) ? 1'b1 : 1'b0;
         acertou   = (Eatual == fim_acertos) ? 1'b1 : 1'b0;
         errou     = (Eatual == fim_erro) ? 1'b1 : 1'b0;
-        registraN = (Eatual == inicializa_elementos || Eatual == inicial) ? 1'b1 : 1'b0;
+        registraN = (Eatual == inicializa_elementos) ? 1'b1 : 1'b0;
     end
 
 endmodule

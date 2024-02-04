@@ -15,19 +15,14 @@ add wave -noupdate -height 25 /circuito_exp5_tb/leds_out
 add wave -noupdate -divider depuraç~ao
 add wave -noupdate -height 25 -radix hexadecimal /circuito_exp5_tb/DUT/exp5_unidade_controle/Eatual
 add wave -noupdate -radix hexadecimal /circuito_exp5_tb/DUT/exp5_fluxo_dados/db_contagem
-add wave -noupdate /circuito_exp5_tb/DUT/exp5_fluxo_dados/contaC
-add wave -noupdate /circuito_exp5_tb/DUT/exp5_fluxo_dados/nivel_reg
-add wave -noupdate -height 25 /circuito_exp5_tb/db_tem_jogada_out
-add wave -noupdate /circuito_exp5_tb/DUT/exp5_fluxo_dados/registraN
 add wave -noupdate -height 25 /circuito_exp5_tb/DUT/exp5_fluxo_dados/valor_memoria
+add wave -noupdate /circuito_exp5_tb/db_nivel
+add wave -noupdate /circuito_exp5_tb/DUT/exp5_fluxo_dados/registraN
 add wave -noupdate -height 25 /circuito_exp5_tb/DUT/exp5_fluxo_dados/jogada_feita
-add wave -noupdate -height 25 /circuito_exp5_tb/db_igual_out
-add wave -noupdate -height 25 /circuito_exp5_tb/db_tem_jogada_out
-add wave -noupdate -height 25 /circuito_exp5_tb/DUT/exp5_fluxo_dados/jogada
-add wave -noupdate /circuito_exp5_tb/DUT/exp5_unidade_controle/nivel
-add wave -noupdate /circuito_exp5_tb/DUT/exp5_unidade_controle/meio
+add wave -noupdate /circuito_exp5_tb/db_igual
+add wave -noupdate /circuito_exp5_tb/db_tem_jogada
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {1692 ns} 0}
+WaveRestoreCursors {{Cursor 2} {12518 ns} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 291
 configure wave -valuecolwidth 40
@@ -43,4 +38,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {0 ns} {7863 ns}
+WaveRestoreZoom {12267 ns} {12691 ns}

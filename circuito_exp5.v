@@ -27,6 +27,7 @@ module circuito_exp5(
     output [6:0] db_contagem,
     output [6:0] db_memoria,
     output [6:0] db_estado,
+    output db_nivel,
     output db_clock,
     output db_iniciar,
     output db_tem_jogada
@@ -48,8 +49,9 @@ module circuito_exp5(
 
     // Setando sinais de depuração
     assign db_iniciar = iniciar;
-    assign db_clock = clock;
-	assign db_igual = igual;
+    assign db_clock   = clock;
+	assign db_igual   = igual;
+    assign db_nivel   = nivel_reg;
 	 
     // Setando sinais de saída
 	assign leds = s_jogada;
