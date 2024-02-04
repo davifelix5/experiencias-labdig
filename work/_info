@@ -1,0 +1,252 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/davifelix/Documentos/usp/quadri/labdig/exp5/exp5_restored/verilog
+vcircuito_exp5
+Z1 !s110 1707052307
+!i10b 1
+!s100 KSPN1z[^N`dQ:3VX9TM>e0
+Z2 !s11b Dg1SIo80bB@j0V0VzS_@n1
+If72DVCji4fUSkPFP`Z_^i0
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1706816912
+8circuito_exp5.v
+Fcircuito_exp5.v
+!i122 0
+L0 14 87
+Z4 OV;L;2020.1;71
+r1
+!s85 0
+31
+Z5 !s108 1707052307.000000
+!s107 sync_rom_16x4.v|registrador_4.v|hexa7seg.v|exp5_unidade_controle.v|exp5_fluxo_dados.v|edge_detector.v|contador_m_tb.v|contador_m.v|contador_163.v|comparador_85.v|circuito_exp5_tb.v|circuito_exp5.v|
+Z6 !s90 circuito_exp5.v|circuito_exp5_tb.v|comparador_85.v|contador_163.v|contador_m.v|contador_m_tb.v|edge_detector.v|exp5_fluxo_dados.v|exp5_unidade_controle.v|hexa7seg.v|registrador_4.v|sync_rom_16x4.v|
+!i113 1
+Z7 tCvgOpt 0
+vcircuito_exp5_tb
+R1
+!i10b 1
+!s100 0[HMn?aI9S0zL[9LB:0]j0
+R2
+IP_VSn8ghM2JFM8F^RP2Gc2
+R3
+R0
+w1707010132
+8circuito_exp5_tb.v
+Fcircuito_exp5_tb.v
+!i122 0
+L0 20 458
+R4
+r1
+!s85 0
+31
+R5
+Z8 !s107 sync_rom_16x4.v|registrador_4.v|hexa7seg.v|exp5_unidade_controle.v|exp5_fluxo_dados.v|edge_detector.v|contador_m_tb.v|contador_m.v|contador_163.v|comparador_85.v|circuito_exp5_tb.v|circuito_exp5.v|
+R6
+!i113 1
+R7
+vcomparador_85
+R1
+!i10b 1
+!s100 zcNmS?1EFWLj?oBWzOfLQ3
+R2
+IhcYz9dK3e<7VP@[mO^PRk1
+R3
+R0
+Z9 w1705009664
+8comparador_85.v
+Fcomparador_85.v
+!i122 0
+L0 16 14
+R4
+r1
+!s85 0
+31
+R5
+R8
+R6
+!i113 1
+R7
+vcontador_163
+R1
+!i10b 1
+!s100 Qd;4U_^W1;=>=f4nB`S_W3
+R2
+IWcbea?TPPMad<<kW0==2I0
+R3
+R0
+R9
+8contador_163.v
+Fcontador_163.v
+!i122 0
+L0 16 16
+R4
+r1
+!s85 0
+31
+R5
+R8
+R6
+!i113 1
+R7
+vcontador_m
+R1
+!i10b 1
+!s100 0EkRWP23m@ZVeTZj`_ZTK3
+R2
+I=E?3dVc7Mz38gNoE9jh=73
+R3
+R0
+Z10 w1706619890
+8contador_m.v
+Fcontador_m.v
+!i122 0
+L0 19 37
+R4
+r1
+!s85 0
+31
+R5
+R8
+R6
+!i113 1
+R7
+vcontador_m_tb
+R1
+!i10b 1
+!s100 JJnNL>m3Uh8ijnYS7A19a0
+R2
+IkAS4_ZhIJ?<jY3i:ZRH;m3
+R3
+R0
+R10
+8contador_m_tb.v
+Fcontador_m_tb.v
+!i122 0
+L0 19 89
+R4
+r1
+!s85 0
+31
+R5
+R8
+R6
+!i113 1
+R7
+vedge_detector
+R1
+!i10b 1
+!s100 chW3Y3]SEfEa??0Pa8SYc3
+R2
+I9eAj4SR5VFXjlh2LVU`;g2
+R3
+R0
+w1706438736
+8edge_detector.v
+Fedge_detector.v
+!i122 0
+L0 21 23
+R4
+r1
+!s85 0
+31
+R5
+R8
+R6
+!i113 1
+R7
+vexp5_fluxo_dados
+R1
+!i10b 1
+!s100 ?N3]dNg02<maOLN[YmS:S1
+R2
+IL1QRfTPRi6IF9R8Fc0mAj3
+R3
+R0
+w1706826614
+8exp5_fluxo_dados.v
+Fexp5_fluxo_dados.v
+!i122 0
+L0 15 76
+R4
+r1
+!s85 0
+31
+R5
+R8
+R6
+!i113 1
+R7
+vhexa7seg
+R1
+!i10b 1
+!s100 ;e0?Jbc=g4g:_U?fa_6fl3
+R2
+IVLg5e1lOPP>H^BPC@8UL62
+R3
+R0
+R9
+8hexa7seg.v
+Fhexa7seg.v
+!i122 0
+L0 23 38
+R4
+r1
+!s85 0
+31
+R5
+R8
+R6
+!i113 1
+R7
+vregistrador_4
+R1
+!i10b 1
+!s100 gXjzhzXZof]BiEo5fmCn?0
+R2
+I<2aUmF:4MXA0H3`Eb4QC^0
+R3
+R0
+Z11 w1705938000
+8registrador_4.v
+Fregistrador_4.v
+!i122 0
+L0 13 20
+R4
+r1
+!s85 0
+31
+R5
+R8
+R6
+!i113 1
+R7
+vsync_rom_16x4
+R1
+!i10b 1
+!s100 TNR<7aXPWhfiP=Yo8enU61
+R2
+IQO@d8[=34MTRS^OnX;Ng62
+R3
+R0
+R11
+8sync_rom_16x4.v
+Fsync_rom_16x4.v
+!i122 0
+L0 13 27
+R4
+r1
+!s85 0
+31
+R5
+R8
+R6
+!i113 1
+R7
