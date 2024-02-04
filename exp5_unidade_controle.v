@@ -38,10 +38,11 @@ module exp5_unidade_controle (
     parameter fim_erro              = 4'b1110;  // E 
 
 	 
-	 assign db_estado = Eatual;
-	 
     // Variaveis de estado
     reg [3:0] Eatual, Eprox;
+
+    // Depuração do estado
+    assign db_estado = Eatual;
 
     // Memoria de estado
     always @(posedge clock or posedge reset) begin

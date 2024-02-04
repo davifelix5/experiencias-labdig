@@ -35,7 +35,6 @@ module circuito_exp5_tb;
     wire [6:0] db_contagem_out   ;
     wire [6:0] db_memoria_out    ;
     wire [6:0] db_estado_out     ;
-    wire [6:0] db_jogadafeita_out;
     wire       db_clock_out      ;
     wire       db_iniciar_out    ;
     wire       db_tem_jogada_out ;
@@ -63,7 +62,6 @@ module circuito_exp5_tb;
       .db_contagem    ( db_contagem_out    ),
       .db_memoria     ( db_memoria_out     ),
       .db_estado      ( db_estado_out      ),
-      .db_jogadafeita ( db_jogadafeita_out ),
       .db_clock       ( db_clock_out       ),
       .db_iniciar     ( db_iniciar_out     ),    
       .db_tem_jogada  ( db_tem_jogada_out  )
@@ -445,7 +443,7 @@ module circuito_exp5_tb;
        */
 
       // resetar circuito
-      caso = 28;
+      caso = 29;
       @(negedge clock_in);
       reset_in = 1;
       #(clockPeriod);
