@@ -19,6 +19,7 @@ module exp5_unidade_controle (
     input      igual,
     input      nivel,
     input      fimTempo,
+    input      meioTempo,
 	 
     output reg   zeraC,
     output reg   contaC,
@@ -28,6 +29,8 @@ module exp5_unidade_controle (
     output reg   acertou,
     output reg   errou,
     output reg   pronto,
+    output reg   contaTempo,
+    output reg   timeout,
     output [3:0] db_estado
 );
 
@@ -40,6 +43,7 @@ module exp5_unidade_controle (
     parameter proximo               = 4'b0111;  // 7
     parameter fim_acertos           = 4'b1100;  // C
     parameter fim_erro              = 4'b1110;  // E 
+    parameter Etimeout              = 4'b1111;  // F
 
 	 
     // Variaveis de estado
@@ -61,26 +65,29 @@ module exp5_unidade_controle (
         case (Eatual)
             inicial:                Eprox = iniciar ? inicializa_elementos : inicial;
             inicializa_elementos:   Eprox = espera_jogada;
-            espera_jogada:          Eprox = jogada ? registra : ( (fimTempo & ~fim) ? fim_erro : espera_jogada);
+            espera_jogada:          Eprox = jogada ? registra : ((meioTempo & nivel) || (fimTempo & !nivel)) ? Etimeout : espera_jogada;
             registra:               Eprox = compara;
             compara:                Eprox = ~igual ? fim_erro : (((fim & nivel) || (meio & !nivel)) ? fim_acertos : proximo);
             proximo:                Eprox = espera_jogada;
             fim_acertos:            Eprox = iniciar ? inicializa_elementos : fim_acertos;
             fim_erro:               Eprox = iniciar ? inicializa_elementos : fim_erro;
+            Etimeout:               Eprox = iniciar ? inicializa_elementos : Etimeout;
             default:                Eprox = inicial;
         endcase
     end
 
     // Logica de saida (maquina Moore)
     always @* begin
-        zeraC     = (Eatual == inicial || Eatual == inicializa_elementos) ? 1'b1 : 1'b0;
-        zeraR     = (Eatual == inicial) ? 1'b1 : 1'b0;
-        registraR = (Eatual == registra) ? 1'b1 : 1'b0;
-        contaC    = (Eatual == proximo) ? 1'b1 : 1'b0;
-        pronto    = (Eatual == fim_erro || Eatual == fim_acertos) ? 1'b1 : 1'b0;
-        acertou   = (Eatual == fim_acertos) ? 1'b1 : 1'b0;
-        errou     = (Eatual == fim_erro) ? 1'b1 : 1'b0;
-        registraN = (Eatual == inicializa_elementos) ? 1'b1 : 1'b0;
+        zeraC      = (Eatual == inicial || Eatual == inicializa_elementos)               ? 1'b1 : 1'b0;
+        zeraR      = (Eatual == inicial)                                                 ? 1'b1 : 1'b0;
+        registraR  = (Eatual == registra)                                                ? 1'b1 : 1'b0;
+        contaC     = (Eatual == proximo)                                                 ? 1'b1 : 1'b0;
+        pronto     = (Eatual == fim_erro || Eatual == fim_acertos || Eatual == Etimeout) ? 1'b1 : 1'b0;
+        acertou    = (Eatual == fim_acertos)                                             ? 1'b1 : 1'b0;
+        errou      = (Eatual == fim_erro)                                                ? 1'b1 : 1'b0;
+        registraN  = (Eatual == inicializa_elementos)                                    ? 1'b1 : 1'b0;
+        contaTempo = (Eatual == espera_jogada)                                           ? 1'b1 : 1'b0; 
+        timeout    = (Eatual == Etimeout)                                                ? 1'b1 : 1'b0;
     end
 
 endmodule

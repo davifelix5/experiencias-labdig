@@ -12,16 +12,17 @@
 */
 
 module circuito_exp5(
-    input clock,
-    input reset,
-    input iniciar,
-    input [3:0] chaves,
-    input nivel,
+    input        clock,
+    input        reset,
+    input        iniciar,
+    input [3:0]  chaves,
+    input        nivel,
 
-    output acertou,
-    output errou,
-    output pronto,
+    output       acertou,
+    output       errou,
+    output       pronto,
     output [3:0] leds,
+    output       timeout,
 
     output db_igual,
     output [6:0] db_contagem,
@@ -36,7 +37,7 @@ module circuito_exp5(
 );
 
     // Sinais de controle
-    wire contaC, registraR, registraN, zeraC, zeraR;
+    wire contaC, registraR, registraN, zeraC, zeraR, contaTempo;
 
     // Sinais de condição
     wire fimC, igual, jogada_feita, nivel_reg, meioC, fimTempo, meioTempo;
@@ -68,11 +69,12 @@ module circuito_exp5(
         .nivel        ( nivel  ),
 
         // Sinais de controle
-        .zeraR        ( zeraR     ),
-        .registraR    ( registraR ),
-        .zeraC        ( zeraC     ),
-        .contaC       ( contaC    ),
-        .registraN    ( registraN ),
+        .zeraR        ( zeraR      ),
+        .registraR    ( registraR  ),
+        .zeraC        ( zeraC      ),
+        .contaC       ( contaC     ),
+        .registraN    ( registraN  ),
+        .contaTempo   ( contaTempo ),
 
         // Sinais de condição
         .igual        ( igual        ),
@@ -87,34 +89,36 @@ module circuito_exp5(
         .jogada       ( s_jogada ),
 
         // Sinais de depuração
-        .db_tem_jogada( db_tem_jogada ),
-        .db_memoria   ( s_db_memoria  ),
-        .db_contagem  ( s_db_contagem )
+        .db_tem_jogada    ( db_tem_jogada ),
+        .db_memoria       ( s_db_memoria  ),
+        .db_contagem      ( s_db_contagem )
     );
 
     //Unidade de controle
     exp5_unidade_controle exp5_unidade_controle(
-        .clock    ( clock     ),
-        .reset    ( reset     ),
-        .iniciar  ( iniciar   ),
-        .nivel    ( nivel_reg ),
+        .clock     ( clock     ),
+        .reset     ( reset     ),
+        .iniciar   ( iniciar   ),
+        .nivel     ( nivel_reg ),
 
-        .fim      ( fimC         ),
-        .jogada   ( jogada_feita ),
-        .igual    ( igual        ),
-        .meio     ( meioC        ),
-        .fimTempo ( fimTempo     ),
+        .fim       ( fimC         ),
+        .jogada    ( jogada_feita ),
+        .igual     ( igual        ),
+        .meio      ( meioC        ),
+        .fimTempo  ( fimTempo     ),
+        .meioTempo ( meioTempo),
 
-        .zeraC    ( zeraC     ),
-        .contaC   ( contaC    ),
-        .zeraR    ( zeraR     ),
-        .registraR( registraR ),
-        .registraN( registraN ),
+        .zeraC     ( zeraC     ),
+        .contaC    ( contaC    ),
+        .zeraR     ( zeraR     ),
+        .registraR ( registraR ),
+        .registraN ( registraN ),
+        .contaTempo( contaTempo ),
 
         .acertou  ( acertou ),
         .errou    ( errou   ),
         .pronto   ( pronto  ),
-
+        .timeout  ( timeout ),
         .db_estado( s_db_estado )
     );
 

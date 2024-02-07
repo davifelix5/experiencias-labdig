@@ -24,6 +24,7 @@ module exp5_fluxo_dados (
     input zeraC,
     input contaC,
     input registraN,
+    input contaTempo,
     
     // Sinais de codição
     output igual,
@@ -114,8 +115,7 @@ module exp5_fluxo_dados (
    *
    *  Sinal clock                       = clock universal
    *  Sinal zera_as (zera assíncrono)   = jogada_feita, pois é a condição para que o contador reinicie
-   *  Sinal zera_s (zera síncrono)      = zeraC, pois é o indicador que o jogo reiniciará
-   *  Sinal conta                       = ~fimC, pois o timer acontece enquanto o jogo estiver acontecendo (não chegou ao fim)
+   *  Sinal conta                       = sinal de controle indica pela UC que vale 1 se o estado é o de espera_jogada
    *  Sinal Q                           = irrelevante para o circuito
    *  Sinal fim                         = fimTempo, output para a UC indicando que o contador chegou ao fim
    *  Sinal meio                        = meioTempo, idem ao fimTempo, mas para metade da contagem
@@ -123,11 +123,11 @@ module exp5_fluxo_dados (
    */
 
     //Contador (timer) de módulo 5000
-    contador_m  # ( .M(5000), .N(13) ) contador_timer (
+    contador_m  # ( .M(3000), .N(13) ) contador_timer (
         .clock  ( clock ),
         .zera_as( jogada_feita ),
-        .zera_s ( zeraC ),
-        .conta  ( ~fimC ),
+        .zera_s (  ),
+        .conta  ( contaTempo ),
         .Q      (  ),
         .fim    ( fimTempo ),
         .meio   ( meioTempo )

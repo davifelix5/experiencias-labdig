@@ -30,6 +30,7 @@ module circuito_exp5_tb;
   wire       acertou_out;
   wire       errou_out  ;
   wire       pronto_out ;
+  wire       timeout_out;
   wire [3:0] leds_out   ;
 
   wire       db_igual      ;
@@ -63,6 +64,7 @@ module circuito_exp5_tb;
     .errou          ( errou_out   ),
     .pronto         ( pronto_out  ),
     .leds           ( leds_out    ),
+    .timeout        ( timeout_out ),
     .db_igual       ( db_igual       ),
     .db_contagem    ( db_contagem    ),
     .db_memoria     ( db_memoria     ),
