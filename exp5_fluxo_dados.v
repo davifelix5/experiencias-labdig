@@ -115,6 +115,7 @@ module exp5_fluxo_dados (
    *
    *  Sinal clock                       = clock universal
    *  Sinal zera_as (zera assíncrono)   = jogada_feita, pois é a condição para que o contador reinicie
+   *  Sinal zera_s  (zera síncrono)     = para começar o valor do contador de timeout
    *  Sinal conta                       = sinal de controle indica pela UC que vale 1 se o estado é o de espera_jogada
    *  Sinal Q                           = irrelevante para o circuito
    *  Sinal fim                         = fimTempo, output para a UC indicando que o contador chegou ao fim
@@ -126,7 +127,7 @@ module exp5_fluxo_dados (
     contador_m  # ( .M(3000), .N(12) ) contador_timer (
         .clock  ( clock ),
         .zera_as( jogada_feita ),
-        .zera_s (  ),
+        .zera_s ( zeraC ),
         .conta  ( contaTempo ),
         .Q      (  ),
         .fim    ( fimTempo ),
