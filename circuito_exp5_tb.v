@@ -39,7 +39,9 @@ module circuito_exp5_tb;
   wire       db_clock      ;
   wire       db_iniciar    ;
   wire       db_tem_jogada ;
-  wire       db_nivel;
+  wire       db_nivel      ;
+  wire       db_meioTempo  ;
+  wire       db_fimTempo   ;
 
   // Configuração do clock
   parameter clockPeriod = 20; // in ns, f=50MHz
@@ -68,7 +70,9 @@ module circuito_exp5_tb;
     .db_clock       ( db_clock       ),
     .db_nivel       ( db_nivel       ),
     .db_iniciar     ( db_iniciar     ),    
-    .db_tem_jogada  ( db_tem_jogada  )
+    .db_tem_jogada  ( db_tem_jogada  ),
+    .db_meioTempo   ( db_meioTempo   ),
+    .db_fimTempo    ( db_fimTempo    )
   );
 
   // geracao dos sinais de entrada (estimulos)
@@ -489,6 +493,70 @@ module circuito_exp5_tb;
     chaves_in = 4'b0000;
     #(20*clockPeriod);
     
+     /*  
+      * 	  TESTE DO DESAFIO
+      * 
+      *    Um contador que conta até 5000 (clicos de clock) que funciona como timer do circuito. 
+      *    Quando o contador chega ao seu fim, ele dispara um sinal que joga o estado do circuito para o fim_erro.
+      *    Temos um  sinal de depuração para o fim do contador (5000 contagens) e para  o seu meio (2500 contagens).
+      *    o TB consiste em acertar uma jogada e esperar 5000 ciclos para ver a modificação dos sinais.
+      *
+    */
+
+      // Reseta o circuito
+      caso = 49;
+      @(negedge clock_in);
+      reset_in = 1;
+      #(clockPeriod)
+      reset_in = 0;
+      #(10*clockPeriod);
+
+      // Iniciar o circuito
+      caso = 50;
+      iniciar_in = 1;
+      #(5*clockPeriod);
+      iniciar_in = 0;
+      // espera
+      #(10*clockPeriod);
+
+      // jogada #1 (ajustar chaves para 0001 por 10 periodos de clock e esperar 5000 clocks (timer))
+      caso = 51;
+      chaves_in = 4'b0001;
+      #(3*clockPeriod);
+      chaves_in = 4'b0000;
+      // espera entre jogadas
+      #(5000*clockPeriod); 
+
+      // Check se há mudança no circuito
+      caso = 52;
+      chaves_in = 4'b0010;
+      #(3*clockPeriod);
+      chaves_in = 4'b0000;
+      // espera entre jogadas
+      #(10*clockPeriod); //
+      // final dos casos de teste da simulacao
+
+      // resetar circuito e verificar se ele permanece reiniciado mesmo com o timer rolando
+      caso = 53;
+      // gera pulso de reset
+      @(negedge clock_in);
+      reset_in = 1;
+      #(clockPeriod);
+      reset_in = 0;
+      // espera
+      #(5010*clockPeriod);
+
+      // Iniciar o circuito e esperar o timer acabar
+      caso = 54;
+      iniciar_in = 1;
+      #(5*clockPeriod);
+      iniciar_in = 0;
+      // espera
+      #(5010*clockPeriod);
+
+      caso = 99;
+      #100;
+
     $display("Fim da simulação");
     $finish;
   end

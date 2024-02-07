@@ -30,14 +30,16 @@ module circuito_exp5(
     output db_nivel,
     output db_clock,
     output db_iniciar,
-    output db_tem_jogada
+    output db_tem_jogada,
+    output db_meioTempo,
+    output db_fimTempo
 );
 
     // Sinais de controle
     wire contaC, registraR, registraN, zeraC, zeraR;
 
     // Sinais de condição
-    wire fimC, igual, jogada_feita, nivel_reg, meioC;
+    wire fimC, igual, jogada_feita, nivel_reg, meioC, fimTempo, meioTempo;
 
     // Sinais de saída
     wire[3:0] s_jogada;
@@ -48,10 +50,12 @@ module circuito_exp5(
     wire [3:0] s_db_estado;
 
     // Setando sinais de depuração
-    assign db_iniciar = iniciar;
-    assign db_clock   = clock;
-	assign db_igual   = igual;
-    assign db_nivel   = nivel_reg;
+    assign db_iniciar   = iniciar;
+    assign db_clock     = clock;
+	assign db_igual     = igual;
+    assign db_nivel     = nivel_reg;
+    assign db_fimTempo  = fimTempo;
+    assign db_meioTempo = meioTempo;
 	 
     // Setando sinais de saída
 	assign leds = s_jogada;
@@ -76,6 +80,8 @@ module circuito_exp5(
         .nivel_reg    ( nivel_reg    ),
         .fimC         ( fimC         ),
         .meioC        ( meioC        ),
+        .fimTempo     ( fimTempo     ),
+        .meioTempo    ( meioTempo    ),
 
         // Sinais de saída
         .jogada       ( s_jogada ),
@@ -97,6 +103,7 @@ module circuito_exp5(
         .jogada   ( jogada_feita ),
         .igual    ( igual        ),
         .meio     ( meioC        ),
+        .fimTempo ( fimTempo     ),
 
         .zeraC    ( zeraC     ),
         .contaC   ( contaC    ),

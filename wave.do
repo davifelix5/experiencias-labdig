@@ -21,8 +21,10 @@ add wave -noupdate /circuito_exp5_tb/DUT/exp5_fluxo_dados/registraN
 add wave -noupdate -height 25 /circuito_exp5_tb/DUT/exp5_fluxo_dados/jogada_feita
 add wave -noupdate /circuito_exp5_tb/db_igual
 add wave -noupdate /circuito_exp5_tb/db_tem_jogada
+add wave -noupdate /circuito_exp5_tb/DUT/db_meioTempo
+add wave -noupdate /circuito_exp5_tb/DUT/fimTempo
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 2} {12518 ns} 0}
+WaveRestoreCursors {{Cursor 2} {311975 ns} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 291
 configure wave -valuecolwidth 40
@@ -38,4 +40,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {12267 ns} {12691 ns}
+WaveRestoreZoom {26560 ns} {235812 ns}

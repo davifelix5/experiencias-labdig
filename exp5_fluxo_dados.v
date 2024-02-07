@@ -31,6 +31,8 @@ module exp5_fluxo_dados (
     output nivel_reg,
     output fimC,
     output meioC,
+    output fimTempo,
+    output meioTempo,
 
     // Sinais de saída
     output [3:0] jogada,
@@ -106,6 +108,29 @@ module exp5_fluxo_dados (
         .clock ( clock     ),
         .enable( registraR ),
         .Q     ( jogada    )
+    );
+
+    /*  DESAFIO: Timer até 5000 ciclos de clock (aparentemente 0.0001 s)
+   *
+   *  Sinal clock                       = clock universal
+   *  Sinal zera_as (zera assíncrono)   = jogada_feita, pois é a condição para que o contador reinicie
+   *  Sinal zera_s (zera síncrono)      = zeraC, pois é o indicador que o jogo reiniciará
+   *  Sinal conta                       = ~fimC, pois o timer acontece enquanto o jogo estiver acontecendo (não chegou ao fim)
+   *  Sinal Q                           = irrelevante para o circuito
+   *  Sinal fim                         = fimTempo, output para a UC indicando que o contador chegou ao fim
+   *  Sinal meio                        = meioTempo, idem ao fimTempo, mas para metade da contagem
+   *  
+   */
+
+    //Contador (timer) de módulo 5000
+    contador_m  # ( .M(5000), .N(13) ) contador_timer (
+        .clock  ( clock ),
+        .zera_as( jogada_feita ),
+        .zera_s ( zeraC ),
+        .conta  ( ~fimC ),
+        .Q      (  ),
+        .fim    ( fimTempo ),
+        .meio   ( meioTempo )
     );
 
 
