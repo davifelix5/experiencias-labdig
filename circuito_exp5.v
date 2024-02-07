@@ -32,9 +32,7 @@ module circuito_exp5(
     output db_nivel_tempo,
     output db_clock,
     output db_iniciar,
-    output db_tem_jogada,
-    output db_meioTempo,
-    output db_fimTempo
+    output db_tem_jogada
 );
 
     // Sinais de controle
@@ -57,8 +55,6 @@ module circuito_exp5(
 	assign db_igual         = igual;
     assign db_nivel_jogadas = nivel_jogadas_reg;
     assign db_nivel_tempo   = nivel_tempo_reg;
-    assign db_fimTempo  = fimTempo;
-    assign db_meioTempo = meioTempo;
 	 
     // Setando sinais de saída
 	assign leds = s_jogada;
