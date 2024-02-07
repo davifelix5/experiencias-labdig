@@ -82,13 +82,12 @@ module circuito_exp5(
         // Sinais de condição
         .igual             ( igual        ),
         .jogada_feita      ( jogada_feita ),
-        .nivel_reg         ( nivel_reg    ),
         .fimC              ( fimC         ),
         .meioC             ( meioC        ),
         .fimTempo          ( fimTempo     ),
         .meioTempo         ( meioTempo    ),
         .nivel_jogadas_reg ( nivel_jogadas_reg ),
-        .nivel_tempo_reg   ( nivel_tempo_reg )
+        .nivel_tempo_reg   ( nivel_tempo_reg ),
 
         // Sinais de saída
         .jogada        ( s_jogada ),
