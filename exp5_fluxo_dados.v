@@ -123,7 +123,7 @@ module exp5_fluxo_dados (
    */
 
     //Contador (timer) de módulo 5000
-    contador_m  # ( .M(3000), .N(13) ) contador_timer (
+    contador_m  # ( .M(3000), .N(12) ) contador_timer (
         .clock  ( clock ),
         .zera_as( jogada_feita ),
         .zera_s (  ),

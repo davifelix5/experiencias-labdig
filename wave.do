@@ -11,6 +11,7 @@ add wave -noupdate -divider output
 add wave -noupdate -height 25 /circuito_exp5_tb/acertou_out
 add wave -noupdate -height 25 /circuito_exp5_tb/errou_out
 add wave -noupdate -height 25 /circuito_exp5_tb/pronto_out
+add wave -noupdate /circuito_exp5_tb/DUT/timeout
 add wave -noupdate -height 25 /circuito_exp5_tb/leds_out
 add wave -noupdate -divider depuraç~ao
 add wave -noupdate -height 25 -radix hexadecimal /circuito_exp5_tb/DUT/exp5_unidade_controle/Eatual
@@ -23,10 +24,9 @@ add wave -noupdate /circuito_exp5_tb/db_igual
 add wave -noupdate /circuito_exp5_tb/db_tem_jogada
 add wave -noupdate /circuito_exp5_tb/DUT/db_meioTempo
 add wave -noupdate /circuito_exp5_tb/DUT/fimTempo
-add wave -noupdate /circuito_exp5_tb/DUT/timeout
 add wave -noupdate /circuito_exp5_tb/DUT/exp5_fluxo_dados/contaTempo
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 2} {266455 ns} 0}
+WaveRestoreCursors {{Cursor 2} {293232 ns} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 291
 configure wave -valuecolwidth 40

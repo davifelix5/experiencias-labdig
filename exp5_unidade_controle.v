@@ -84,7 +84,7 @@ module exp5_unidade_controle (
         contaC     = (Eatual == proximo)                                                 ? 1'b1 : 1'b0;
         pronto     = (Eatual == fim_erro || Eatual == fim_acertos || Eatual == Etimeout) ? 1'b1 : 1'b0;
         acertou    = (Eatual == fim_acertos)                                             ? 1'b1 : 1'b0;
-        errou      = (Eatual == fim_erro)                                                ? 1'b1 : 1'b0;
+        errou      = (Eatual == fim_erro || Eatual == Etimeout)                          ? 1'b1 : 1'b0;
         registraN  = (Eatual == inicializa_elementos)                                    ? 1'b1 : 1'b0;
         contaTempo = (Eatual == espera_jogada)                                           ? 1'b1 : 1'b0; 
         timeout    = (Eatual == Etimeout)                                                ? 1'b1 : 1'b0;

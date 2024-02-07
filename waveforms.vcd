@@ -1,5 +1,5 @@
 $date
-	Wed Feb  7 10:36:59 2024
+	Wed Feb  7 10:41:39 2024
 $end
 $version
 	ModelSim Version 2020.1
@@ -265,7 +265,7 @@ $var wire 1 L clock $end
 $var wire 1 \ zera_as $end
 $var wire 1 ?! zera_s $end
 $var wire 1 Y conta $end
-$var reg 13 @! Q [12:0] $end
+$var reg 12 @! Q [11:0] $end
 $var reg 1 A! fim $end
 $var reg 1 B! meio $end
 $upscope $end
@@ -375,7 +375,7 @@ b10000 %!
 b100 &!
 b100 ;!
 b101110111000 =!
-b1101 >!
+b1100 >!
 b0 C!
 b1 D!
 b100 E!
@@ -36820,6 +36820,7 @@ b1111 V!
 1q
 b1110 Z!
 1S!
+1R!
 0T!
 1U!
 0A!
@@ -36828,6 +36829,7 @@ b1110 Z!
 1B
 0@
 1)
+1(
 0Y
 1*
 0_
@@ -52952,12 +52954,14 @@ b0 W!
 1L!
 1N!
 0S!
+0R!
 0U!
 0C
 0B
 0A
 1>
 0)
+0(
 0*
 1W
 1X
@@ -120139,6 +120143,7 @@ b1111 V!
 1q
 b1110 Z!
 1S!
+1R!
 0T!
 1U!
 0A!
@@ -120147,6 +120152,7 @@ b1110 Z!
 1B
 0@
 1)
+1(
 0Y
 1*
 0_
