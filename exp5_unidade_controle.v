@@ -17,7 +17,8 @@ module exp5_unidade_controle (
     input      meio,
     input      jogada,
     input      igual,
-    input      nivel,
+    input      nivel_tempo,
+    input      nivel_jogadas,
     input      fimTempo,
     input      meioTempo,
 	 
@@ -65,9 +66,9 @@ module exp5_unidade_controle (
         case (Eatual)
             inicial:                Eprox = iniciar ? inicializa_elementos : inicial;
             inicializa_elementos:   Eprox = espera_jogada;
-            espera_jogada:          Eprox = jogada ? registra : ((meioTempo & nivel) || (fimTempo & !nivel)) ? Etimeout : espera_jogada;
+            espera_jogada:          Eprox = jogada ? registra : ((meioTempo & nivel_tempo) || (fimTempo & !nivel_jogadas)) ? Etimeout : espera_jogada;
             registra:               Eprox = compara;
-            compara:                Eprox = ~igual ? fim_erro : (((fim & nivel) || (meio & !nivel)) ? fim_acertos : proximo);
+            compara:                Eprox = ~igual ? fim_erro : (((fim & nivel_jogadas) || (meio & !nivel_jogadas)) ? fim_acertos : proximo);
             proximo:                Eprox = espera_jogada;
             fim_acertos:            Eprox = iniciar ? inicializa_elementos : fim_acertos;
             fim_erro:               Eprox = iniciar ? inicializa_elementos : fim_erro;
