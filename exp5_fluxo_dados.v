@@ -16,8 +16,8 @@ module exp5_fluxo_dados (
     // Entradas
     input clock,
     input [3:0] chaves,
-    input nivel,
-    
+    input nivel_jogadas, nivel_tempo,
+
     // Sinais de controle
     input zeraR,
     input registraR,
@@ -29,11 +29,13 @@ module exp5_fluxo_dados (
     // Sinais de codição
     output igual,
     output jogada_feita,
-    output nivel_reg,
+    output nivel_jogadas_reg,
+    output nivel_tempo_reg,
     output fimC,
     output meioC,
     output fimTempo,
     output meioTempo,
+
 
     // Sinais de saída
     output [3:0] jogada,
@@ -55,10 +57,19 @@ module exp5_fluxo_dados (
     assign db_contagem = contagem;
     assign db_tem_jogada = tem_jogada;
 
-    // Registrdor no nível
-    registrador_n #(.SIZE(1)) reg_nivel (
-        .D     ( nivel     ),
-        .Q     ( nivel_reg ),
+    // Registrdor no nível de jogadas
+    registrador_n #(.SIZE(1)) reg_nivel_jogadas (
+        .D     ( nivel_jogadas ),
+        .Q     ( nivel_jogadas_reg ),
+        .clear ( zeraR     ),
+        .clock ( clock     ),
+        .enable( registraN )
+    );
+
+    // Registrdor no nível de tempo
+    registrador_n #(.SIZE(1)) reg_nivel_tempo (
+        .D     ( nivel_tempo ),
+        .Q     ( nivel_tempo_reg ),
         .clear ( zeraR     ),
         .clock ( clock     ),
         .enable( registraN )

@@ -16,7 +16,7 @@ module circuito_exp5(
     input        reset,
     input        iniciar,
     input [3:0]  chaves,
-    input        nivel,
+    input        nivel_jogadas, nivel_tempo,
 
     output       acertou,
     output       errou,
@@ -28,7 +28,8 @@ module circuito_exp5(
     output [6:0] db_contagem,
     output [6:0] db_memoria,
     output [6:0] db_estado,
-    output db_nivel,
+    output db_nivel_jogadas,
+    output db_nivel_tempo,
     output db_clock,
     output db_iniciar,
     output db_tem_jogada,
@@ -40,7 +41,7 @@ module circuito_exp5(
     wire contaC, registraR, registraN, zeraC, zeraR, contaTempo;
 
     // Sinais de condição
-    wire fimC, igual, jogada_feita, nivel_reg, meioC, fimTempo, meioTempo;
+    wire fimC, igual, jogada_feita, nivel_jogadas_reg, nivel_tempo_reg, meioC, fimTempo, meioTempo;
 
     // Sinais de saída
     wire[3:0] s_jogada;
@@ -51,10 +52,11 @@ module circuito_exp5(
     wire [3:0] s_db_estado;
 
     // Setando sinais de depuração
-    assign db_iniciar   = iniciar;
-    assign db_clock     = clock;
-	assign db_igual     = igual;
-    assign db_nivel     = nivel_reg;
+    assign db_iniciar       = iniciar;
+    assign db_clock         = clock;
+	assign db_igual         = igual;
+    assign db_nivel_jogadas = nivel_jogadas_reg;
+    assign db_nivel_tempo   = nivel_tempo_reg;
     assign db_fimTempo  = fimTempo;
     assign db_meioTempo = meioTempo;
 	 
@@ -64,34 +66,37 @@ module circuito_exp5(
     //Fluxo de Dados
     exp5_fluxo_dados exp5_fluxo_dados (
         // Sinais de entrada
-        .clock        ( clock  ),
-        .chaves       ( chaves ),
-        .nivel        ( nivel  ),
+        .clock         ( clock  ),
+        .chaves        ( chaves ),
+        .nivel_jogadas ( nivel_jogadas ),
+        .nivel_tempo   ( nivel_tempo ),
 
         // Sinais de controle
-        .zeraR        ( zeraR      ),
-        .registraR    ( registraR  ),
-        .zeraC        ( zeraC      ),
-        .contaC       ( contaC     ),
-        .registraN    ( registraN  ),
-        .contaTempo   ( contaTempo ),
+        .zeraR         ( zeraR      ),
+        .registraR     ( registraR  ),
+        .zeraC         ( zeraC      ),
+        .contaC        ( contaC     ),
+        .registraN     ( registraN  ),
+        .contaTempo    ( contaTempo ),
 
         // Sinais de condição
-        .igual        ( igual        ),
-        .jogada_feita ( jogada_feita ),
-        .nivel_reg    ( nivel_reg    ),
-        .fimC         ( fimC         ),
-        .meioC        ( meioC        ),
-        .fimTempo     ( fimTempo     ),
-        .meioTempo    ( meioTempo    ),
+        .igual             ( igual        ),
+        .jogada_feita      ( jogada_feita ),
+        .nivel_reg         ( nivel_reg    ),
+        .fimC              ( fimC         ),
+        .meioC             ( meioC        ),
+        .fimTempo          ( fimTempo     ),
+        .meioTempo         ( meioTempo    ),
+        .nivel_jogadas_reg ( nivel_jogadas_reg ),
+        .nivel_tempo_reg   ( nivel_tempo_reg )
 
         // Sinais de saída
-        .jogada       ( s_jogada ),
+        .jogada        ( s_jogada ),
 
         // Sinais de depuração
-        .db_tem_jogada    ( db_tem_jogada ),
-        .db_memoria       ( s_db_memoria  ),
-        .db_contagem      ( s_db_contagem )
+        .db_tem_jogada ( db_tem_jogada ),
+        .db_memoria    ( s_db_memoria  ),
+        .db_contagem   ( s_db_contagem )
     );
 
     //Unidade de controle
@@ -99,7 +104,8 @@ module circuito_exp5(
         .clock     ( clock     ),
         .reset     ( reset     ),
         .iniciar   ( iniciar   ),
-        .nivel     ( nivel_reg ),
+        .nivel_jogadas ( nivel_jogadas_reg ),
+        .nivel_tempo   ( nivel_tempo_reg ),
 
         .fim       ( fimC         ),
         .jogada    ( jogada_feita ),
