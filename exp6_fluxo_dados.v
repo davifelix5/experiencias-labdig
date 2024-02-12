@@ -37,7 +37,7 @@ module exp6_fluxo_dados (
     output nivel_jogadas_reg,
     output nivel_tempo_reg,
     output fimC,
-    output meioC,
+    output meioCR,
     output fimTempo,
     output meioTempo,
     output enderecoIgualRodada,
@@ -100,19 +100,18 @@ module exp6_fluxo_dados (
         .conta   ( contaC     ), 
         .Q       ( s_endereco ),
         .fim     ( fimC       ),
-        .meio    ( meioC      )
+        .meio    (       )
     );
 
     // Contador para a rodada atual
-    contador_163 ContRod (
-        .clock ( clock    ), 
-        .clr   ( ~zeraCR  ), 
-        .ld    (          ), 
-        .D     (          ),
-        .Q     ( s_rodada ),
-        .rco   ( fimCR    ),
-        .ent   ( 1'b1     ),
-        .enp   ( contaCR  )
+    contador_m ContRod (
+        .clock   ( clock    ), 
+        .zera_s  ( ~zeraCR  ), 
+        .zera_as (  ), 
+        .conta   ( contaCR  ),
+        .Q       ( s_rodada ),
+        .fim     ( fimCR    ),
+        .meio    ( meioCR )
     );
 
     // Contador (timer) de módulo 1000 (1s) para sinalizar o tempo entre a mostragem de jogadas 

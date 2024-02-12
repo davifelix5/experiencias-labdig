@@ -40,7 +40,7 @@ module circuito_exp6 (
     // Sinais de controle
     wire       contaC, contaTempo, contaTM, contaCR, registraR, registraN, zeraC, zeraR, zeraCR, zeraTM, zeraTempo;
     // Sinais de condição
-    wire       fimC, fimCR, fimTM, fimTempo, meioC, meioTempo; 
+    wire       fimC, fimCR, fimTM, fimTempo, meioCR, meioTempo; 
     wire       enderecoIgualRodada, jogada_feita, jogada_correta;
     wire       nivel_jogadas_reg, nivel_tempo_reg;
     // Sinais de saída
@@ -81,7 +81,7 @@ module circuito_exp6 (
         .jogada_correta      ( jogada_correta      ),
         .jogada_feita        ( jogada_feita        ),
         .fimC                ( fimC                ),
-        .meioC               ( meioC               ),
+        .meioCR              ( meioCR              ),
         .fimTempo            ( fimTempo            ),
         .meioTempo           ( meioTempo           ),
         .fimCR               ( fimCR               ),
@@ -109,7 +109,7 @@ module circuito_exp6 (
         .fimTempo            ( fimTempo            ),
         .meioTempo           ( meioTempo           ),
         .fimC                ( fimC                ),
-        .meioC               ( meioC               ),
+        .meioCR              ( meioCR              ),
         .fimCR               ( fimCR               ),
         .fimTM               ( fimTM               ),
         .jogada_feita        ( jogada_feita        ),

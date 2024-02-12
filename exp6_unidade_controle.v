@@ -18,7 +18,7 @@ module exp6_unidade_controle (
     input        fimC,
     input        fimTM,
     input        fimCR,
-    input        meioC,
+    input        meioCR,
 
     input        jogada_feita,
     input        jogada_correta,
@@ -100,16 +100,23 @@ module exp6_unidade_controle (
             espera_mostra:            Eprox = fimTM ? mostra_proximo : espera_mostra;
             mostra_proximo:           Eprox = mostra;
             inicio_jogada:            Eprox = espera_jogada;
-            espera_jogada:            Eprox = fimTempo ? estado_timeout : (jogada_feita ? registra : espera_jogada);
+            espera_jogada:            Eprox = ((nivel_tempo & fimTempo) || (!nivel_tempo & meioTempo)) ? estado_timeout : (jogada_feita ? registra : espera_jogada);
             registra:                 Eprox = compara;
-            compara:                  Eprox = jogada_correta ? 
-                                        (
-                                            enderecoIgualRodada ? 
-                                                (fimCR  ? ganhou  : proxima_rodada) 
-                                                : 
-                                                proxima_jogada
-                                        ) 
-                                        : perdeu;
+            compara: begin
+                if (jogada_correta) begin
+                    if (enderecoIgualRodada) begin
+                        if ((!nivel_jogadas & meioCR) || (nivel_jogadas && fimCR))
+                            Eprox = ganhou;
+                        else
+                            Eprox = proxima_rodada;                
+                    end 
+                    else
+                        Eprox = proxima_jogada;
+                end
+                else begin
+                    Eprox = perdeu;
+                end
+            end
             proxima_rodada:           Eprox = inicio_rodada;
             ganhou:                   Eprox = iniciar ? inicializa_elementos : ganhou;
             perdeu:                   Eprox = iniciar ? inicializa_elementos : perdeu;
