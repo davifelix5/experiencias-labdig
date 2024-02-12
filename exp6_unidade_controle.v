@@ -18,7 +18,7 @@ module exp6_unidade_controle (
     input        fimC,
     input        fimTM,
     input        fimCR,
-    input        meio,
+    input        meioC,
 
     input        jogada_feita,
     input        jogada_correta,
@@ -50,17 +50,17 @@ module exp6_unidade_controle (
     output reg   registraN,
 
     /* Saídas */
-    output       acertou,
-    output       errou,
-    output       pronto,
-    output       timeout,
-    output       vez_jogador,
+    output reg   acertou,
+    output reg   errou,
+    output reg   pronto,
+    output reg   timeout,
+    output reg   vez_jogador,
 
     output [3:0] db_estado
 );
 
     // Define estados
-    localparam  inicial  = 4'h0,
+    parameter   inicial  = 4'h0,
                 inicializa_elementos = 4'h1,
                 inicio_rodada = 4'h2,
                 mostra = 4'h3,
@@ -119,21 +119,24 @@ module exp6_unidade_controle (
     end
 
     // Logica de saida (maquina Moore)
-    assign zeraR        = Eatual == inicial;
-    assign zeraCR       = Eatual == inicializa_elementos;
-    assign zeraC        = Eatual == inicio_jogada || Eatual == inicio_rodada;
-    assign zeraTempo    = Eatual == inicializa_elementos || Eatual == proxima_jogada;
-    assign zeraTM       = Eatual == mostra;
-    assign contaTM      = Eatual == espera_mostra;
-    assign contaC       = Eatual == mostra_proximo || Eatual == proxima_jogada;
-    assign contaTempo   = Eatual == espera_jogada;
-    assign vezJogadador = Eatual == espera_jogada;
-    assign registraR    = Eatual == registra;
-    assign contaCR      = Eatual == proxima_jogada;
-    assign timeout      = Eatual == estado_timeout;
-    assign errou        = Eatual == perdeu;
-    assign acertou      = Eatual == ganhou;
-    assign pronto       = (Eatual == perdeu) || (Eatual == ganhou) || (Eatual == timeout); 
+    always @* begin
+        zeraR         = (Eatual == inicial) ? 1'b1 : 1'b0;
+        zeraCR        = (Eatual == inicializa_elementos) ? 1'b1 : 1'b0;
+        zeraC         = (Eatual == inicio_jogada || Eatual == inicio_rodada) ? 1'b1 : 1'b0;
+        zeraTempo     = (Eatual == inicializa_elementos || Eatual == proxima_jogada) ? 1'b1 : 1'b0;
+        zeraTM        = (Eatual == mostra) ? 1'b1 : 1'b0;
+        contaTM       = (Eatual == espera_mostra) ? 1'b1 : 1'b0;
+        contaC        = (Eatual == mostra_proximo || Eatual == proxima_jogada) ? 1'b1 : 1'b0;
+        contaTempo    = (Eatual == espera_jogada) ? 1'b1 : 1'b0;
+        vez_jogador   = (Eatual == espera_jogada) ? 1'b1 : 1'b0;
+        registraR     = (Eatual == registra) ? 1'b1 : 1'b0;
+        contaCR       = (Eatual == proxima_jogada) ? 1'b1 : 1'b0;
+        timeout       = (Eatual == estado_timeout) ? 1'b1 : 1'b0;
+        errou         = (Eatual == perdeu) ? 1'b1 : 1'b0;
+        acertou       = (Eatual == ganhou) ? 1'b1 : 1'b0;
+        pronto        = ((Eatual == perdeu) || (Eatual == ganhou) || (Eatual == timeout)) ? 1'b1 : 1'b0; 
+        registraN     = (Eatual == inicializa_elementos) ? 1'b1 : 1'b0;
+    end
 
 
 endmodule

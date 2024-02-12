@@ -22,6 +22,7 @@ module circuito_exp6 (
     output       acertou,
     output       errou,
     output       pronto,
+	 output       vez_jogador,
     output       timeout,
     output [3:0] leds,
 
@@ -37,7 +38,7 @@ module circuito_exp6 (
 );
 
     // Sinais de controle
-    wire       contaC, registraR, registraN, zeraC, zeraR, contaTempo;
+    wire       contaC, contaTempo, contaTM, contaCR, registraR, registraN, zeraC, zeraR, zeraCR, zeraTM, zeraTempo;
     // Sinais de condição
     wire       fimC, fimCR, fimTM, fimTempo, meioC, meioTempo; 
     wire       enderecoIgualRodada, jogada_feita, jogada_correta;
@@ -75,7 +76,7 @@ module circuito_exp6 (
         .contaCR             ( contaCR             ),
         .zeraCR              ( zeraCR              ),
         .contaTM             ( contaTM             ),
-        .zeraRM              ( zeraTM              ),
+        .zeraTM              ( zeraTM              ),
         // Sinais de condição
         .jogada_correta      ( jogada_correta      ),
         .jogada_feita        ( jogada_feita        ),
@@ -130,6 +131,7 @@ module circuito_exp6 (
         .errou               ( errou               ),
         .pronto              ( pronto              ),
         .timeout             ( timeout             ),
+		  .vez_jogador         ( vez_jogador         ),
         // Sinais de depuração
         .db_estado           ( s_db_estado         )
     );

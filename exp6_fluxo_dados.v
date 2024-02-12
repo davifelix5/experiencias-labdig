@@ -55,6 +55,7 @@ module exp6_fluxo_dados (
 );
 
     // Sinais internos
+    wire tem_jogada;
     wire[3:0] s_memoria, s_endereco, s_rodada;
 
     // OR das chaves
