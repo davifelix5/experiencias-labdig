@@ -10,42 +10,71 @@
 //------------------------------------------------------------------
 //
 module exp5_unidade_controle (
-    input      clock,
-    input      reset,
-    input      iniciar,
-    input      fim,
-    input      meio,
-    input      jogada,
-    input      igual,
-    input      nivel_tempo,
-    input      nivel_jogadas,
-    input      fimTempo,
-    input      meioTempo,
-	 
+    input        clock,
+    input        reset,
+    input        iniciar,
+    
+    /* Sinais de condição */
+    input        fimC,
+    input        fimTM,
+    input        fimCR,
+    input        meio,
+
+    input        jogada_feita,
+    input        jogada_correta,
+    
+    input        enderecoIgualRodada,
+    
+    input        nivel_tempo,
+    input        nivel_jogadas,
+    
+    input        fimTempo,
+    input        meioTempo,
+
+    /* Sinais de controle */
     output reg   zeraC,
     output reg   contaC,
-    output reg   zeraR,
-    output reg   registraR,
-    output reg   registraN,
-    output reg   acertou,
-    output reg   errou,
-    output reg   pronto,
+
+    output reg   zeraTM,
+    output reg   contaTM,
+    
+    output reg   contaCR,
+    output reg   zeraCR,
+
     output reg   contaTempo,
-    output reg   timeout,
+    output reg   zeraTempo,
+
+    output reg   registraR,
+    output reg   zeraR,
+
+    output reg   registraN,
+
+    /* Saídas */
+    output       acertou,
+    output       errou,
+    output       pronto,
+    output       timeout,
+    output       vez_jogador,
+
     output [3:0] db_estado
 );
 
     // Define estados
-    parameter inicial               = 4'b0000;  // 0
-    parameter inicializa_elementos  = 4'b0001;  // 1
-    parameter espera_jogada         = 4'b0100;  // 4
-    parameter registra              = 4'b0101;  // 5
-    parameter compara               = 4'b0110;  // 6
-    parameter proximo               = 4'b0111;  // 7
-    parameter fim_acertos           = 4'b1100;  // C
-    parameter fim_erro              = 4'b1110;  // E 
-    parameter Etimeout              = 4'b1111;  // F
-
+    localparam  inicial  = 4'h0,
+                inicializa_elementos = 4'h1,
+                inicio_rodada = 4'h2,
+                mostra = 4'h3,
+                espera_mostra = 4'h4,
+                mostra_proximo = 4'h5,
+                inicio_jogada = 4'h6,
+                espera_jogada = 4'h7,
+                registra = 4'h8,
+                compara = 4'h9,
+                ganhou = 4'hA,
+                proxima_jogada = 4'hB,
+                proxima_rodada = 4'hC,
+                perdeu = 4'hE,
+                estado_timeout = 4'hF;
 	 
     // Variaveis de estado
     reg [3:0] Eatual, Eprox;
@@ -64,31 +93,47 @@ module exp5_unidade_controle (
     // Logica de proximo estado
     always @* begin
         case (Eatual)
-            inicial:                Eprox = iniciar ? inicializa_elementos : inicial;
-            inicializa_elementos:   Eprox = espera_jogada;
-            espera_jogada:          Eprox = jogada ? registra : ((meioTempo & nivel_tempo) || (fimTempo & !nivel_jogadas)) ? Etimeout : espera_jogada;
-            registra:               Eprox = compara;
-            compara:                Eprox = ~igual ? fim_erro : (((fim & nivel_jogadas) || (meio & !nivel_jogadas)) ? fim_acertos : proximo);
-            proximo:                Eprox = espera_jogada;
-            fim_acertos:            Eprox = iniciar ? inicializa_elementos : fim_acertos;
-            fim_erro:               Eprox = iniciar ? inicializa_elementos : fim_erro;
-            Etimeout:               Eprox = iniciar ? inicializa_elementos : Etimeout;
-            default:                Eprox = inicial;
+            inicial:                  Eprox = iniciar ? inicializa_elementos : inicial;
+            inicializa_elementos:     Eprox = inicio_rodada;
+            inicio_rodada:            Eprox = mostra;
+            mostra:                   Eprox = enderecoIgualRodada ? inicio_jogada : espera_mostra;
+            espera_mostra:            Eprox = fimTM ? mostra_proximo : espera_mostra;
+            mostra_proximo:           Eprox = mostra;
+            inicio_jogada:            Eprox = espera_jogada;
+            espera_jogada:            Eprox = fimTempo ? estado_timeout : (jogada_feita ? registra : espera_jogada);
+            registra:                 Eprox = compara;
+            compara:                  Eprox = jogada_correta ? 
+                                        (
+                                            enderecoIgualRodada ? 
+                                                (fimCR  ? ganhou  : proxima_rodada) 
+                                                : 
+                                                proxima_jogada
+                                        ) 
+                                        : perdeu;
+            proxima_rodada:           Eprox = inicio_rodada;
+            ganhou:                   Eprox = iniciar ? inicializa_elementos : ganhou;
+            perdeu:                   Eprox = iniciar ? inicializa_elementos : perdeu;
+            estado_timeout:           Eprox = iniciar ? inicializa_elementos : estado_timeout; 
+            default:                  Eprox = inicial; 
         endcase
     end
 
     // Logica de saida (maquina Moore)
-    always @* begin
-        zeraC      = (Eatual == inicial || Eatual == inicializa_elementos)               ? 1'b1 : 1'b0;
-        zeraR      = (Eatual == inicial)                                                 ? 1'b1 : 1'b0;
-        registraR  = (Eatual == registra)                                                ? 1'b1 : 1'b0;
-        contaC     = (Eatual == proximo)                                                 ? 1'b1 : 1'b0;
-        pronto     = (Eatual == fim_erro || Eatual == fim_acertos || Eatual == Etimeout) ? 1'b1 : 1'b0;
-        acertou    = (Eatual == fim_acertos)                                             ? 1'b1 : 1'b0;
-        errou      = (Eatual == fim_erro || Eatual == Etimeout)                          ? 1'b1 : 1'b0;
-        registraN  = (Eatual == inicializa_elementos)                                    ? 1'b1 : 1'b0;
-        contaTempo = (Eatual == espera_jogada)                                           ? 1'b1 : 1'b0; 
-        timeout    = (Eatual == Etimeout)                                                ? 1'b1 : 1'b0;
-    end
+    assign zeraR        = Eatual == inicial;
+    assign zeraCR       = Eatual == inicializa_elementos;
+    assign zeraC        = Eatual == inicio_jogada || Eatual == inicio_rodada;
+    assign zeraTempo    = Eatual == inicializa_elementos || Eatual == proxima_jogada;
+    assign zeraTM       = Eatual == mostra;
+    assign contaTM      = Eatual == espera_mostra;
+    assign contaC       = Eatual == mostra_proximo || Eatual == proxima_jogada;
+    assign contaTempo   = Eatual == espera_jogada;
+    assign vezJogadador = Eatual == espera_jogada;
+    assign registraR    = Eatual == registra;
+    assign contaCR      = Eatual == proxima_jogada;
+    assign timeout      = Eatual == estado_timeout;
+    assign errou        = Eatual == perdeu;
+    assign acertou      = Eatual == ganhou;
+    assign pronto       = (Eatual == perdeu) || (Eatual == ganhou) || (Eatual == timeout); 
+
 
 endmodule

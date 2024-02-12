@@ -21,11 +21,12 @@ module circuito_exp5_tb;
 
   // Sinais para conectar com o DUT
   // valores iniciais para fins de simulacao (ModelSim)
-  reg        clock_in   = 1;
-  reg        reset_in   = 0;
-  reg        iniciar_in = 0;
-  reg  [3:0] chaves_in  = 4'b0000;
-  reg        nivel_in   = 1;
+  reg        clock_in         = 1;
+  reg        reset_in         = 0;
+  reg        iniciar_in       = 0;
+  reg  [3:0] chaves_in        = 4'b0000;
+  reg        nivel_jogadas_in = 1;
+  reg        nivel_tempo_in   = 0;
 
   wire       acertou_out;
   wire       errou_out  ;
@@ -58,7 +59,8 @@ module circuito_exp5_tb;
     .clock          ( clock_in    ),
     .reset          ( reset_in    ),
     .iniciar        ( iniciar_in  ),
-    .nivel          ( nivel_in    ),
+    .nivel_jogadas  ( nivel_jogadas_in ),
+    .nivel_tempo    ( nivel_tempo_in   ),
     .chaves         ( chaves_in   ),
     .acertou        ( acertou_out ),
     .errou          ( errou_out   ),
@@ -90,7 +92,7 @@ module circuito_exp5_tb;
     clock_in   = 1;
     reset_in   = 0;
     iniciar_in = 0;
-    nivel_in   = 0;
+    nivel_jogadas_in   = 0;
     chaves_in  = 4'b0000;
     #clockPeriod;
 
@@ -111,7 +113,7 @@ module circuito_exp5_tb;
     // Teste 2. iniciar=1 por 5 periodos de clock
     caso = 2;
     iniciar_in = 1;
-    nivel_in   = 1;
+    nivel_jogadas_in   = 1;
     #(5*clockPeriod);
     iniciar_in = 0;
     // espera
@@ -197,7 +199,7 @@ module circuito_exp5_tb;
     // Teste 2. iniciar=1 por 5 periodos de clock
     caso = 13;
     iniciar_in = 1;
-    nivel_in = 1;
+    nivel_jogadas_in = 1;
     #(5*clockPeriod);
     iniciar_in = 0;
     // espera
@@ -339,7 +341,7 @@ module circuito_exp5_tb;
     caso = 30;
     // iniciar muda o nível do jogo
     iniciar_in = 1;
-    nivel_in = 0;
+    nivel_jogadas_in = 0;
     #(clockPeriod);
     iniciar_in = 0;
     // espera
@@ -418,10 +420,10 @@ module circuito_exp5_tb;
     #(clockPeriod);
     reset_in = 0;
     iniciar_in = 1;
-    nivel_in = 1;
+    nivel_jogadas_in = 1;
     #(3*clockPeriod);
     iniciar_in = 0;
-    nivel_in = 0; // testar se registrou
+    nivel_jogadas_in = 0; // testar se registrou
     // espera
     #(10*clockPeriod);
 
