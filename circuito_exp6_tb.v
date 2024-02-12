@@ -17,7 +17,7 @@
 
 `timescale 1ns/1ns
 
-module circuito_exp5_tb;
+module circuito_exp6_tb;
 
   // Sinais para conectar com o DUT
   // valores iniciais para fins de simulacao (ModelSim)
@@ -55,7 +55,7 @@ module circuito_exp5_tb;
   always #((clockPeriod / 2)) clock_in = ~clock_in;
 
   // instanciacao do DUT (Device Under Test)
-  circuito_exp5 DUT (
+  circuito_exp6 DUT (
     .clock          ( clock_in    ),
     .reset          ( reset_in    ),
     .iniciar        ( iniciar_in  ),

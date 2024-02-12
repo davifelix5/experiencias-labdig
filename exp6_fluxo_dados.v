@@ -12,7 +12,7 @@
 */
 
 
-module exp5_fluxo_dados (
+module exp6_fluxo_dados (
     // Entradas
     input clock,
     input [3:0] chaves,

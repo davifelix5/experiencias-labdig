@@ -9,7 +9,7 @@
 //     02/01/2024  1.0     Caio Dourado, Davi Félix, Vinicius Batista   versao inicial
 //------------------------------------------------------------------
 //
-module exp5_unidade_controle (
+module exp6_unidade_controle (
     input        clock,
     input        reset,
     input        iniciar,

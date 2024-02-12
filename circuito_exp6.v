@@ -11,7 +11,7 @@
  * --------------------------------------------------------------------
 */
 
-module circuito_exp5 (
+module circuito_exp6 (
     input        clock,
     input        reset,
     input        iniciar,
@@ -58,7 +58,7 @@ module circuito_exp5 (
 	assign     leds = s_jogada;
 
     //Fluxo de Dados
-    exp5_fluxo_dados exp5_fluxo_dados (
+    exp6_fluxo_dados fluxo_dados (
         // Sinais de entrada
         .clock               ( clock               ),
         .chaves              ( chaves              ),
@@ -97,7 +97,7 @@ module circuito_exp5 (
     );
 
     //Unidade de controle
-    exp5_unidade_controle exp5_unidade_controle (
+    exp6_unidade_controle unidade_controle (
         // Sinais de entrada
         .clock               ( clock               ),
         .reset               ( reset               ),
