@@ -63,22 +63,22 @@ module exp6_unidade_controle (
 );
 
     // Define estados
-    parameter   inicial  = 4'h0,
+    parameter   inicial              = 4'h0,
                 inicializa_elementos = 4'h1,
-                inicio_rodada = 4'h2,
-                mostra = 4'h3,
-                espera_mostra = 4'h4,
-                apaga_mostra = 4'hD,
-                mostra_proximo = 4'h5,
-                inicio_jogada = 4'h6,
-                espera_jogada = 4'h7,
-                registra = 4'h8,
-                compara = 4'h9,
-                ganhou = 4'hA,
-                proxima_jogada = 4'hB,
-                proxima_rodada = 4'hC,
-                perdeu = 4'hE,
-                estado_timeout = 4'hF;
+                inicio_rodada        = 4'h2,
+                mostra               = 4'h3,
+                espera_mostra        = 4'h4,
+                apaga_mostra         = 4'hD,
+                mostra_proximo       = 4'h5,
+                inicio_jogada        = 4'h6,
+                espera_jogada        = 4'h7,
+                registra             = 4'h8,
+                compara              = 4'h9,
+                ganhou               = 4'hA,
+                proxima_jogada       = 4'hB,
+                proxima_rodada       = 4'hC,
+                perdeu               = 4'hE,
+                estado_timeout       = 4'hF;
 	 
     // Variaveis de estado
     reg [3:0] Eatual, Eprox;
