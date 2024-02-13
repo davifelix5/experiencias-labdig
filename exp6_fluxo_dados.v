@@ -50,10 +50,10 @@ module exp6_fluxo_dados (
     output [3:0] leds,
 
     // Sinais de depuração
-    output db_tem_jogada,
     output [3:0] db_contagem,
     output [3:0] db_jogada,
-    output [3:0] db_memoria
+    output [3:0] db_memoria,
+    output [3:0] db_rodada
 );
 
     // Sinais internos
@@ -68,9 +68,9 @@ module exp6_fluxo_dados (
 
     // Sinais de depuração
     assign db_contagem   = s_endereco;
-    assign db_tem_jogada = tem_jogada;
     assign db_jogada     = s_jogada;
     assign db_memoria    = s_memoria;
+    assign db_rodada     = s_rodada;
 
     // Registrdor no nível de jogadas
     registrador_n #(.SIZE(1)) RegNvlJog (

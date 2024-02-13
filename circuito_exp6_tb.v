@@ -43,8 +43,8 @@ module circuito_exp6_tb;
   wire       db_nivel_jogadas;
   wire       db_nivel_tempo;
   wire       db_clock;
-  wire       db_iniciar;
-  wire       db_tem_jogada;
+  wire       db_enderecoIgualRodada;
+  wire       db_rodada;
 
   // Configuração do clock
   parameter clockPeriod = 20; // in ns, f=50MHz
@@ -77,11 +77,11 @@ module circuito_exp6_tb;
     .db_memoria       (db_memoria),
     .db_estado        (db_estado),
     .db_jogada        (db_jogada),
+    .db_rodada        (db_rodada),
     .db_nivel_jogadas (db_nivel_jogadas),
     .db_nivel_tempo   (db_nivel_tempo),
     .db_clock         (db_clock),
-    .db_iniciar       (db_iniciar),
-    .db_tem_jogada    (db_tem_jogada)
+    .db_enderecoIgualRodada ( db_enderecoIgualRodada)
   );
 
   task press_botoes;

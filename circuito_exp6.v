@@ -31,11 +31,11 @@ module circuito_exp6 (
     output [6:0] db_memoria,
     output [6:0] db_estado,
     output [6:0] db_jogada,
+    output [6:0] db_rodada,
     output       db_nivel_jogadas,
     output       db_nivel_tempo,
     output       db_clock,
-    output       db_iniciar,
-    output       db_tem_jogada
+    output       db_enderecoIgualRodada
 );
 
     // Sinais de controle
@@ -47,14 +47,14 @@ module circuito_exp6 (
     wire enderecoIgualRodada, jogada_feita, jogada_correta;
     wire nivel_jogadas_reg, nivel_tempo_reg;
     // Sinais de depuração
-    wire [3:0] s_db_contagem, s_db_jogada, s_db_memoria;
+    wire [3:0] s_db_contagem, s_db_jogada, s_db_memoria, s_db_rodada;
     wire [3:0] s_db_estado;
     // Setando sinais de depuração
-    assign     db_iniciar       = iniciar;
-    assign     db_clock         = clock;
-	assign     db_igual         = jogada_correta;
-    assign     db_nivel_jogadas = nivel_jogadas_reg;
-    assign     db_nivel_tempo   = nivel_tempo_reg;
+    assign db_clock               = clock;
+	assign db_igual               = jogada_correta;
+    assign db_nivel_jogadas       = nivel_jogadas_reg;
+    assign db_nivel_tempo         = nivel_tempo_reg;
+    assign db_enderecoIgualRodada = enderecoIgualRodada;
 
     //Fluxo de Dados
     exp6_fluxo_dados fluxo_dados (
@@ -92,10 +92,10 @@ module circuito_exp6 (
         // Sinais de saída
         .leds                ( leds                ),
         // Sinais de depuração
-        .db_tem_jogada       ( db_tem_jogada       ),
         .db_contagem         ( s_db_contagem       ),
         .db_jogada           ( s_db_jogada         ),
-        .db_memoria          ( s_db_memoria        )
+        .db_memoria          ( s_db_memoria        ),
+        .db_rodada           ( s_db_rodada         )
     );
 
     //Unidade de controle
@@ -164,6 +164,12 @@ module circuito_exp6 (
     hexa7seg display_jogada (
         .hexa    ( s_db_jogada ),
         .display ( db_jogada   )
+    );
+
+     //Rodada
+    hexa7seg display_rodada (
+        .hexa    ( s_db_rodada ),
+        .display ( db_rodada   )
     );
 
 	 
