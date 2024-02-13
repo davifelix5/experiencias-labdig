@@ -24,7 +24,7 @@ add wave -noupdate /circuito_exp6_tb/db_enderecoIgualRodada
 add wave -noupdate -height 25 -radix hexadecimal /circuito_exp6_tb/DUT/fluxo_dados/s_rodada
 add wave -noupdate -height 25 /circuito_exp6_tb/DUT/fluxo_dados/contaCR
 add wave -noupdate -height 25 -radix hexadecimal /circuito_exp6_tb/DUT/fluxo_dados/s_jogada
-add wave -noupdate -height 25 /circuito_exp6_tb/db_igual
+add wave -noupdate -height 25 /circuito_exp6_tb/db_jogada_correta
 add wave -noupdate -height 25 /circuito_exp6_tb/db_nivel_jogadas
 add wave -noupdate -height 25 /circuito_exp6_tb/db_nivel_tempo
 TreeUpdate [SetDefaultTree]

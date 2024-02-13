@@ -26,7 +26,7 @@ module circuito_exp6 (
 	output       vez_jogador,
     output [3:0] leds,
 
-    output       db_igual,
+    output       db_jogada_correta,
     output [6:0] db_contagem,
     output [6:0] db_memoria,
     output [6:0] db_estado,
@@ -51,7 +51,7 @@ module circuito_exp6 (
     wire [3:0] s_db_estado;
     // Setando sinais de depuração
     assign db_clock               = clock;
-	assign db_igual               = jogada_correta;
+	assign db_jogada_correta      = jogada_correta;
     assign db_nivel_jogadas       = nivel_jogadas_reg;
     assign db_nivel_tempo         = nivel_tempo_reg;
     assign db_enderecoIgualRodada = enderecoIgualRodada;

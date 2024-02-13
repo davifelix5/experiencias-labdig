@@ -35,7 +35,7 @@ module circuito_exp6_tb;
   wire       timeout_out;
   wire [3:0] leds_out;
 
-  wire       db_igual;
+  wire       db_jogada_correta;
   wire [6:0] db_contagem;
   wire [6:0] db_memoria;
   wire [6:0] db_estado;
@@ -72,7 +72,7 @@ module circuito_exp6_tb;
     .timeout          (timeout_out),
     .leds             (leds_out),
 
-    .db_igual         (db_igual),
+    .db_jogada_correta (db_jogada_correta),
     .db_contagem      (db_contagem),
     .db_memoria       (db_memoria),
     .db_estado        (db_estado),
