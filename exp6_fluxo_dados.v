@@ -30,6 +30,7 @@ module exp6_fluxo_dados (
     input contaCR,
     input zeraTM,
     input contaTM,
+    input ativa_leds,
     
     // Sinais de codição
     output jogada_correta,
@@ -44,27 +45,31 @@ module exp6_fluxo_dados (
     output fimCR,
     output fimTM,
 
-
     // Sinais de saída
-    output [3:0] jogada,
+    output [3:0] leds,
 
     // Sinais de depuração
     output db_tem_jogada,
-    output [3:0] db_memoria,
-    output [3:0] db_contagem
+    output [3:0] db_contagem,
+    output [3:0] db_jogada,
+    output [3:0] db_memoria
 );
 
     // Sinais internos
     wire tem_jogada;
-    wire[3:0] s_memoria, s_endereco, s_rodada;
+    wire[3:0] s_memoria, s_endereco, s_rodada, s_jogada;
 
     // OR das chaves
-    assign tem_jogada = |chaves;
+    assign tem_jogada    = |chaves;
+
+    // Sinais de saída
+    assign leds = ativa_leds ? s_memoria : 4'b0;
 
     // Sinais de depuração
-    assign db_memoria = s_memoria;
-    assign db_contagem = s_endereco;
+    assign db_contagem   = s_endereco;
     assign db_tem_jogada = tem_jogada;
+    assign db_jogada     = s_jogada;
+    assign db_memoria    = s_memoria;
 
     // Registrdor no nível de jogadas
     registrador_n #(.SIZE(1)) RegNvlJog (
@@ -93,20 +98,21 @@ module exp6_fluxo_dados (
     );
 
     //Contador para a jogada atual
-    contador_m #(.M(16), .N(4)) ContEnd (
-        .clock   ( clock      ), 
-        .zera_as ( zeraC      ), 
-        .zera_s  ( 1'b0       ), 
-        .conta   ( contaC     ), 
-        .Q       ( s_endereco ),
-        .fim     ( fimC       ),
-        .meio    (       )
+    contador_163 ContEnd (
+        .clock ( clock      ), 
+        .clr   ( ~zeraC     ),
+        .ent   ( 1'b1       ), 
+        .enp   ( contaC     ), 
+        .Q     ( s_endereco ),
+        .rco   ( fimC       ),
+        .ld    (            ),
+        .D     (            )
     );
 
     // Contador para a rodada atual
-    contador_m ContRod (
+    contador_m #(.M(16), .N(4)) ContRod (
         .clock   ( clock    ), 
-        .zera_s  ( ~zeraCR  ), 
+        .zera_s  ( zeraCR  ), 
         .zera_as (  ), 
         .conta   ( contaCR  ),
         .Q       ( s_rodada ),
@@ -137,7 +143,7 @@ module exp6_fluxo_dados (
     );
         
     //Memoria ROM sincrona 16 palavras de 4 bits
-    sync_rom_16x4 MemJob (
+    sync_rom_16x4 MemJog (
         .clock    ( clock      ), 
         .address  ( s_endereco ), 
         .data_out ( s_memoria  )
@@ -149,7 +155,7 @@ module exp6_fluxo_dados (
         .AGBi ( 1'b0           ), 
         .ALBi ( 1'b0           ), 
         .A    ( s_memoria      ), 
-        .B    ( jogada         ), 
+        .B    ( s_jogada       ), 
         .AEBo ( jogada_correta ),
         .AGBo (                ),
         .ALBo (                )
@@ -169,11 +175,11 @@ module exp6_fluxo_dados (
 
     //Registrador 4 bits
     registrador_n #(.SIZE(4)) RegChv (
-        .D      ( chaves    ),
-        .clear  ( zeraR     ),
-        .clock  ( clock     ),
-        .enable ( registraR ),
-        .Q      ( jogada    )
+        .D      ( chaves      ),
+        .clear  ( zeraR       ),
+        .clock  ( clock       ),
+        .enable ( registraR   ),
+        .Q      ( s_jogada    )
     );
     
 endmodule

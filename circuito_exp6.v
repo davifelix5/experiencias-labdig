@@ -22,7 +22,7 @@ module circuito_exp6 (
     output       acertou,
     output       errou,
     output       pronto,
-	 output       vez_jogador,
+	output       vez_jogador,
     output       timeout,
     output [3:0] leds,
 
@@ -30,6 +30,7 @@ module circuito_exp6 (
     output [6:0] db_contagem,
     output [6:0] db_memoria,
     output [6:0] db_estado,
+    output [6:0] db_jogada,
     output       db_nivel_jogadas,
     output       db_nivel_tempo,
     output       db_clock,
@@ -38,15 +39,15 @@ module circuito_exp6 (
 );
 
     // Sinais de controle
-    wire       contaC, contaTempo, contaTM, contaCR, registraR, registraN, zeraC, zeraR, zeraCR, zeraTM, zeraTempo;
+    wire contaC, contaTempo, contaTM, contaCR, registraR, registraN;
+    wire zeraC, zeraR, zeraCR, zeraTM, zeraTempo;
+    wire ativa_leds;
     // Sinais de condição
-    wire       fimC, fimCR, fimTM, fimTempo, meioCR, meioTempo; 
-    wire       enderecoIgualRodada, jogada_feita, jogada_correta;
-    wire       nivel_jogadas_reg, nivel_tempo_reg;
-    // Sinais de saída
-    wire [3:0] s_jogada;
+    wire fimC, fimCR, fimTM, fimTempo, meioCR, meioTempo; 
+    wire enderecoIgualRodada, jogada_feita, jogada_correta;
+    wire nivel_jogadas_reg, nivel_tempo_reg;
     // Sinais de depuração
-    wire [3:0] s_db_contagem, s_db_memoria, s_db_jogada;
+    wire [3:0] s_db_contagem, s_db_jogada, s_db_memoria;
     wire [3:0] s_db_estado;
     // Setando sinais de depuração
     assign     db_iniciar       = iniciar;
@@ -54,9 +55,6 @@ module circuito_exp6 (
 	assign     db_igual         = jogada_correta;
     assign     db_nivel_jogadas = nivel_jogadas_reg;
     assign     db_nivel_tempo   = nivel_tempo_reg;
-	 
-    // Setando sinais de saída
-	assign     leds = s_jogada;
 
     //Fluxo de Dados
     exp6_fluxo_dados fluxo_dados (
@@ -77,6 +75,7 @@ module circuito_exp6 (
         .zeraCR              ( zeraCR              ),
         .contaTM             ( contaTM             ),
         .zeraTM              ( zeraTM              ),
+        .ativa_leds          ( ativa_leds          ),
         // Sinais de condição
         .jogada_correta      ( jogada_correta      ),
         .jogada_feita        ( jogada_feita        ),
@@ -90,11 +89,12 @@ module circuito_exp6 (
         .nivel_jogadas_reg   ( nivel_jogadas_reg   ),
         .nivel_tempo_reg     ( nivel_tempo_reg     ),
         // Sinais de saída
-        .jogada              ( s_jogada            ),
+        .leds                ( leds                ),
         // Sinais de depuração
         .db_tem_jogada       ( db_tem_jogada       ),
-        .db_memoria          ( s_db_memoria        ),
-        .db_contagem         ( s_db_contagem       )
+        .db_contagem         ( s_db_contagem       ),
+        .db_jogada           ( s_db_jogada         ),
+        .db_memoria          ( s_db_memoria        )
     );
 
     //Unidade de controle
@@ -126,12 +126,14 @@ module circuito_exp6 (
         .registraR           ( registraR           ),
         .registraN           ( registraN           ),
         .contaTempo          ( contaTempo          ),
+        .zeraTempo           ( zeraTempo           ),
+        .ativa_leds           ( ativa_leds          ),
         // Sinais de saída
         .acertou             ( acertou             ),
         .errou               ( errou               ),
         .pronto              ( pronto              ),
         .timeout             ( timeout             ),
-		  .vez_jogador         ( vez_jogador         ),
+		.vez_jogador         ( vez_jogador         ),
         // Sinais de depuração
         .db_estado           ( s_db_estado         )
     );
@@ -139,21 +141,27 @@ module circuito_exp6 (
     /* Displays */
 
     //Contagem
-    hexa7seg HEX0 (
+    hexa7seg display_contagem (
         .hexa    ( s_db_contagem),
         .display ( db_contagem  )
     );
 
     //Memoria
-    hexa7seg HEX1 (
+    hexa7seg display_memoria (
         .hexa    ( s_db_memoria ),
         .display ( db_memoria   )
     );
 		
 	 //Estado
-    hexa7seg HEX3 (
+    hexa7seg display_estado (
         .hexa    ( s_db_estado ),
         .display ( db_estado   )
+    );
+
+     //Jogada
+    hexa7seg display_jogada (
+        .hexa    ( s_db_jogada ),
+        .display ( db_jogada   )
     );
 
 	 
