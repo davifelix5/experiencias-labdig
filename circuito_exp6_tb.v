@@ -99,6 +99,18 @@ module circuito_exp6_tb;
   wait_time = (step*1000+(step-1)*502+1);
   endfunction
 
+  task acerta_valores;
+  input [3:0] quantidade;
+  begin: corpo_task
+    reg [3:0] valores [0:15];
+    integer i;
+    $readmemh("valores.dat", valores, 4'b0, 4'hF); 
+    for (i = 0; i < quantidade; i = i + 1) begin
+        pressChaves(valores[i]);
+    end
+  end
+  endtask
+
   // geracao dos sinais de entrada (estimulos)
   initial begin
   
@@ -139,67 +151,33 @@ module circuito_exp6_tb;
     // Apresenta segunda jogada
     caso = 2;
     #(wait_time(2)*clockPeriod);
-    pressChaves(4'b0001);
-    pressChaves(4'b0010);
+    acerta_valores(2);
 
     // Apresentando a terceira jogada
     caso = 3;
     #(wait_time(3)*clockPeriod);
-    pressChaves(4'b0001);
-    pressChaves(4'b0010);
-    pressChaves(4'b0100);
-    #(10*clockPeriod);
+    acerta_valores(3);
 
     // Apresenta quarta jogada
     caso = 4;
     #(wait_time(4)*clockPeriod);
-    pressChaves(4'b0001);
-    pressChaves(4'b0010);
-    pressChaves(4'b0100);
-    pressChaves(4'b1000);
-    #(10*clockPeriod);
+    acerta_valores(4);
     
     caso = 5;
     #(wait_time(5)*clockPeriod);
-    pressChaves(4'b0001);
-    pressChaves(4'b0010);
-    pressChaves(4'b0100);
-    pressChaves(4'b1000);
-    pressChaves(4'b0100);
-    #(10*clockPeriod);
+    acerta_valores(5);
 
     caso = 6;
     #(wait_time(6)*clockPeriod);
-    pressChaves(4'b0001);
-    pressChaves(4'b0010);
-    pressChaves(4'b0100);
-    pressChaves(4'b1000);
-    pressChaves(4'b0100);
-    pressChaves(4'b0010);
-    #(10*clockPeriod);
+    acerta_valores(6);
 
     caso = 7;
     #(wait_time(7)*clockPeriod);
-    pressChaves(4'b0001);
-    pressChaves(4'b0010);
-    pressChaves(4'b0100);
-    pressChaves(4'b1000);
-    pressChaves(4'b0100);
-    pressChaves(4'b0010);
-    pressChaves(4'b0001);
-    #(10*clockPeriod);
+    acerta_valores(7);
 
     caso = 8;
     #(wait_time(8)*clockPeriod);
-    pressChaves(4'b0001);
-    pressChaves(4'b0010);
-    pressChaves(4'b0100);
-    pressChaves(4'b1000);
-    pressChaves(4'b0100);
-    pressChaves(4'b0010);
-    pressChaves(4'b0001);
-    pressChaves(4'b0001);
-    #(10*clockPeriod);
+    acerta_valores(8);
 
     /*
       * Cenario de Teste: erra na primeira
@@ -230,7 +208,6 @@ module circuito_exp6_tb;
     caso = 12;
     #(1005*clockPeriod);
     pressChaves(4'b0001);
-    #(10*clockPeriod);
 
     caso = 13;
     #(2505*clockPeriod);
@@ -251,7 +228,6 @@ module circuito_exp6_tb;
     caso = 15;
     #(1005*clockPeriod);
     pressChaves(4'b0001);
-    #(10*clockPeriod);
 
     caso = 16;
     #(2505*clockPeriod);
