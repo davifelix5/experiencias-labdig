@@ -144,8 +144,8 @@ module exp6_unidade_controle (
     assign registraR     = (Eatual == registra);
     assign contaCR       = (Eatual == proxima_rodada);
     assign timeout       = (Eatual == estado_timeout);
-    assign ganhou        = (Eatual == errou);
-    assign perdeu        = (Eatual == acertou);
+    assign ganhou        = (Eatual == acertou);
+    assign perdeu        = (Eatual == perdeu);
     assign pronto        = ((Eatual == errou) || (Eatual == acertou) || (Eatual == estado_timeout)); 
     assign registraN     = (Eatual == inicializa_elementos);
     assign ativa_leds    = (Eatual == espera_mostra);
