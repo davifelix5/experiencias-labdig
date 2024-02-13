@@ -102,7 +102,7 @@ module exp6_unidade_controle (
             espera_mostra:            Eprox = fimTM ? (enderecoIgualRodada ? inicio_jogada : mostra_proximo) : espera_mostra;
             mostra_proximo:           Eprox = mostra;
             inicio_jogada:            Eprox = espera_jogada;
-            espera_jogada:            Eprox = ((nivel_tempo & fimTempo) || (!nivel_tempo & meioTempo)) ? estado_timeout : (jogada_feita ? registra : espera_jogada);
+            espera_jogada:            Eprox = ((!nivel_tempo & fimTempo) || (nivel_tempo & meioTempo)) ? estado_timeout : (jogada_feita ? registra : espera_jogada);
             registra:                 Eprox = compara;
             compara: begin
                 if (jogada_correta) begin
