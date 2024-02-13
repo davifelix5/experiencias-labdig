@@ -22,7 +22,6 @@ module circuito_exp6 (
     output       ganhou,
     output       perdeu,
     output       pronto,
-    output       timeout,
 	output       vez_jogador,
     output [3:0] leds,
 
@@ -35,6 +34,7 @@ module circuito_exp6 (
     output       db_nivel_jogadas,
     output       db_nivel_tempo,
     output       db_clock,
+    output       db_timeout,
     output       db_enderecoIgualRodada
 );
 
@@ -134,10 +134,10 @@ module circuito_exp6 (
         .ganhou              ( ganhou              ),
         .perdeu              ( perdeu              ),
         .pronto              ( pronto              ),
-        .timeout             ( timeout             ),
 		.vez_jogador         ( vez_jogador         ),
         // Sinais de depuração
-        .db_estado           ( s_db_estado         )
+        .db_estado           ( s_db_estado         ),
+        .db_timeout          ( db_timeout          )
     );
 
     /* Displays */

@@ -10,27 +10,27 @@
 //------------------------------------------------------------------
 //
 module exp6_unidade_controle (
-    input        clock,
-    input        reset,
-    input        iniciar,
+    input     clock,
+    input     reset,
+    input     iniciar,
     
     /* Sinais de condição */
-    input        fimC,
-    input        fimTM,
-    input        meioTM,
-    input        fimCR,
-    input        meioCR,
+    input     fimC,
+    input     fimTM,
+    input     meioTM,
+    input     fimCR,
+    input     meioCR,
 
-    input        jogada_feita,
-    input        jogada_correta,
+    input     jogada_feita,
+    input     jogada_correta,
     
-    input        enderecoIgualRodada,
+    input     enderecoIgualRodada,
     
-    input        nivel_tempo,
-    input        nivel_jogadas,
+    input     nivel_tempo,
+    input     nivel_jogadas,
     
-    input        fimTempo,
-    input        meioTempo,
+    input     fimTempo,
+    input     meioTempo,
 
     /* Sinais de controle */
     output    zeraC,
@@ -50,15 +50,15 @@ module exp6_unidade_controle (
 
     output    registraN,
 
-    output ativa_leds,
+    output    ativa_leds,
 
     /* Saídas */
     output    ganhou,
     output    perdeu,
     output    pronto,
-    output    timeout,
     output    vez_jogador,
 
+    output       db_timeout,
     output [3:0] db_estado
 );
 
@@ -84,7 +84,8 @@ module exp6_unidade_controle (
     reg [3:0] Eatual, Eprox;
 
     // Depuração do estado
-    assign db_estado = Eatual;
+    assign db_estado  = Eatual;
+    assign db_timeout = (Eatual == estado_timeout);
 
     // Memoria de estado
     always @(posedge clock or posedge reset) begin
@@ -143,9 +144,8 @@ module exp6_unidade_controle (
     assign vez_jogador   = (Eatual == espera_jogada);
     assign registraR     = (Eatual == registra);
     assign contaCR       = (Eatual == proxima_rodada);
-    assign timeout       = (Eatual == estado_timeout);
     assign ganhou        = (Eatual == acertou);
-    assign perdeu        = (Eatual == errou);
+    assign perdeu        = (Eatual == errou || Eatual == estado_timeout);
     assign pronto        = ((Eatual == errou) || (Eatual == acertou) || (Eatual == estado_timeout)); 
     assign registraN     = (Eatual == inicializa_elementos);
     assign ativa_leds    = (Eatual == espera_mostra);

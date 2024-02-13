@@ -32,7 +32,6 @@ module circuito_exp6_tb;
   wire       perdeu_out;
   wire       pronto_out;
   wire       vez_jogador_out;
-  wire       timeout_out;
   wire [3:0] leds_out;
 
   wire       db_jogada_correta;
@@ -44,6 +43,7 @@ module circuito_exp6_tb;
   wire       db_nivel_tempo;
   wire       db_clock;
   wire       db_enderecoIgualRodada;
+  wire       db_timeout;
   wire       db_rodada;
 
   // Configuração do clock
@@ -69,7 +69,6 @@ module circuito_exp6_tb;
     .perdeu           (perdeu_out),
     .pronto           (pronto_out),
 	  .vez_jogador      (vez_jogador_out),
-    .timeout          (timeout_out),
     .leds             (leds_out),
 
     .db_jogada_correta (db_jogada_correta),
@@ -81,7 +80,8 @@ module circuito_exp6_tb;
     .db_nivel_jogadas (db_nivel_jogadas),
     .db_nivel_tempo   (db_nivel_tempo),
     .db_clock         (db_clock),
-    .db_enderecoIgualRodada ( db_enderecoIgualRodada)
+    .db_enderecoIgualRodada (db_enderecoIgualRodada),
+    .db_timeout               (db_timeout)
   );
 
   task press_botoes;

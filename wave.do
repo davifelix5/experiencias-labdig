@@ -12,7 +12,6 @@ add wave -noupdate -height 25 /circuito_exp6_tb/nivel_jogadas_in
 add wave -noupdate -divider output
 add wave -noupdate -height 25 /circuito_exp6_tb/pronto_out
 add wave -noupdate -height 25 /circuito_exp6_tb/ganhou_out
-add wave -noupdate -height 25 /circuito_exp6_tb/timeout_out
 add wave -noupdate -height 25 /circuito_exp6_tb/perdeu_out
 add wave -noupdate -height 25 /circuito_exp6_tb/leds_out
 add wave -noupdate -height 25 /circuito_exp6_tb/vez_jogador_out
@@ -24,12 +23,13 @@ add wave -noupdate /circuito_exp6_tb/db_enderecoIgualRodada
 add wave -noupdate -height 25 -radix hexadecimal /circuito_exp6_tb/DUT/fluxo_dados/s_rodada
 add wave -noupdate -height 25 /circuito_exp6_tb/DUT/fluxo_dados/contaCR
 add wave -noupdate -height 25 -radix hexadecimal /circuito_exp6_tb/DUT/fluxo_dados/s_jogada
+add wave -noupdate -height 25 /circuito_exp6_tb/db_timeout
 add wave -noupdate -height 25 /circuito_exp6_tb/db_jogada_correta
 add wave -noupdate -height 25 /circuito_exp6_tb/db_nivel_jogadas
 add wave -noupdate -height 25 /circuito_exp6_tb/db_nivel_tempo
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {1308280 ns} 0} {{Cursor 2} {1012590 ns} 0}
-quietly wave cursor active 2
+WaveRestoreCursors {{Cursor 1} {1249983 ns} 0} {{Cursor 2} {1096431 ns} 0}
+quietly wave cursor active 1
 configure wave -namecolwidth 289
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
@@ -44,4 +44,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {1005627 ns} {1006477 ns}
+WaveRestoreZoom {1204758 ns} {1258957 ns}
