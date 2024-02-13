@@ -43,7 +43,7 @@ module circuito_exp6 (
     wire zeraC, zeraR, zeraCR, zeraTM, zeraTempo;
     wire ativa_leds;
     // Sinais de condição
-    wire fimC, fimCR, fimTM, fimTempo, meioCR, meioTempo; 
+    wire fimC, fimCR, fimTM, meioTM, fimTempo, meioCR, meioTempo; 
     wire enderecoIgualRodada, jogada_feita, jogada_correta;
     wire nivel_jogadas_reg, nivel_tempo_reg;
     // Sinais de depuração
@@ -85,6 +85,7 @@ module circuito_exp6 (
         .meioTempo           ( meioTempo           ),
         .fimCR               ( fimCR               ),
         .fimTM               ( fimTM               ),
+        .meioTM              ( meioTM              ),
         .enderecoIgualRodada ( enderecoIgualRodada ),
         .nivel_jogadas_reg   ( nivel_jogadas_reg   ),
         .nivel_tempo_reg     ( nivel_tempo_reg     ),
@@ -112,6 +113,7 @@ module circuito_exp6 (
         .meioCR              ( meioCR              ),
         .fimCR               ( fimCR               ),
         .fimTM               ( fimTM               ),
+        .meioTM              ( meioTM              ),
         .jogada_feita        ( jogada_feita        ),
         .jogada_correta      ( jogada_correta      ),
         .enderecoIgualRodada ( enderecoIgualRodada ),

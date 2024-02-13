@@ -17,6 +17,7 @@ module exp6_unidade_controle (
     /* Sinais de condição */
     input        fimC,
     input        fimTM,
+    input        meioTM,
     input        fimCR,
     input        meioCR,
 
@@ -67,6 +68,7 @@ module exp6_unidade_controle (
                 inicio_rodada = 4'h2,
                 mostra = 4'h3,
                 espera_mostra = 4'h4,
+                apaga_mostra = 4'hD,
                 mostra_proximo = 4'h5,
                 inicio_jogada = 4'h6,
                 espera_jogada = 4'h7,
@@ -99,7 +101,8 @@ module exp6_unidade_controle (
             inicializa_elementos:     Eprox = inicio_rodada;
             inicio_rodada:            Eprox = mostra;
             mostra:                   Eprox = espera_mostra;
-            espera_mostra:            Eprox = fimTM ? (enderecoIgualRodada ? inicio_jogada : mostra_proximo) : espera_mostra;
+            espera_mostra:            Eprox = fimTM ? (enderecoIgualRodada ? inicio_jogada : apaga_mostra) : espera_mostra;
+            apaga_mostra:             Eprox = meioTM ? mostra_proximo : apaga_mostra;
             mostra_proximo:           Eprox = mostra;
             inicio_jogada:            Eprox = espera_jogada;
             espera_jogada:            Eprox = ((!nivel_tempo & fimTempo) || (nivel_tempo & meioTempo)) ? estado_timeout : (jogada_feita ? registra : espera_jogada);
@@ -134,7 +137,7 @@ module exp6_unidade_controle (
     assign zeraC         = (Eatual == inicio_jogada || Eatual == inicio_rodada);
     assign zeraTempo     = (Eatual == inicializa_elementos || Eatual == proxima_jogada);
     assign zeraTM        = (Eatual == mostra);
-    assign contaTM       = (Eatual == espera_mostra);
+    assign contaTM       = (Eatual == espera_mostra || Eatual == apaga_mostra);
     assign contaC        = (Eatual == mostra_proximo || Eatual == proxima_jogada);
     assign contaTempo    = (Eatual == espera_jogada);
     assign vez_jogador   = (Eatual == espera_jogada);

@@ -44,6 +44,7 @@ module exp6_fluxo_dados (
     output enderecoIgualRodada,
     output fimCR,
     output fimTM,
+    output meioTM,
 
     // Sinais de saída
     output [3:0] leds,
@@ -128,7 +129,7 @@ module exp6_fluxo_dados (
         .conta   ( contaTM ), 
         .fim     ( fimTM   ),
         .Q       (         ),
-        .meio    (         )
+        .meio    ( meioTM  )
     );
 
     // Contador (timer) de módulo 3000 (3s) para sinalizar timeout 

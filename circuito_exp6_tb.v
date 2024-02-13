@@ -94,6 +94,11 @@ module circuito_exp6_tb;
     end
   endtask 
 
+  function automatic integer wait_time;
+  input [31:0] step;
+  wait_time = (step*1000+(step-1)*502+1);
+  endfunction
+
   // geracao dos sinais de entrada (estimulos)
   initial begin
   
@@ -128,18 +133,18 @@ module circuito_exp6_tb;
     iniciar_in = 1;
     #(4*clockPeriod);
     iniciar_in = 0;
-    #(1002*clockPeriod);
+    #(wait_time(1)*clockPeriod);
     pressChaves(4'b0001);
     
     // Apresenta segunda jogada
     caso = 2;
-    #(2005*clockPeriod);
+    #(wait_time(2)*clockPeriod);
     pressChaves(4'b0001);
     pressChaves(4'b0010);
 
     // Apresentando a terceira jogada
     caso = 3;
-    #(3005*clockPeriod);
+    #(wait_time(3)*clockPeriod);
     pressChaves(4'b0001);
     pressChaves(4'b0010);
     pressChaves(4'b0100);
@@ -147,7 +152,7 @@ module circuito_exp6_tb;
 
     // Apresenta quarta jogada
     caso = 4;
-    #(4005*clockPeriod);
+    #(wait_time(4)*clockPeriod);
     pressChaves(4'b0001);
     pressChaves(4'b0010);
     pressChaves(4'b0100);
@@ -155,7 +160,7 @@ module circuito_exp6_tb;
     #(10*clockPeriod);
     
     caso = 5;
-    #(5005*clockPeriod);
+    #(wait_time(5)*clockPeriod);
     pressChaves(4'b0001);
     pressChaves(4'b0010);
     pressChaves(4'b0100);
@@ -164,7 +169,7 @@ module circuito_exp6_tb;
     #(10*clockPeriod);
 
     caso = 6;
-    #(6005*clockPeriod);
+    #(wait_time(6)*clockPeriod);
     pressChaves(4'b0001);
     pressChaves(4'b0010);
     pressChaves(4'b0100);
@@ -174,7 +179,7 @@ module circuito_exp6_tb;
     #(10*clockPeriod);
 
     caso = 7;
-    #(7005*clockPeriod);
+    #(wait_time(7)*clockPeriod);
     pressChaves(4'b0001);
     pressChaves(4'b0010);
     pressChaves(4'b0100);
@@ -185,7 +190,7 @@ module circuito_exp6_tb;
     #(10*clockPeriod);
 
     caso = 8;
-    #(8005*clockPeriod);
+    #(wait_time(8)*clockPeriod);
     pressChaves(4'b0001);
     pressChaves(4'b0010);
     pressChaves(4'b0100);
@@ -228,7 +233,7 @@ module circuito_exp6_tb;
     #(10*clockPeriod);
 
     caso = 13;
-    #(2005*clockPeriod);
+    #(2505*clockPeriod);
     pressChaves(4'b0001);
     pressChaves(4'b1000); // Errou
 
@@ -249,7 +254,7 @@ module circuito_exp6_tb;
     #(10*clockPeriod);
 
     caso = 16;
-    #(2005*clockPeriod);
+    #(2505*clockPeriod);
     pressChaves(4'b1000); // Errou
     pressChaves(4'b0010);
 
@@ -264,7 +269,7 @@ module circuito_exp6_tb;
 
     caso = 18;
     #(1005*clockPeriod);
-    #(3000*clockPeriod);
+    #(3500*clockPeriod);
 
 
     $display("Fim da simulação");
