@@ -122,21 +122,21 @@ module circuito_exp6_tb;
     reset_in = 0;
 
     // Apresenta primeira jogada
+    caso = 1;
     iniciar_in = 1;
     #(4*clockPeriod);
     iniciar_in = 0;
     #(1002*clockPeriod);
-    chaves_in = 4'b0001;
-    #(3*clockPeriod);
-    chaves_in = 4'b0000;
-    #(4*clockPeriod);
+    pressChaves(4'b0001);
     
     // Apresenta segunda jogada
+    caso = 2;
     #(2020*clockPeriod);
     pressChaves(4'b0001);
     pressChaves(4'b0010);
 
     // Apresentando a terceira jogada
+    caso = 3;
     #(3020*clockPeriod);
     pressChaves(4'b0001);
     pressChaves(4'b0010);
