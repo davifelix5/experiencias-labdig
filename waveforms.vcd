@@ -1,5 +1,5 @@
 $date
-	Tue Feb 13 14:12:18 2024
+	Tue Feb 13 14:29:44 2024
 $end
 $version
 	ModelSim Version 2020.1
@@ -13,11 +13,11 @@ $var parameter 32 ! clockPeriod $end
 $var reg 1 " clock_in $end
 $var reg 1 # reset_in $end
 $var reg 1 $ iniciar_in $end
-$var reg 4 % chaves_in [3:0] $end
+$var reg 4 % botoes_in [3:0] $end
 $var reg 1 & nivel_jogadas_in $end
 $var reg 1 ' nivel_tempo_in $end
-$var wire 1 ( acertou_out $end
-$var wire 1 ) errou_out $end
+$var wire 1 ( ganhou_out $end
+$var wire 1 ) perdeu_out $end
 $var wire 1 * pronto_out $end
 $var wire 1 + vez_jogador_out $end
 $var wire 1 , timeout_out $end
@@ -62,7 +62,7 @@ $var wire 1 R db_tem_jogada $end
 $var integer 32 S caso $end
 $var integer 32 T cenario $end
 
-$scope task pressChaves $end
+$scope task press_botoes $end
 $var reg 4 U valor [3:0] $end
 $upscope $end
 
@@ -81,17 +81,17 @@ $scope module DUT $end
 $var wire 1 X clock $end
 $var wire 1 Y reset $end
 $var wire 1 Z iniciar $end
-$var wire 1 [ chaves [3] $end
-$var wire 1 \ chaves [2] $end
-$var wire 1 ] chaves [1] $end
-$var wire 1 ^ chaves [0] $end
+$var wire 1 [ botoes [3] $end
+$var wire 1 \ botoes [2] $end
+$var wire 1 ] botoes [1] $end
+$var wire 1 ^ botoes [0] $end
 $var wire 1 _ nivel_jogadas $end
 $var wire 1 ` nivel_tempo $end
-$var wire 1 ( acertou $end
-$var wire 1 ) errou $end
+$var wire 1 ( ganhou $end
+$var wire 1 ) perdeu $end
 $var wire 1 * pronto $end
-$var wire 1 + vez_jogador $end
 $var wire 1 , timeout $end
+$var wire 1 + vez_jogador $end
 $var wire 1 - leds [3] $end
 $var wire 1 . leds [2] $end
 $var wire 1 / leds [1] $end
@@ -173,10 +173,10 @@ $var wire 1 *! s_db_estado [0] $end
 
 $scope module fluxo_dados $end
 $var wire 1 X clock $end
-$var wire 1 [ chaves [3] $end
-$var wire 1 \ chaves [2] $end
-$var wire 1 ] chaves [1] $end
-$var wire 1 ^ chaves [0] $end
+$var wire 1 [ botoes [3] $end
+$var wire 1 \ botoes [2] $end
+$var wire 1 ] botoes [1] $end
+$var wire 1 ^ botoes [0] $end
 $var wire 1 _ nivel_jogadas $end
 $var wire 1 ` nivel_tempo $end
 $var wire 1 h zeraR $end
@@ -409,10 +409,10 @@ $var parameter 4 '" inicio_jogada $end
 $var parameter 4 (" espera_jogada $end
 $var parameter 4 )" registra $end
 $var parameter 4 *" compara $end
-$var parameter 4 +" ganhou $end
+$var parameter 4 +" acertou $end
 $var parameter 4 ," proxima_jogada $end
 $var parameter 4 -" proxima_rodada $end
-$var parameter 4 ." perdeu $end
+$var parameter 4 ." errou $end
 $var parameter 4 /" estado_timeout $end
 $var wire 1 X clock $end
 $var wire 1 Y reset $end
@@ -441,8 +441,8 @@ $var wire 1 e registraR $end
 $var wire 1 h zeraR $end
 $var wire 1 f registraN $end
 $var wire 1 l ativa_leds $end
-$var wire 1 ( acertou $end
-$var wire 1 ) errou $end
+$var wire 1 ( ganhou $end
+$var wire 1 ) perdeu $end
 $var wire 1 * pronto $end
 $var wire 1 , timeout $end
 $var wire 1 + vez_jogador $end
@@ -460018,7 +460018,7 @@ b0 %
 0A!
 b1010 0"
 1*
-1(
+1)
 0*!
 1)!
 b1000 4"
@@ -460059,7 +460059,7 @@ b1 1"
 b1 0"
 1f
 0*
-0(
+0)
 1k
 1i
 1*!
@@ -469310,7 +469310,7 @@ b0 %
 0A!
 b1110 0"
 1*
-1)
+1(
 0*!
 1)!
 1(!
@@ -469352,7 +469352,7 @@ b1 1"
 b1 0"
 1f
 0*
-0)
+0(
 1k
 1i
 1*!
@@ -501581,7 +501581,7 @@ b0 %
 0A!
 b1110 0"
 1*
-1)
+1(
 0*!
 1)!
 1(!
@@ -501623,7 +501623,7 @@ b1 1"
 b1 0"
 1f
 0*
-0)
+0(
 1k
 1i
 1*!
@@ -533747,7 +533747,7 @@ b0 %
 0A!
 b1110 0"
 1*
-1)
+1(
 0*!
 1)!
 1(!
@@ -533852,7 +533852,7 @@ b1 1"
 b1 0"
 1f
 0*
-0)
+0(
 1k
 1i
 1*!

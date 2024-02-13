@@ -24,12 +24,12 @@ module circuito_exp6_tb;
   reg        clock_in;
   reg        reset_in;
   reg        iniciar_in;
-  reg  [3:0] chaves_in;
+  reg  [3:0] botoes_in;
   reg        nivel_jogadas_in; 
   reg        nivel_tempo_in;
 
-  wire       acertou_out;
-  wire       errou_out;
+  wire       ganhou_out;
+  wire       perdeu_out;
   wire       pronto_out;
   wire       vez_jogador_out;
   wire       timeout_out;
@@ -61,12 +61,12 @@ module circuito_exp6_tb;
     .clock            (clock_in),
     .reset            (reset_in),
     .iniciar          (iniciar_in),
-    .chaves           (chaves_in),
+    .botoes           (botoes_in),
     .nivel_jogadas    (nivel_jogadas_in), 
     .nivel_tempo      (nivel_tempo_in),
 
-    .acertou          (acertou_out),
-    .errou            (errou_out),
+    .ganhou           (ganhou_out),
+    .perdeu           (perdeu_out),
     .pronto           (pronto_out),
 	  .vez_jogador      (vez_jogador_out),
     .timeout          (timeout_out),
@@ -84,12 +84,12 @@ module circuito_exp6_tb;
     .db_tem_jogada    (db_tem_jogada)
   );
 
-  task pressChaves;
+  task press_botoes;
     input [3:0] valor;
     begin
-      chaves_in = valor;
+      botoes_in = valor;
       #(3*clockPeriod);
-      chaves_in = 4'b0000;
+      botoes_in = 4'b0000;
       #(3*clockPeriod);
     end
   endtask 
@@ -106,7 +106,7 @@ module circuito_exp6_tb;
     integer i;
     $readmemh("valores.dat", valores, 4'b0, 4'hF); 
     for (i = 0; i < quantidade; i = i + 1) begin
-        pressChaves(valores[i]);
+        press_botoes(valores[i]);
     end
   end
   endtask
@@ -126,7 +126,7 @@ module circuito_exp6_tb;
     iniciar_in       = 0;
     nivel_jogadas_in = 0;
     nivel_tempo_in   = 0;
-    chaves_in        = 4'b0000;
+    botoes_in        = 4'b0000;
     #clockPeriod;
 
     /*
@@ -146,7 +146,7 @@ module circuito_exp6_tb;
     #(4*clockPeriod);
     iniciar_in = 0;
     #(wait_time(1)*clockPeriod);
-    pressChaves(4'b0001);
+    press_botoes(4'b0001);
     
     // Apresenta segunda jogada
     caso = 2;
@@ -192,7 +192,7 @@ module circuito_exp6_tb;
 
     caso = 10;
     #(1005*clockPeriod);
-    pressChaves(4'b1000);
+    press_botoes(4'b1000);
 
     /*
       * Cenario de Teste: erra na segunda rodada, segunda jogada
@@ -207,12 +207,12 @@ module circuito_exp6_tb;
 
     caso = 12;
     #(1005*clockPeriod);
-    pressChaves(4'b0001);
+    press_botoes(4'b0001);
 
     caso = 13;
     #(2505*clockPeriod);
-    pressChaves(4'b0001);
-    pressChaves(4'b1000); // Errou
+    press_botoes(4'b0001);
+    press_botoes(4'b1000); // Errou
 
     /*
       * Cenario de Teste: erra na segunda rodada, primeira jogada
@@ -227,12 +227,12 @@ module circuito_exp6_tb;
 
     caso = 15;
     #(1005*clockPeriod);
-    pressChaves(4'b0001);
+    press_botoes(4'b0001);
 
     caso = 16;
     #(2505*clockPeriod);
-    pressChaves(4'b1000); // Errou
-    pressChaves(4'b0010);
+    press_botoes(4'b1000); // Errou
+    press_botoes(4'b0010);
 
     /*Cenário de teste: timeout */
     cenario = 5;

@@ -15,15 +15,15 @@ module circuito_exp6 (
     input        clock,
     input        reset,
     input        iniciar,
-    input [3:0]  chaves,
+    input [3:0]  botoes,
     input        nivel_jogadas, 
     input        nivel_tempo,
 
-    output       acertou,
-    output       errou,
+    output       ganhou,
+    output       perdeu,
     output       pronto,
-	output       vez_jogador,
     output       timeout,
+	output       vez_jogador,
     output [3:0] leds,
 
     output       db_igual,
@@ -60,7 +60,7 @@ module circuito_exp6 (
     exp6_fluxo_dados fluxo_dados (
         // Sinais de entrada
         .clock               ( clock               ),
-        .chaves              ( chaves              ),
+        .botoes              ( botoes              ),
         .nivel_jogadas       ( nivel_jogadas       ),
         .nivel_tempo         ( nivel_tempo         ),
         // Sinais de controle 
@@ -129,10 +129,10 @@ module circuito_exp6 (
         .registraN           ( registraN           ),
         .contaTempo          ( contaTempo          ),
         .zeraTempo           ( zeraTempo           ),
-        .ativa_leds           ( ativa_leds          ),
+        .ativa_leds          ( ativa_leds          ),
         // Sinais de saída
-        .acertou             ( acertou             ),
-        .errou               ( errou               ),
+        .ganhou              ( ganhou              ),
+        .perdeu              ( perdeu              ),
         .pronto              ( pronto              ),
         .timeout             ( timeout             ),
 		.vez_jogador         ( vez_jogador         ),

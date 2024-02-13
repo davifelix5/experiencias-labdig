@@ -53,8 +53,8 @@ module exp6_unidade_controle (
     output ativa_leds,
 
     /* Saídas */
-    output    acertou,
-    output    errou,
+    output    ganhou,
+    output    perdeu,
     output    pronto,
     output    timeout,
     output    vez_jogador,
@@ -74,10 +74,10 @@ module exp6_unidade_controle (
                 espera_jogada        = 4'h7,
                 registra             = 4'h8,
                 compara              = 4'h9,
-                ganhou               = 4'hA,
+                acertou               = 4'hA,
                 proxima_jogada       = 4'hB,
                 proxima_rodada       = 4'hC,
-                perdeu               = 4'hE,
+                errou               = 4'hE,
                 estado_timeout       = 4'hF;
 	 
     // Variaveis de estado
@@ -111,7 +111,7 @@ module exp6_unidade_controle (
                 if (jogada_correta) begin
                     if (enderecoIgualRodada) begin
                         if ((!nivel_jogadas & meioCR) | (nivel_jogadas & fimCR))
-                            Eprox = ganhou;
+                            Eprox = acertou;
                         else
                             Eprox = proxima_rodada;                
                     end 
@@ -119,13 +119,13 @@ module exp6_unidade_controle (
                         Eprox = proxima_jogada;
                 end
                 else begin
-                    Eprox = perdeu;
+                    Eprox = errou;
                 end
             end
             proxima_rodada:           Eprox = inicio_rodada;
             proxima_jogada:           Eprox = espera_jogada;
-            ganhou:                   Eprox = iniciar ? inicializa_elementos : ganhou;
-            perdeu:                   Eprox = iniciar ? inicializa_elementos : perdeu;
+            acertou:                   Eprox = iniciar ? inicializa_elementos : acertou;
+            errou:                   Eprox = iniciar ? inicializa_elementos : errou;
             estado_timeout:           Eprox = iniciar ? inicializa_elementos : estado_timeout; 
             default:                  Eprox = inicial; 
         endcase
@@ -144,9 +144,9 @@ module exp6_unidade_controle (
     assign registraR     = (Eatual == registra);
     assign contaCR       = (Eatual == proxima_rodada);
     assign timeout       = (Eatual == estado_timeout);
-    assign errou         = (Eatual == perdeu);
-    assign acertou       = (Eatual == ganhou);
-    assign pronto        = ((Eatual == perdeu) || (Eatual == ganhou) || (Eatual == estado_timeout)); 
+    assign ganhou        = (Eatual == errou);
+    assign perdeu        = (Eatual == acertou);
+    assign pronto        = ((Eatual == errou) || (Eatual == acertou) || (Eatual == estado_timeout)); 
     assign registraN     = (Eatual == inicializa_elementos);
     assign ativa_leds    = (Eatual == espera_mostra);
 

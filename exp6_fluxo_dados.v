@@ -15,7 +15,7 @@
 module exp6_fluxo_dados (
     // Entradas
     input clock,
-    input [3:0] chaves,
+    input [3:0] botoes,
     input nivel_jogadas, nivel_tempo,
 
     // Sinais de controle
@@ -60,8 +60,8 @@ module exp6_fluxo_dados (
     wire tem_jogada;
     wire[3:0] s_memoria, s_endereco, s_rodada, s_jogada;
 
-    // OR das chaves
-    assign tem_jogada    = |chaves;
+    // OR dos botoes
+    assign tem_jogada    = |botoes;
 
     // Sinais de saída
     assign leds = ativa_leds ? s_memoria : 4'b0;
@@ -176,7 +176,7 @@ module exp6_fluxo_dados (
 
     //Registrador 4 bits
     registrador_n #(.SIZE(4)) RegChv (
-        .D      ( chaves      ),
+        .D      ( botoes      ),
         .clear  ( zeraR       ),
         .clock  ( clock       ),
         .enable ( registraR   ),
