@@ -50,7 +50,8 @@ module circuito_exp6_tb;
   parameter clockPeriod = 20; // in ns, f=50MHz
 
   // Identificacao do caso de teste
-  reg [31:0] caso = 0;
+  integer caso = 0;
+  integer cenario = 0;
 
   // Gerador de clock
   always #((clockPeriod / 2)) clock_in = ~clock_in;
@@ -112,8 +113,9 @@ module circuito_exp6_tb;
     #clockPeriod;
 
     /*
-      * Cenario de Teste: acerta todas as jogadas no nível difícil
+      * Cenario de Teste: acerta todas as jogadas no nível fácil de jogadas
     */
+    cenario = 1;
 
     // Reseta o circuito
     @(negedge clock_in);
@@ -131,18 +133,139 @@ module circuito_exp6_tb;
     
     // Apresenta segunda jogada
     caso = 2;
-    #(2020*clockPeriod);
+    #(2005*clockPeriod);
     pressChaves(4'b0001);
     pressChaves(4'b0010);
 
     // Apresentando a terceira jogada
     caso = 3;
-    #(3020*clockPeriod);
+    #(3005*clockPeriod);
     pressChaves(4'b0001);
     pressChaves(4'b0010);
-    pressChaves(4'b0001); // Errou
+    pressChaves(4'b0100);
+    #(10*clockPeriod);
+
+    // Apresenta quarta jogada
+    caso = 4;
+    #(4005*clockPeriod);
+    pressChaves(4'b0001);
+    pressChaves(4'b0010);
+    pressChaves(4'b0100);
+    pressChaves(4'b1000);
     #(10*clockPeriod);
     
+    caso = 5;
+    #(5005*clockPeriod);
+    pressChaves(4'b0001);
+    pressChaves(4'b0010);
+    pressChaves(4'b0100);
+    pressChaves(4'b1000);
+    pressChaves(4'b0100);
+    #(10*clockPeriod);
+
+    caso = 6;
+    #(6005*clockPeriod);
+    pressChaves(4'b0001);
+    pressChaves(4'b0010);
+    pressChaves(4'b0100);
+    pressChaves(4'b1000);
+    pressChaves(4'b0100);
+    pressChaves(4'b0010);
+    #(10*clockPeriod);
+
+    caso = 7;
+    #(7005*clockPeriod);
+    pressChaves(4'b0001);
+    pressChaves(4'b0010);
+    pressChaves(4'b0100);
+    pressChaves(4'b1000);
+    pressChaves(4'b0100);
+    pressChaves(4'b0010);
+    pressChaves(4'b0001);
+    #(10*clockPeriod);
+
+    caso = 8;
+    #(8005*clockPeriod);
+    pressChaves(4'b0001);
+    pressChaves(4'b0010);
+    pressChaves(4'b0100);
+    pressChaves(4'b1000);
+    pressChaves(4'b0100);
+    pressChaves(4'b0010);
+    pressChaves(4'b0001);
+    pressChaves(4'b0001);
+    #(10*clockPeriod);
+
+    /*
+      * Cenario de Teste: erra na primeira
+    */
+    cenario = 2;
+
+    caso = 9;
+    @(negedge clock_in);
+    iniciar_in = 1;
+    #(clockPeriod);
+    iniciar_in = 0;
+
+    caso = 10;
+    #(1005*clockPeriod);
+    pressChaves(4'b1000);
+
+    /*
+      * Cenario de Teste: erra na segunda rodada, segunda jogada
+    */
+    cenario = 3;
+
+    caso = 11;
+    @(negedge clock_in);
+    iniciar_in = 1;
+    #(clockPeriod);
+    iniciar_in = 0;
+
+    caso = 12;
+    #(1005*clockPeriod);
+    pressChaves(4'b0001);
+    #(10*clockPeriod);
+
+    caso = 13;
+    #(2005*clockPeriod);
+    pressChaves(4'b0001);
+    pressChaves(4'b1000); // Errou
+
+    /*
+      * Cenario de Teste: erra na segunda rodada, primeira jogada
+    */
+    cenario = 4;
+
+    caso = 14;
+    @(negedge clock_in);
+    iniciar_in = 1;
+    #(clockPeriod);
+    iniciar_in = 0;
+
+    caso = 15;
+    #(1005*clockPeriod);
+    pressChaves(4'b0001);
+    #(10*clockPeriod);
+
+    caso = 16;
+    #(2005*clockPeriod);
+    pressChaves(4'b1000); // Errou
+    pressChaves(4'b0010);
+
+    /*Cenário de teste: timeout */
+    cenario = 5;
+
+    caso = 17;
+    @(negedge clock_in);
+    iniciar_in = 1;
+    #(clockPeriod);
+    iniciar_in = 0;
+
+    caso = 18;
+    #(1005*clockPeriod);
+    #(3000*clockPeriod);
+
 
     $display("Fim da simulação");
     $stop;
