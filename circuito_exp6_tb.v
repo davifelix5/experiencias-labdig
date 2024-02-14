@@ -1,17 +1,14 @@
 /* --------------------------------------------------------------------
- * Arquivo   : circuito_exp5_tb.v
- * Projeto   : Experiencia 5 - Desenvolvimento de Projeto de 
+ * Arquivo   : circuito_exp6_tb.v
+ * Projeto   : Experiencia 6 - Desenvolvimento de Projeto de 
  *             Circuitos Digitais em FPGA
  * --------------------------------------------------------------------
- * Descricao : testbench Verilog para circuito da Experiencia 5 
- *
- *             1) Plano de teste com 4 jogadas certas  
- *                e erro na quinta jogada.
+ * Descricao : testbench Verilog para circuito da Experiencia 6
  *
  * --------------------------------------------------------------------
  * Revisoes  :
  *     Data        Versao  Autor                                          Descricao
- *     02/01/2024  1.0     Caio Dourado, Davi Félix, Vinicius Batista     versao inicial
+ *     14/02/2024  2.0     Caio Dourado, Davi Félix, Vinicius Batista     versao inicial
  * --------------------------------------------------------------------
 */
 
@@ -84,6 +81,9 @@ module circuito_exp6_tb;
     .db_timeout               (db_timeout)
   );
 
+  /*
+    Task para apertar o botões com um valor desejado, esperando 3 períodos de clock para soltar
+  */
   task press_botoes;
     input [3:0] valor;
     begin
@@ -93,12 +93,21 @@ module circuito_exp6_tb;
       #(3*clockPeriod);
     end
   endtask 
-
+  
+  /*
+    Função para calcular a quantidade de ciclos de clock que devem ser esperados até o fim da apresentação.
+    Recebe a rodada que está sendo apresentada.
+  */
   function automatic integer wait_time;
   input [31:0] step;
   wait_time = (step*1000+(step-1)*502+1);
   endfunction
 
+  /*
+    Task para acertar valores consecutivos em uma rodada.
+    Lê os valores certos de um arquivo .dat e aperta os botões de acordo com eles.
+    Recebe a quantidade de valores consecutivos que devem ser acertados.
+  */
   task acerta_valores;
   input integer quantidade;
   begin: corpo_task
@@ -112,18 +121,26 @@ module circuito_exp6_tb;
   end
   endtask
 
+  /*
+    Task para acertar rodadas consecutivamente.
+    Recebe a quantidade de rodadas a serem acertadas.
+  */
   task acerta_rodadas;
   input integer quantidade_rodadas;
   begin: corpo_acerta_rodadas
     integer i;
     for (i = 1; i <= quantidade_rodadas; i = i + 1) begin
-      #(wait_time(i)*clockPeriod);
+      #(wait_time(i)*clockPeriod); // Espera a apresentação
       acerta_valores(i);
       #(clockPeriod);
     end
   end
   endtask
 
+  /*
+    Task para realizar o processo de iniciar o circuito.
+    Recebe os níveis de tempo e de jogadas que deverão ser adotados no jogo a ser iniciado. 
+  */
   task iniciar_circuito;
   input nivel_jogadas, nivel_tempo;
   begin
@@ -158,83 +175,99 @@ module circuito_exp6_tb;
     #clockPeriod;
 
     /*
-      * Cenario de Teste: acerta todas as jogadas no nível fácil de jogadas
+      Cenario de Teste: acerta todas as jogadas no nível fácil de jogadas
     */
     cenario = 1;
 
     // Reseta o circuito
+    caso = 1;
     @(negedge clock_in);
     reset_in = 1;
     #(clockPeriod)
     reset_in = 0;
 
-    // Iniciar o circuito
-    caso = 1;
+    // Iniciar o circuito no nível fácil
+    caso = 2;
     iniciar_circuito(0, 0);
 
-    // Acerta as 8 primeiras rodadas
+    // Acerta as 8 primeiras rodadas, ganhando o jogo
     acerta_rodadas(8);
 
     /*
-      * Cenario de Teste: erra na primeira
+      Cenario de Teste: erra na primeira
     */
+
     cenario = 2;
 
+    // Iniciar o circuito no nível fácil
     caso = 1;
     iniciar_circuito(0, 0);
 
+    // Erra na primeira jogada
     caso = 2;
-    #(1005*clockPeriod);
+    #(wait_time(1)*clockPeriod); // Espera apresentação
     press_botoes(4'b1000);
 
     /*
-      * Cenario de Teste: erra na segunda rodada, segunda jogada
+      Cenario de Teste: erra na segunda rodada, segunda jogada
     */
     cenario = 3;
 
+    // Inicia o circuito no nível fácil
     caso = 1;
     iniciar_circuito(0, 0);
 
+    // Acerta primeira rodada
     caso = 2;
-    #(1005*clockPeriod);
+    #(wait_time(1)*clockPeriod); // Espera apresentação
     press_botoes(4'b0001);
 
+    // Erra na segunda jogada da segunda rodada
     caso = 3;
-    #(2505*clockPeriod);
+    #(wait_time(2)*clockPeriod); // Espera apresentação
     press_botoes(4'b0001);
     press_botoes(4'b1000); // Errou
 
     /*
-      * Cenario de Teste: erra na segunda rodada, primeira jogada
+      Cenario de Teste: erra na segunda rodada, primeira jogada
     */
     cenario = 4;
 
+    // Iniciar circuito no nível fácil
     caso = 1;
     iniciar_circuito(0, 0);
 
+    // Acerta primeira rodada
     caso = 2;
-    #(1005*clockPeriod);
+    #(wait_time(1)*clockPeriod); // Espera apresentação
     press_botoes(4'b0001);
 
+    // Erra na na primeira jogada da sengunda rodada
     caso = 3;
-    #(2505*clockPeriod);
+    #(wait_time(2)*clockPeriod);
     press_botoes(4'b1000); // Errou
     press_botoes(4'b0010);
 
-    /*Cenário de teste: timeout */
+    /*
+      Cenário de teste: timeout na segunda rodada 
+    */
     cenario = 5;
 
+    // Iniciar o circuito no nível fácil
     caso = 1;
-    @(negedge clock_in);
-    iniciar_in = 1;
-    #(clockPeriod);
-    iniciar_in = 0;
-
+    iniciar_circuito(0, 0);
+    
+    // Apresentação da primeira rodada
     caso = 2;
-    #(1005*clockPeriod);
-    #(3500*clockPeriod);
+    #(wait_time(1)*clockPeriod);
+    
+    // Espera o tempo de timeout
+    caso = 3;
+    #(3100*clockPeriod);
 
-    /* Cenário de teste: acerta todas no nível difícil */
+    /* 
+      Cenário de teste: acerta todas no nível difícil 
+    */
     cenario = 6;
 
     // Inicializa o circuito no nível difícil
@@ -247,19 +280,18 @@ module circuito_exp6_tb;
     /* Cenário de teste: erra na nona rodada, quinta jogada do nível difícil */ 
     cenario = 7;
 
+    // Inicializa o circuito no nível difícil
     caso = 1;
     iniciar_circuito(1, 0);
 
     // Acerta 8 rodadas
     acerta_rodadas(8);
 
-    // Erra na nona
-    #(wait_time(9)*clockPeriod)
-    acerta_valores(4);
+    // Erra na quinta jogada da nona rodada
+    #(wait_time(9)*clockPeriod) // Espera a apresentação
+    acerta_valores(4); // Acerta 4 valores
     caso = caso + 1;
-    press_botoes(4'b0001);
-
-
+    press_botoes(4'b0001); // Erra na quinta jogada
 
     $display("Fim da simulação");
     $stop;
