@@ -94,31 +94,32 @@ module circuito_exp6_tb;
     end
   endtask 
 
-  function automatic reg [31:0] wait_time;
+  function automatic integer wait_time;
   input [31:0] step;
   wait_time = (step*1000+(step-1)*502+1);
   endfunction
 
   task acerta_valores;
-  input reg [31:0] quantidade;
+  input integer quantidade;
   begin: corpo_task
     reg [3:0] valores [0:15];
-    reg [31:0] i;
+    integer i;
     $readmemh("valores.dat", valores, 4'b0, 4'hF); 
     for (i = 0; i < quantidade; i = i + 1) begin
-        press_botoes(valores[i]);
+      caso = caso + 1;
+      press_botoes(valores[i]);
     end
   end
   endtask
 
   task acerta_rodadas;
-  input reg [31:0] quantidade_rodadas, caso_atual;
+  input integer quantidade_rodadas;
   begin: corpo_acerta_rodadas
-    reg [31:0] i;
+    integer i;
     for (i = 1; i <= quantidade_rodadas; i = i + 1) begin
-      caso = caso_atual + i;
       #(wait_time(i)*clockPeriod);
       acerta_valores(i);
+      #(clockPeriod);
     end
   end
   endtask
@@ -172,17 +173,17 @@ module circuito_exp6_tb;
     iniciar_circuito(0, 0);
 
     // Acerta as 8 primeiras rodadas
-    acerta_rodadas(8, 1);
+    acerta_rodadas(8);
 
     /*
       * Cenario de Teste: erra na primeira
     */
     cenario = 2;
 
-    caso = 9;
+    caso = 1;
     iniciar_circuito(0, 0);
 
-    caso = 10;
+    caso = 2;
     #(1005*clockPeriod);
     press_botoes(4'b1000);
 
@@ -191,14 +192,14 @@ module circuito_exp6_tb;
     */
     cenario = 3;
 
-    caso = 11;
+    caso = 1;
     iniciar_circuito(0, 0);
 
-    caso = 12;
+    caso = 2;
     #(1005*clockPeriod);
     press_botoes(4'b0001);
 
-    caso = 13;
+    caso = 3;
     #(2505*clockPeriod);
     press_botoes(4'b0001);
     press_botoes(4'b1000); // Errou
@@ -208,14 +209,14 @@ module circuito_exp6_tb;
     */
     cenario = 4;
 
-    caso = 14;
+    caso = 1;
     iniciar_circuito(0, 0);
 
-    caso = 15;
+    caso = 2;
     #(1005*clockPeriod);
     press_botoes(4'b0001);
 
-    caso = 16;
+    caso = 3;
     #(2505*clockPeriod);
     press_botoes(4'b1000); // Errou
     press_botoes(4'b0010);
@@ -223,13 +224,13 @@ module circuito_exp6_tb;
     /*Cenário de teste: timeout */
     cenario = 5;
 
-    caso = 17;
+    caso = 1;
     @(negedge clock_in);
     iniciar_in = 1;
     #(clockPeriod);
     iniciar_in = 0;
 
-    caso = 18;
+    caso = 2;
     #(1005*clockPeriod);
     #(3500*clockPeriod);
 
@@ -237,25 +238,25 @@ module circuito_exp6_tb;
     cenario = 6;
 
     // Inicializa o circuito no nível difícil
-    caso = 19;
+    caso = 1;
     iniciar_circuito(1, 0);
 
     // Acerta as 16 rodadas
-    acerta_rodadas(16, 19);
+    acerta_rodadas(16);
 
     /* Cenário de teste: erra na nona rodada, quinta jogada do nível difícil */ 
     cenario = 7;
 
-    caso = 36;
+    caso = 1;
     iniciar_circuito(1, 0);
 
     // Acerta 8 rodadas
-    acerta_rodadas(8, 36);
+    acerta_rodadas(8);
 
     // Erra na nona
-    caso = 44;
     #(wait_time(9)*clockPeriod)
     acerta_valores(4);
+    caso = caso + 1;
     press_botoes(4'b0001);
 
 

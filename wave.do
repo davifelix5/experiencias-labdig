@@ -28,7 +28,7 @@ add wave -noupdate -height 25 /circuito_exp6_tb/db_jogada_correta
 add wave -noupdate -height 25 /circuito_exp6_tb/db_nivel_jogadas
 add wave -noupdate -height 25 /circuito_exp6_tb/db_nivel_tempo
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {1249983 ns} 0} {{Cursor 2} {1096431 ns} 0}
+WaveRestoreCursors {{Cursor 1} {6466212 ns} 0} {{Cursor 2} {1096431 ns} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 289
 configure wave -valuecolwidth 100
@@ -44,4 +44,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {1204758 ns} {1258957 ns}
+WaveRestoreZoom {6464649 ns} {6466323 ns}
