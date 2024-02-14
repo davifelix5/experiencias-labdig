@@ -44,7 +44,7 @@ module circuito_exp6_tb;
   wire       db_clock;
   wire       db_enderecoIgualRodada;
   wire       db_timeout;
-  wire       db_rodada;
+  wire [6:0] db_rodada;
 
   // Configuração do clock
   parameter clockPeriod = 20; // in ns, f=50MHz
@@ -94,16 +94,16 @@ module circuito_exp6_tb;
     end
   endtask 
 
-  function automatic integer wait_time;
+  function automatic reg [31:0] wait_time;
   input [31:0] step;
   wait_time = (step*1000+(step-1)*502+1);
   endfunction
 
   task acerta_valores;
-  input [3:0] quantidade;
+  input reg [31:0] quantidade;
   begin: corpo_task
     reg [3:0] valores [0:15];
-    integer i;
+    reg [31:0] i;
     $readmemh("valores.dat", valores, 4'b0, 4'hF); 
     for (i = 0; i < quantidade; i = i + 1) begin
         press_botoes(valores[i]);
@@ -111,12 +111,39 @@ module circuito_exp6_tb;
   end
   endtask
 
+  task acerta_rodadas;
+  input reg [31:0] quantidade_rodadas, caso_atual;
+  begin: corpo_acerta_rodadas
+    reg [31:0] i;
+    for (i = 1; i <= quantidade_rodadas; i = i + 1) begin
+      caso = caso_atual + i;
+      #(wait_time(i)*clockPeriod);
+      acerta_valores(i);
+    end
+  end
+  endtask
+
+  task iniciar_circuito;
+  input nivel_jogadas, nivel_tempo;
+  begin
+    @(negedge clock_in)
+    iniciar_in = 1;
+    nivel_jogadas_in = nivel_jogadas;
+    nivel_tempo_in = nivel_tempo;
+    #(4*clockPeriod)
+    iniciar_in = 0;
+    nivel_jogadas_in = 0;
+    nivel_tempo_in = 0;
+  end
+  endtask
+
+
   // geracao dos sinais de entrada (estimulos)
   initial begin
   
     $dumpfile("waveforms.vcd");
     $dumpvars(0, circuito_exp6_tb);
-    
+
     $display("Inicio da simulacao");
 
     // condicoes iniciais
@@ -140,44 +167,12 @@ module circuito_exp6_tb;
     #(clockPeriod)
     reset_in = 0;
 
-    // Apresenta primeira jogada
+    // Iniciar o circuito
     caso = 1;
-    iniciar_in = 1;
-    #(4*clockPeriod);
-    iniciar_in = 0;
-    #(wait_time(1)*clockPeriod);
-    press_botoes(4'b0001);
-    
-    // Apresenta segunda jogada
-    caso = 2;
-    #(wait_time(2)*clockPeriod);
-    acerta_valores(2);
+    iniciar_circuito(0, 0);
 
-    // Apresentando a terceira jogada
-    caso = 3;
-    #(wait_time(3)*clockPeriod);
-    acerta_valores(3);
-
-    // Apresenta quarta jogada
-    caso = 4;
-    #(wait_time(4)*clockPeriod);
-    acerta_valores(4);
-    
-    caso = 5;
-    #(wait_time(5)*clockPeriod);
-    acerta_valores(5);
-
-    caso = 6;
-    #(wait_time(6)*clockPeriod);
-    acerta_valores(6);
-
-    caso = 7;
-    #(wait_time(7)*clockPeriod);
-    acerta_valores(7);
-
-    caso = 8;
-    #(wait_time(8)*clockPeriod);
-    acerta_valores(8);
+    // Acerta as 8 primeiras rodadas
+    acerta_rodadas(8, 1);
 
     /*
       * Cenario de Teste: erra na primeira
@@ -185,10 +180,7 @@ module circuito_exp6_tb;
     cenario = 2;
 
     caso = 9;
-    @(negedge clock_in);
-    iniciar_in = 1;
-    #(clockPeriod);
-    iniciar_in = 0;
+    iniciar_circuito(0, 0);
 
     caso = 10;
     #(1005*clockPeriod);
@@ -200,10 +192,7 @@ module circuito_exp6_tb;
     cenario = 3;
 
     caso = 11;
-    @(negedge clock_in);
-    iniciar_in = 1;
-    #(clockPeriod);
-    iniciar_in = 0;
+    iniciar_circuito(0, 0);
 
     caso = 12;
     #(1005*clockPeriod);
@@ -220,10 +209,7 @@ module circuito_exp6_tb;
     cenario = 4;
 
     caso = 14;
-    @(negedge clock_in);
-    iniciar_in = 1;
-    #(clockPeriod);
-    iniciar_in = 0;
+    iniciar_circuito(0, 0);
 
     caso = 15;
     #(1005*clockPeriod);
@@ -246,6 +232,32 @@ module circuito_exp6_tb;
     caso = 18;
     #(1005*clockPeriod);
     #(3500*clockPeriod);
+
+    /* Cenário de teste: acerta todas no nível difícil */
+    cenario = 6;
+
+    // Inicializa o circuito no nível difícil
+    caso = 19;
+    iniciar_circuito(1, 0);
+
+    // Acerta as 16 rodadas
+    acerta_rodadas(16, 19);
+
+    /* Cenário de teste: erra na nona rodada, quinta jogada do nível difícil */ 
+    cenario = 7;
+
+    caso = 36;
+    iniciar_circuito(1, 0);
+
+    // Acerta 8 rodadas
+    acerta_rodadas(8, 36);
+
+    // Erra na nona
+    caso = 44;
+    #(wait_time(9)*clockPeriod)
+    acerta_valores(4);
+    press_botoes(4'b0001);
+
 
 
     $display("Fim da simulação");
