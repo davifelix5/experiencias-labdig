@@ -115,19 +115,19 @@ module circuito_exp6_tb;
   task display_outputs;
     begin
       $display("---- Resultado cenário %2d ----", cenario);
-      $display("contagem: %2h", hexa(db_contagem));
-      $display("memoria: %2h", hexa(db_memoria));
-      $display("estado: %2h", hexa(db_estado));
-      $display("jogada: %2h", hexa(db_jogada));
-      $display("rodada : %2h", hexa(db_rodada));
-      $display("jogada_correta: %b", db_jogada_correta);
-      $display("nivel_jogadas: %b", db_nivel_jogadas);
-      $display("nivel_tempo: %b", db_nivel_tempo);
-      $display("enderecoIgualRodada: %b", db_enderecoIgualRodada);
-      $display("timeout: %b", db_timeout);
-      $display("ganhou: %b", ganhou_out);
-      $display("perdeu: %b", perdeu_out);
-      $display("pronto: %b", pronto_out);
+      $display("contagem = %2h", hexa(db_contagem));
+      $display("memoria = %2h", hexa(db_memoria));
+      $display("estado = %2h", hexa(db_estado));
+      $display("jogada = %2h", hexa(db_jogada));
+      $display("rodada = %2h", hexa(db_rodada));
+      $display("jogada_correta = %b", db_jogada_correta);
+      $display("nivel_jogadas = %b", db_nivel_jogadas);
+      $display("nivel_tempo = %b", db_nivel_tempo);
+      $display("enderecoIgualRodada = %b", db_enderecoIgualRodada);
+      $display("timeout = %b", db_timeout);
+      $display("ganhou = %b", ganhou_out);
+      $display("perdeu = %b", perdeu_out);
+      $display("pronto = %b", pronto_out);
 
     end
   endtask 
@@ -332,7 +332,7 @@ module circuito_exp6_tb;
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     cenario = 3;
 
-    // Inicia o circuito no nível fácil
+    // Inicia o circuito no nível difícil
     caso = 1;
     iniciar_circuito(1, 0);
 
@@ -468,7 +468,10 @@ module circuito_exp6_tb;
     acerta_rodadas(15);
     #(wait_time(16)*clockPeriod); // Espera a apresentação
     acerta_valores(15); // Acerta 15 valores
+
+
     press_botoes(4'b0010); // Erra no último
+
     compara_resultados(8'hF, 8'he, 8'hx, 8'hF, 1'b0, 1'b1, 1'b1, 1'b1, 1'b0, 1'b0, 1'b1, 1'b1);
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
