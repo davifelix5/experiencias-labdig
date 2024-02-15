@@ -51,6 +51,7 @@ module exp6_unidade_controle (
     output    registraN,
 
     output    ativa_leds,
+    output    toca,
 
     /* Saídas */
     output    ganhou,
@@ -149,6 +150,7 @@ module exp6_unidade_controle (
     assign pronto        = ((Eatual == errou) || (Eatual == acertou) || (Eatual == estado_timeout)); 
     assign registraN     = (Eatual == inicializa_elementos);
     assign ativa_leds    = (Eatual == espera_mostra);
+    assign toca          = (Eatual == espera_mostra);
 
 
 endmodule

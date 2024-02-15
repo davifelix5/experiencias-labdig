@@ -24,6 +24,7 @@ module circuito_exp6 (
     output       pronto,
 	output       vez_jogador,
     output [3:0] leds,
+    output       pulso_buzzer,
 
     output       db_jogada_correta,
     output [6:0] db_contagem,
@@ -41,7 +42,7 @@ module circuito_exp6 (
     // Sinais de controle
     wire contaC, contaTempo, contaTM, contaCR, registraR, registraN;
     wire zeraC, zeraR, zeraCR, zeraTM, zeraTempo;
-    wire ativa_leds;
+    wire ativa_leds, toca;
     // Sinais de condição
     wire fimC, fimCR, fimTM, meioTM, fimTempo, meioCR, meioTempo; 
     wire enderecoIgualRodada, jogada_feita, jogada_correta;
@@ -76,6 +77,7 @@ module circuito_exp6 (
         .contaTM             ( contaTM             ),
         .zeraTM              ( zeraTM              ),
         .ativa_leds          ( ativa_leds          ),
+        .toca                ( toca                ),
         // Sinais de condição
         .jogada_correta      ( jogada_correta      ),
         .jogada_feita        ( jogada_feita        ),
@@ -91,6 +93,7 @@ module circuito_exp6 (
         .nivel_tempo_reg     ( nivel_tempo_reg     ),
         // Sinais de saída
         .leds                ( leds                ),
+        .pulso_buzzer        ( pulso_buzzer        ),
         // Sinais de depuração
         .db_contagem         ( s_db_contagem       ),
         .db_jogada           ( s_db_jogada         ),
@@ -130,6 +133,7 @@ module circuito_exp6 (
         .contaTempo          ( contaTempo          ),
         .zeraTempo           ( zeraTempo           ),
         .ativa_leds          ( ativa_leds          ),
+        .toca                ( toca                ),
         // Sinais de saída
         .ganhou              ( ganhou              ),
         .perdeu              ( perdeu              ),

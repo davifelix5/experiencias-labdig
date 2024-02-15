@@ -31,6 +31,7 @@ module exp6_fluxo_dados (
     input zeraTM,
     input contaTM,
     input ativa_leds,
+    input toca,
     
     // Sinais de codição
     output jogada_correta,
@@ -45,6 +46,7 @@ module exp6_fluxo_dados (
     output fimCR,
     output fimTM,
     output meioTM,
+    output pulso_buzzer,
 
     // Sinais de saída
     output [3:0] leds,
@@ -71,6 +73,17 @@ module exp6_fluxo_dados (
     assign db_jogada     = s_jogada;
     assign db_memoria    = s_memoria;
     assign db_rodada     = s_rodada;
+
+    //Buzzer para jogadas
+    buzzer BuzzerLeds (
+        .clock   ( clock ),
+        .conta   ( toca ),
+        .reset   ( zeraR ),
+
+        .seletor ( leds ),
+
+        .pulso   ( pulso_buzzer )  // Frequência da nota a ser tocada
+    );
 
     // Registrdor no nível de jogadas
     registrador_n #(.SIZE(1)) RegNvlJog (

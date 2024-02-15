@@ -32,6 +32,7 @@ module circuito_exp6_tb;
   wire       pronto_out;
   wire       vez_jogador_out;
   wire [3:0] leds_out;
+  wire pulso_buzzer_out;
 
   wire       db_jogada_correta;
   wire [6:0] db_contagem;
@@ -74,6 +75,7 @@ module circuito_exp6_tb;
     .pronto           (pronto_out),
 	  .vez_jogador      (vez_jogador_out),
     .leds             (leds_out),
+    .pulso_buzzer     (pulso_buzzer_out),
 
     .db_jogada_correta      (db_jogada_correta),
     .db_contagem            (db_contagem),
