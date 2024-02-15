@@ -194,7 +194,7 @@ module circuito_exp6_tb;
   */
   function automatic integer wait_time;
   input [31:0] step;
-  wait_time = (step*1000+(step-1)*502+1);
+  wait_time = (step*5000+(step-1)*2502+1);
   endfunction
 
   /*
@@ -386,7 +386,7 @@ module circuito_exp6_tb;
     // Espera o tempo de timeout
     caso = 3;
     #(wait_time(2)*clockPeriod)
-    #(3100*clockPeriod);
+    #(15100*clockPeriod);
     compara_resultados(8'h0, 8'hf, 8'hx, 8'h1, 1'b0, 1'b0, 1'b0, 1'b0, 1'b1, 1'b0, 1'b1, 1'b1);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -437,7 +437,7 @@ module circuito_exp6_tb;
     #(wait_time(13)*clockPeriod) // Espera a apresentação
     acerta_valores(6); // Acerta 6 valores
     caso = caso + 1;
-    #(3100*clockPeriod);
+    #(15100*clockPeriod);
     compara_resultados(8'h6, 8'hf, 8'hx, 8'h0c, 1'b0, 1'b1, 1'b1, 1'b0, 1'b1, 1'b0, 1'b1, 1'b1);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,5 +1,5 @@
 module buzzer (
-    input clock, // 1kHz
+    input clock, // Clock do circuito
     input conta,
     input reset,
 
@@ -8,7 +8,7 @@ module buzzer (
     output pulso  // Frequência da nota a ser tocada
 );
 
-    wire pulso_500hz, pulso_250hz, pulso_125hz, pulso_333hz;
+    wire pulso_meio, pulso_quarto, pulso_oitavo, pulso_terco;
 
     reg[1:0] seletor_final;
 
@@ -20,7 +20,7 @@ module buzzer (
         .zera_as (             ), 
         .conta   ( conta       ),
         .Q       (             ),
-        .fim     ( pulso_500hz ),
+        .fim     ( pulso_meio ),
         .meio    (             )
     );
 
@@ -31,7 +31,7 @@ module buzzer (
         .zera_as (             ), 
         .conta   ( conta       ),
         .Q       (             ),
-        .fim     ( pulso_250hz ),
+        .fim     ( pulso_quarto ),
         .meio    (             )
     );
 
@@ -42,7 +42,7 @@ module buzzer (
         .zera_as (             ), 
         .conta   ( conta       ),
         .Q       (             ),
-        .fim     ( pulso_125hz ),
+        .fim     ( pulso_oitavo ),
         .meio    (             )
     );
 
@@ -53,7 +53,7 @@ module buzzer (
         .zera_as (             ), 
         .conta   ( 1'b1        ),
         .Q       (             ),
-        .fim     ( pulso_333hz ),
+        .fim     ( pulso_terco ),
         .meio    (             )
     );
 
@@ -75,11 +75,11 @@ module buzzer (
             0100: 333Hz
             1000: 500Hz
     */
-    assign pulso = !conta ? 1'b0 : (
+    assign pulso = !conta ? 1'b0 : ( // garante a saída é 0 quando não toca
         seletor_final[1] ? 
-            ( seletor_final[0] ? pulso_500hz : pulso_333hz )
+            ( seletor_final[0] ? pulso_meio : pulso_terco )
         :
-            (seletor_final [0] ? pulso_250hz : pulso_125hz)
+            (seletor_final [0] ? pulso_quarto : pulso_oitavo)
     );
 
 

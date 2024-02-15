@@ -15,6 +15,7 @@ add wave -noupdate -height 25 /circuito_exp6_tb/ganhou_out
 add wave -noupdate -height 25 /circuito_exp6_tb/perdeu_out
 add wave -noupdate -height 25 /circuito_exp6_tb/leds_out
 add wave -noupdate -height 25 /circuito_exp6_tb/vez_jogador_out
+add wave -noupdate /circuito_exp6_tb/DUT/pulso_buzzer
 add wave -noupdate -divider depuracao
 add wave -noupdate /circuito_exp6_tb/DUT/fluxo_dados/ativa_leds
 add wave -noupdate -height 25 -radix hexadecimal /circuito_exp6_tb/DUT/unidade_controle/db_estado
@@ -27,7 +28,6 @@ add wave -noupdate -height 25 /circuito_exp6_tb/db_timeout
 add wave -noupdate -height 25 /circuito_exp6_tb/db_jogada_correta
 add wave -noupdate -height 25 /circuito_exp6_tb/db_nivel_jogadas
 add wave -noupdate -height 25 /circuito_exp6_tb/db_nivel_tempo
-add wave -noupdate /circuito_exp6_tb/DUT/pulso_buzzer
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {20195320 ns} 0} {{Cursor 2} {5461624 ns} 0}
 quietly wave cursor active 2
