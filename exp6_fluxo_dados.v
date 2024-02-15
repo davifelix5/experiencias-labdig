@@ -119,7 +119,7 @@ module exp6_fluxo_dados (
         .enp   ( contaC     ), 
         .Q     ( s_endereco ),
         .rco   ( fimC       ),
-        .ld    (            ),
+        .ld    ( 1'b1       ),
         .D     (            )
     );
 
@@ -135,7 +135,7 @@ module exp6_fluxo_dados (
     );
 
     // Contador (timer) de módulo 1000 (1s) para sinalizar o tempo entre a mostragem de jogadas 
-    contador_m #(.M(1000), .N(10)) ContMostra (
+    contador_m #(.M(5000), .N(13)) ContMostra (
         .clock   ( clock   ), 
         .zera_as ( 1'b0    ), 
         .zera_s  ( zeraTM  ), 
@@ -146,7 +146,7 @@ module exp6_fluxo_dados (
     );
 
     // Contador (timer) de módulo 3000 (3s) para sinalizar timeout 
-    contador_m  # ( .M(3000), .N(12) ) TimerTimeout (
+    contador_m  # ( .M(15000), .N(14) ) TimerTimeout (
         .clock   ( clock        ),
         .zera_as ( jogada_feita ),
         .zera_s  ( zeraTempo    ),
