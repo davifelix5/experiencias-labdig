@@ -250,7 +250,6 @@ module circuito_exp6_tb;
     for (i = 1; i <= quantidade_rodadas; i = i + 1) begin
       #(wait_time(i)*clockPeriod); // Espera a apresentação
       acerta_valores(i);
-      #(clockPeriod);
     end
   end
   endtask
@@ -266,7 +265,7 @@ module circuito_exp6_tb;
     iniciar_in = 1;
     nivel_jogadas_in = nivel_jogadas;
     nivel_tempo_in = nivel_tempo;
-    #(4*clockPeriod)
+    #(3.5*clockPeriod)
     iniciar_in = 0;
     nivel_jogadas_in = 0;
     nivel_tempo_in = 0;
