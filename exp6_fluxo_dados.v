@@ -1,13 +1,13 @@
 /* --------------------------------------------------------------------
- * Arquivo   : exp5_fluxo_dados.v
- * Projeto   : Experiencia 5 - Desenvolvimento de Projeto de 
+ * Arquivo   : exp6_fluxo_dados.v
+ * Projeto   : Experiencia 6 - Desenvolvimento de Projeto de 
  *             Circuitos Digitais em FPGA
  * --------------------------------------------------------------------
- * Descricao : Fluxo de dados Verilog para circuito da Experiencia 5 
+ * Descricao : Fluxo de dados Verilog para circuito da Experiencia 6
  * --------------------------------------------------------------------
  * Revisoes  :
  *     Data        Versao  Autor                                            Descricao
- *     02/01/2024  1.0     Caio Dourado, Davi Félix e Vinicius Batista      versao inicial
+ *     14/02/2024  1.0     Caio Dourado, Davi Félix e Vinicius Batista      versao inicial
  * --------------------------------------------------------------------
 */
 

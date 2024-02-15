@@ -1,13 +1,13 @@
 /* --------------------------------------------------------------------
- * Arquivo   : circuito_exp5.v
- * Projeto   : Experiencia 5 - Desenvolvimento de Projeto de 
+ * Arquivo   : circuito_exp6.v
+ * Projeto   : Experiencia 6 - Desenvolvimento de Projeto de 
  *             Circuitos Digitais em FPGA
  * --------------------------------------------------------------------
- * Descricao : Circuito em Verilog para a Experiencia 5 
+ * Descricao : Circuito em Verilog para a Experiencia 6 
  * --------------------------------------------------------------------
  * Revisoes  :
  *     Data        Versao  Autor                                            Descricao
- *     02/01/2024  1.0     Caio Dourado, Davi Félix e Vinicius Batista      versao inicial
+ *     14/02/2024  1.0     Caio Dourado, Davi Félix e Vinicius Batista      versao inicial
  * --------------------------------------------------------------------
 */
 

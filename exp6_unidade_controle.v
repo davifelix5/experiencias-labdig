@@ -1,12 +1,12 @@
 //------------------------------------------------------------------
-// Arquivo   : exp5_unidade_controle.v
-// Projeto   : Experiencia 5 - Projeto de uma Unidade de Controle
+// Arquivo   : exp6_unidade_controle.v
+// Projeto   : Experiencia 6 - Projeto de uma Unidade de Controle
 //------------------------------------------------------------------
 // Descricao : Unidade de controle          
 //------------------------------------------------------------------
 // Revisoes  :
 //     Data        Versao  Autor                                        Descricao
-//     02/01/2024  1.0     Caio Dourado, Davi Félix, Vinicius Batista   versao inicial
+//     14/02/2024  1.0     Caio Dourado, Davi Félix, Vinicius Batista   versao inicial
 //------------------------------------------------------------------
 //
 module exp6_unidade_controle (
