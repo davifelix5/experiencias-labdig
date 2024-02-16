@@ -50,7 +50,8 @@ module exp6_unidade_controle (
 
     output    registraN,
 
-    output    ativa_leds,
+    output    ativa_leds_mem,
+    output    ativa_leds_jog,
     output    toca,
 
     /* Saídas */
@@ -110,18 +111,23 @@ module exp6_unidade_controle (
             espera_jogada:            Eprox = ((!nivel_tempo & fimTempo) || (nivel_tempo & meioTempo)) ? estado_timeout : (jogada_feita ? registra : espera_jogada);
             registra:                 Eprox = compara;
             compara: begin
-                if (jogada_correta) begin
-                    if (enderecoIgualRodada) begin
-                        if ((!nivel_jogadas & meioCR) | (nivel_jogadas & fimCR))
-                            Eprox = acertou;
+                if (meioTM) begin
+                    if (jogada_correta) begin
+                        if (enderecoIgualRodada) begin
+                            if ((!nivel_jogadas & meioCR) | (nivel_jogadas & fimCR))
+                                Eprox = acertou;
+                            else
+                                Eprox = proxima_rodada;                
+                        end 
                         else
-                            Eprox = proxima_rodada;                
-                    end 
-                    else
-                        Eprox = proxima_jogada;
+                            Eprox = proxima_jogada;
+                    end
+                    else begin
+                        Eprox = errou;
+                    end
                 end
                 else begin
-                    Eprox = errou;
+                    Eprox = compara;
                 end
             end
             proxima_rodada:           Eprox = inicio_rodada;
@@ -134,23 +140,24 @@ module exp6_unidade_controle (
     end
 
     // Logica de saida (maquina Moore)
-    assign zeraR         = (Eatual == inicial);
-    assign zeraCR        = (Eatual == inicializa_elementos);
-    assign zeraC         = (Eatual == inicio_jogada || Eatual == inicio_rodada);
-    assign zeraTempo     = (Eatual == inicializa_elementos || Eatual == proxima_jogada);
-    assign zeraTM        = (Eatual == mostra);
-    assign contaTM       = (Eatual == espera_mostra || Eatual == apaga_mostra);
-    assign contaC        = (Eatual == mostra_proximo || Eatual == proxima_jogada);
-    assign contaTempo    = (Eatual == espera_jogada);
-    assign vez_jogador   = (Eatual == espera_jogada);
-    assign registraR     = (Eatual == registra);
-    assign contaCR       = (Eatual == proxima_rodada);
-    assign ganhou        = (Eatual == acertou);
-    assign perdeu        = (Eatual == errou || Eatual == estado_timeout);
-    assign pronto        = ((Eatual == errou) || (Eatual == acertou) || (Eatual == estado_timeout)); 
-    assign registraN     = (Eatual == inicializa_elementos);
-    assign ativa_leds    = (Eatual == espera_mostra);
-    assign toca          = (Eatual == espera_mostra);
+    assign zeraR          = (Eatual == inicial);
+    assign zeraCR         = (Eatual == inicializa_elementos);
+    assign zeraC          = (Eatual == inicio_jogada || Eatual == inicio_rodada);
+    assign zeraTempo      = (Eatual == inicializa_elementos || Eatual == proxima_jogada);
+    assign zeraTM         = (Eatual == mostra || Eatual == proxima_jogada);
+    assign contaTM        = (Eatual == espera_mostra || Eatual == apaga_mostra || Eatual == compara);
+    assign contaC         = (Eatual == mostra_proximo || Eatual == proxima_jogada);
+    assign contaTempo     = (Eatual == espera_jogada);
+    assign vez_jogador    = (Eatual == espera_jogada);
+    assign registraR      = (Eatual == registra);
+    assign contaCR        = (Eatual == proxima_rodada);
+    assign ganhou         = (Eatual == acertou);
+    assign perdeu         = (Eatual == errou || Eatual == estado_timeout);
+    assign pronto         = ((Eatual == errou) || (Eatual == acertou) || (Eatual == estado_timeout)); 
+    assign registraN      = (Eatual == inicializa_elementos);
+    assign ativa_leds_mem = (Eatual == espera_mostra);
+    assign ativa_leds_jog = (Eatual == compara);
+    assign toca           = (Eatual == espera_mostra || Eatual == compara);
 
 
 endmodule

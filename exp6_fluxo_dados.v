@@ -30,7 +30,8 @@ module exp6_fluxo_dados (
     input contaCR,
     input zeraTM,
     input contaTM,
-    input ativa_leds,
+    input ativa_leds_mem,
+    input ativa_leds_jog,
     input toca,
     
     // Sinais de codição
@@ -58,6 +59,8 @@ module exp6_fluxo_dados (
     output [3:0] db_rodada
 );
 
+    parameter clock_freq = 5000;
+
     // Sinais internos
     wire tem_jogada;
     wire[3:0] s_memoria, s_endereco, s_rodada, s_jogada;
@@ -66,7 +69,7 @@ module exp6_fluxo_dados (
     assign tem_jogada    = |botoes;
 
     // Sinais de saída
-    assign leds = ativa_leds ? s_memoria : 4'b0;
+    assign leds = ativa_leds_mem ? s_memoria : (ativa_leds_jog ? s_jogada : 4'b0);
 
     // Sinais de depuração
     assign db_contagem   = s_endereco;
@@ -135,7 +138,7 @@ module exp6_fluxo_dados (
     );
 
     // Contador (timer) de módulo 1000 (1s) para sinalizar o tempo entre a mostragem de jogadas 
-    contador_m #(.M(5000), .N(13)) ContMostra (
+    contador_m #(.M(clock_freq), .N(13)) ContMostra (
         .clock   ( clock   ), 
         .zera_as ( 1'b0    ), 
         .zera_s  ( zeraTM  ), 
@@ -146,7 +149,7 @@ module exp6_fluxo_dados (
     );
 
     // Contador (timer) de módulo 3000 (3s) para sinalizar timeout 
-    contador_m  # ( .M(15000), .N(14) ) TimerTimeout (
+    contador_m  # ( .M(3*clock_freq), .N(14) ) TimerTimeout (
         .clock   ( clock        ),
         .zera_as ( jogada_feita ),
         .zera_s  ( zeraTempo    ),

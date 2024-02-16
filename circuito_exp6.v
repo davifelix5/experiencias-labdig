@@ -42,7 +42,7 @@ module circuito_exp6 (
     // Sinais de controle
     wire contaC, contaTempo, contaTM, contaCR, registraR, registraN;
     wire zeraC, zeraR, zeraCR, zeraTM, zeraTempo;
-    wire ativa_leds, toca;
+    wire ativa_leds_mem, ativa_leds_jog, toca;
     // Sinais de condição
     wire fimC, fimCR, fimTM, meioTM, fimTempo, meioCR, meioTempo; 
     wire enderecoIgualRodada, jogada_feita, jogada_correta;
@@ -76,7 +76,8 @@ module circuito_exp6 (
         .zeraCR              ( zeraCR              ),
         .contaTM             ( contaTM             ),
         .zeraTM              ( zeraTM              ),
-        .ativa_leds          ( ativa_leds          ),
+        .ativa_leds_mem      ( ativa_leds_mem      ),
+        .ativa_leds_jog      ( ativa_leds_jog      ),
         .toca                ( toca                ),
         // Sinais de condição
         .jogada_correta      ( jogada_correta      ),
@@ -132,7 +133,8 @@ module circuito_exp6 (
         .registraN           ( registraN           ),
         .contaTempo          ( contaTempo          ),
         .zeraTempo           ( zeraTempo           ),
-        .ativa_leds          ( ativa_leds          ),
+        .ativa_leds_mem      ( ativa_leds_mem      ),
+        .ativa_leds_jog      ( ativa_leds_jog      ),
         .toca                ( toca                ),
         // Sinais de saída
         .ganhou              ( ganhou              ),

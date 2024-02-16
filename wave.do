@@ -17,7 +17,8 @@ add wave -noupdate -height 25 /circuito_exp6_tb/leds_out
 add wave -noupdate -height 25 /circuito_exp6_tb/vez_jogador_out
 add wave -noupdate /circuito_exp6_tb/DUT/pulso_buzzer
 add wave -noupdate -divider depuracao
-add wave -noupdate /circuito_exp6_tb/DUT/fluxo_dados/ativa_leds
+add wave -noupdate /circuito_exp6_tb/DUT/fluxo_dados/ativa_leds_jog
+add wave -noupdate /circuito_exp6_tb/DUT/fluxo_dados/ativa_leds_mem
 add wave -noupdate -height 25 -radix hexadecimal /circuito_exp6_tb/DUT/unidade_controle/db_estado
 add wave -noupdate -height 25 -radix hexadecimal /circuito_exp6_tb/DUT/fluxo_dados/s_endereco
 add wave -noupdate /circuito_exp6_tb/db_enderecoIgualRodada

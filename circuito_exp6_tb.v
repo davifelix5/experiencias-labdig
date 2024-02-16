@@ -46,6 +46,8 @@ module circuito_exp6_tb;
   wire       db_timeout;
   wire [6:0] db_rodada;
 
+  parameter clock_freq = 5000;
+
   //Recupera valores da memória
   initial begin
     $readmemh("valores.dat", valores, 4'b0, 4'hF); 
@@ -184,7 +186,7 @@ module circuito_exp6_tb;
       botoes_in = valor;
       #(3*clockPeriod);
       botoes_in = 4'b0000;
-      #(3*clockPeriod);
+      #(2503*clockPeriod);
     end
   endtask 
   
@@ -194,7 +196,7 @@ module circuito_exp6_tb;
   */
   function automatic integer wait_time;
   input [31:0] step;
-  wait_time = (step*5000+(step-1)*2502+1);
+  wait_time = (step*clock_freq+(step-1)*(clock_freq/2 + 2)+1);
   endfunction
 
   /*
