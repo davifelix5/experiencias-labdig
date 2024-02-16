@@ -70,10 +70,10 @@ module buzzer (
 
     /* 
         Multiplexador para selecionar o pulso final 
-            0001: 125Hz
-            0010: 250Hz
-            0100: 333Hz
-            1000: 500Hz
+            0001: 1/8 clock
+            0010: 1/4 clock
+            0100: 1/3 clock
+            1000: 1/2 clock
     */
     assign pulso = !conta ? 1'b0 : ( // garante a saída é 0 quando não toca
         seletor_final[1] ? 
