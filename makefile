@@ -1,7 +1,8 @@
 TOP_LEVEL := circuito_exp6_tb
+WAVES     := wave.do
 
 all: vlog
-	@vsim -do "do wave.do; run -all;" work.$(TOP_LEVEL)
+	@vsim -do "do $(WAVES); run -all;" work.$(TOP_LEVEL)
 vlog: 
 	@vlog *.v
 headless: vlog

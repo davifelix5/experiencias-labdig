@@ -55,6 +55,18 @@ module buzzer_tb;
         seletor = 4'b0001;
         #(50*clockPeriod);
 
+        caso = 5;
+        // Conta com 500Hz
+        conta = 1;
+        seletor = 4'b0100;
+        #(50*clockPeriod);
+
+        caso = 7;
+        // Conta com 500Hz
+        conta = 1;
+        seletor = 4'b0010;
+        #(50*clockPeriod);
+
         $stop;
 
     end
