@@ -102,7 +102,7 @@ module exp6_unidade_controle (
         case (Eatual)
             inicial:                  Eprox = iniciar ? inicializa_elementos : inicial;
             inicializa_elementos:     Eprox = inicio_rodada;
-            inicio_rodada:            Eprox = mostra;
+            inicio_rodada:            Eprox = meioTM ? mostra : inicio_rodada;
             mostra:                   Eprox = espera_mostra;
             espera_mostra:            Eprox = fimTM ? (enderecoIgualRodada ? inicio_jogada : apaga_mostra) : espera_mostra;
             apaga_mostra:             Eprox = meioTM ? mostra_proximo : apaga_mostra;
@@ -144,8 +144,8 @@ module exp6_unidade_controle (
     assign zeraCR         = (Eatual == inicializa_elementos);
     assign zeraC          = (Eatual == inicio_jogada || Eatual == inicio_rodada);
     assign zeraTempo      = (Eatual == inicializa_elementos || Eatual == proxima_jogada);
-    assign zeraTM         = (Eatual == mostra || Eatual == proxima_jogada);
-    assign contaTM        = (Eatual == espera_mostra || Eatual == apaga_mostra || Eatual == compara);
+    assign zeraTM         = (Eatual == mostra || Eatual == proxima_jogada || Eatual == proxima_rodada || Eatual == inicializa_elementos);
+    assign contaTM        = (Eatual == espera_mostra || Eatual == apaga_mostra || Eatual == compara || Eatual == inicio_rodada);
     assign contaC         = (Eatual == mostra_proximo || Eatual == proxima_jogada);
     assign contaTempo     = (Eatual == espera_jogada);
     assign vez_jogador    = (Eatual == espera_jogada);

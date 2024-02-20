@@ -196,7 +196,7 @@ module circuito_exp6_tb;
   */
   function automatic integer wait_time;
   input [31:0] step;
-  wait_time = (step*clock_freq+(step-1)*(clock_freq/2 + 2)+1);
+  wait_time = (step*clock_freq+(step-1)*(clock_freq/2 + 2)+2501);
   endfunction
 
   /*
