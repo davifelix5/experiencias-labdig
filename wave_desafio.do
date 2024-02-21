@@ -41,7 +41,7 @@ add wave -noupdate -height 30 /circuito_exp6_desafio_tb/db_timeout
 add wave -noupdate -height 30 /circuito_exp6_desafio_tb/novos_valores
 add wave -noupdate /circuito_exp6_desafio_tb/DUT/fluxo_dados/contaC
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 2} {200280 ns} 0} {{Cursor 3} {250280 ns} 0}
+WaveRestoreCursors {{Cursor 2} {601029 ns} 0} {{Cursor 3} {601127 ns} 0}
 quietly wave cursor active 2
 configure wave -namecolwidth 390
 configure wave -valuecolwidth 100
@@ -57,4 +57,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {250270 ns} {250289 ns}
+WaveRestoreZoom {600850 ns} {601391 ns}

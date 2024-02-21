@@ -25,7 +25,7 @@ module circuito_exp6_desafio_tb;
   reg        nivel_jogadas_in; 
   reg        nivel_tempo_in;
   reg  [3:0] valores [0:15];
-  reg  [3:0] novos_valores[0:14];
+  reg  [3:0] novos_valores[0:15];
   reg  [7:0] resultados [0:12];
 
   wire       ganhou_out;
@@ -54,7 +54,7 @@ module circuito_exp6_desafio_tb;
   //Recupera valores da memória
   initial begin
     $readmemh("valores.dat", valores, 4'b0, 4'hF); 
-    $readmemh("novos_valores.dat", novos_valores, 4'h0, 4'hD);
+    $readmemh("novos_valores.dat", novos_valores, 4'h0, 4'hF);
   end 
 
   // Configuração do clock
@@ -241,13 +241,13 @@ module circuito_exp6_desafio_tb;
   task acerta_valores;
   input integer quantidade;
   begin: corpo_task
-    integer i;
-    for (i = 0; i < quantidade; i = i + 1) begin
+    integer j;
+    for (j = 0; j < quantidade; j = j + 1) begin
       caso = caso + 1;
-      if (i == 0) begin
-        press_botoes(valores[i]);
-      end else begin
-        press_botoes(novos_valores[0]);
+      if (j == 0)
+        press_botoes(valores[j]);
+      else begin
+        press_botoes(novos_valores[j-1]);
       end
     end
   end
@@ -266,7 +266,8 @@ module circuito_exp6_desafio_tb;
         #(wait_time(i)*clockPeriod); // Espera a apresentação
       end
       acerta_valores(i);
-      press_botoes(novos_valores[i]);
+      // Grava
+      press_botoes(novos_valores[i-1]);
     end
   end
   endtask
@@ -313,7 +314,7 @@ module circuito_exp6_desafio_tb;
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     cenario = 1;
     iniciar_circuito(0, 0);
-    acerta_rodadas(3);
+    acerta_rodadas(8);
     
     $stop;
   end
