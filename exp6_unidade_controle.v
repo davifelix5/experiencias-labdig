@@ -31,7 +31,7 @@ module exp6_unidade_controle (
     
     input     fimTempo,
     input     meioTempo,
-
+    
     /* Sinais de controle */
     output    zeraC,
     output    contaC,
@@ -53,34 +53,40 @@ module exp6_unidade_controle (
     output    ativa_leds_mem,
     output    ativa_leds_jog,
     output    toca,
+    output    gravaM,
 
     /* Saídas */
     output    ganhou,
     output    perdeu,
     output    pronto,
     output    vez_jogador,
-
+    output    nova_jogada,
+    
     output       db_timeout,
-    output [3:0] db_estado
+    output [4:0] db_estado
 );
 
     // Define estados
-    parameter   inicial              = 4'h0,
-                inicializa_elementos = 4'h1,
-                inicio_rodada        = 4'h2,
-                mostra               = 4'h3,
-                espera_mostra        = 4'h4,
-                apaga_mostra         = 4'hD,
-                mostra_proximo       = 4'h5,
-                inicio_jogada        = 4'h6,
-                espera_jogada        = 4'h7,
-                registra             = 4'h8,
-                compara              = 4'h9,
-                acertou               = 4'hA,
-                proxima_jogada       = 4'hB,
-                proxima_rodada       = 4'hC,
-                errou               = 4'hE,
-                estado_timeout       = 4'hF;
+    parameter   inicial              = 5'h00,
+                inicializa_elementos = 5'h01,
+                inicio_rodada        = 5'h02,
+                mostra               = 5'h03,
+                espera_mostra        = 5'h04,
+                apaga_mostra         = 5'h0D,
+                mostra_proximo       = 5'h05,
+                inicio_jogada        = 5'h06,
+                espera_jogada        = 5'h07,
+                registra             = 5'h08,
+                compara              = 5'h09,
+                acertou              = 5'h0A,
+                proxima_jogada       = 5'h0B,
+                proxima_rodada       = 5'h0C,
+                errou                = 5'h0E,
+                estado_timeout       = 5'h0F,
+                espera_gravacao      = 5'b10,
+                incrementa_memoria   = 5'b11,
+                mostra_gravacao      = 5'b12;
+            
 	 
     // Variaveis de estado
     reg [3:0] Eatual, Eprox;
@@ -117,7 +123,7 @@ module exp6_unidade_controle (
                             if ((!nivel_jogadas & meioCR) | (nivel_jogadas & fimCR))
                                 Eprox = acertou;
                             else
-                                Eprox = proxima_rodada;                
+                                Eprox = espera_gravacao;                
                         end 
                         else
                             Eprox = proxima_jogada;
@@ -130,10 +136,13 @@ module exp6_unidade_controle (
                     Eprox = compara;
                 end
             end
-            proxima_rodada:           Eprox = inicio_rodada;
+            proxima_rodada:           Eprox = mostra_gravacao;
             proxima_jogada:           Eprox = espera_jogada;
-            acertou:                   Eprox = iniciar ? inicializa_elementos : acertou;
-            errou:                   Eprox = iniciar ? inicializa_elementos : errou;
+            espera_gravacao:          Eprox = jogada_feita ? incrementa_memoria : espera_gravacao;
+            incrementa_memoria:       Eprox = proxima_rodada;
+            mostra_gravacao:          Eprox = meiotTM ? inicio_rodada : mostra_gravacao;
+            acertou:                  Eprox = iniciar ? inicializa_elementos : acertou;
+            errou:                    Eprox = iniciar ? inicializa_elementos : errou;
             estado_timeout:           Eprox = iniciar ? inicializa_elementos : estado_timeout; 
             default:                  Eprox = inicial; 
         endcase
@@ -145,8 +154,8 @@ module exp6_unidade_controle (
     assign zeraC          = (Eatual == inicio_jogada || Eatual == inicio_rodada);
     assign zeraTempo      = (Eatual == inicializa_elementos || Eatual == proxima_jogada);
     assign zeraTM         = (Eatual == mostra || Eatual == proxima_jogada || Eatual == proxima_rodada || Eatual == inicializa_elementos);
-    assign contaTM        = (Eatual == espera_mostra || Eatual == apaga_mostra || Eatual == compara || Eatual == inicio_rodada);
-    assign contaC         = (Eatual == mostra_proximo || Eatual == proxima_jogada);
+    assign contaTM        = (Eatual == espera_mostra || Eatual == apaga_mostra || Eatual == compara || Eatual == inicio_rodada || Eatual == mostra_gravacao);
+    assign contaC         = (Eatual == mostra_proximo || Eatual == proxima_jogada || Eatual == incrementa_memoria);
     assign contaTempo     = (Eatual == espera_jogada);
     assign vez_jogador    = (Eatual == espera_jogada);
     assign registraR      = (Eatual == registra);
@@ -155,9 +164,11 @@ module exp6_unidade_controle (
     assign perdeu         = (Eatual == errou || Eatual == estado_timeout);
     assign pronto         = ((Eatual == errou) || (Eatual == acertou) || (Eatual == estado_timeout)); 
     assign registraN      = (Eatual == inicializa_elementos);
-    assign ativa_leds_mem = (Eatual == espera_mostra);
+    assign ativa_leds_mem = (Eatual == espera_mostra || Eatual == mostra_gravacao);
     assign ativa_leds_jog = (Eatual == compara);
-    assign toca           = (Eatual == espera_mostra || Eatual == compara);
+    assign toca           = (Eatual == espera_mostra || Eatual == compara || Eatual == mostra_gravacao);
+    assign nova_jogada    = (Eatual == espera_gravacao);
+    assign gravaM         = (Eatual == proxima_rodada);
 
 
 endmodule

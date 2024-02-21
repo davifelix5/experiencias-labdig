@@ -36,13 +36,15 @@ module circuito_exp6 (
     output       db_nivel_tempo,
     output       db_clock,
     output       db_timeout,
-    output       db_enderecoIgualRodada
+    output       db_enderecoIgualRodada,
+    output       nova_jogada
 );
 
     // Sinais de controle
     wire contaC, contaTempo, contaTM, contaCR, registraR, registraN;
     wire zeraC, zeraR, zeraCR, zeraTM, zeraTempo;
     wire ativa_leds_mem, ativa_leds_jog, toca;
+    wire gravaM;
     // Sinais de condição
     wire fimC, fimCR, fimTM, meioTM, fimTempo, meioCR, meioTempo; 
     wire enderecoIgualRodada, jogada_feita, jogada_correta;
@@ -79,6 +81,7 @@ module circuito_exp6 (
         .ativa_leds_mem      ( ativa_leds_mem      ),
         .ativa_leds_jog      ( ativa_leds_jog      ),
         .toca                ( toca                ),
+        .gravaM              ( gravaM              ),
         // Sinais de condição
         .jogada_correta      ( jogada_correta      ),
         .jogada_feita        ( jogada_feita        ),
@@ -99,7 +102,7 @@ module circuito_exp6 (
         .db_contagem         ( s_db_contagem       ),
         .db_jogada           ( s_db_jogada         ),
         .db_memoria          ( s_db_memoria        ),
-        .db_rodada           ( s_db_rodada         )
+        .db_rodada           ( s_db_rodada         ),
     );
 
     //Unidade de controle
@@ -136,14 +139,17 @@ module circuito_exp6 (
         .ativa_leds_mem      ( ativa_leds_mem      ),
         .ativa_leds_jog      ( ativa_leds_jog      ),
         .toca                ( toca                ),
+        .gravaM              ( gravaM              ),
         // Sinais de saída
         .ganhou              ( ganhou              ),
         .perdeu              ( perdeu              ),
         .pronto              ( pronto              ),
 		.vez_jogador         ( vez_jogador         ),
+        .nova_jogada         ( nova_jogada         ),
         // Sinais de depuração
         .db_estado           ( s_db_estado         ),
         .db_timeout          ( db_timeout          )
+    
     );
 
     /* Displays */
@@ -160,9 +166,15 @@ module circuito_exp6 (
         .display ( db_memoria   )
     );
 		
-	 //Estado
-    hexa7seg display_estado (
-        .hexa    ( s_db_estado ),
+	 //Estado primeiros bits
+    hexa7seg display_estado_prim (
+        .hexa    ( s_db_estado[3:0] ),
+        .display ( db_estado   )
+    );
+
+     //Estado ultimos bits
+    hexa7seg display_estado_ult (
+        .hexa    ({3b'0,s_db_estado[4]}),
         .display ( db_estado   )
     );
 

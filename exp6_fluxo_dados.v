@@ -33,6 +33,7 @@ module exp6_fluxo_dados (
     input ativa_leds_mem,
     input ativa_leds_jog,
     input toca,
+    input gravaM,
     
     // Sinais de codição
     output jogada_correta,
@@ -129,7 +130,7 @@ module exp6_fluxo_dados (
     // Contador para a rodada atual
     contador_m #(.M(16), .N(4)) ContRod (
         .clock   ( clock    ), 
-        .zera_s  ( zeraCR  ), 
+        .zera_s  ( zeraCR   ), 
         .zera_as (  ), 
         .conta   ( contaCR  ),
         .Q       ( s_rodada ),
@@ -160,10 +161,12 @@ module exp6_fluxo_dados (
     );
         
     //Memoria ROM sincrona 16 palavras de 4 bits
-    sync_rom_16x4 MemJog (
+    sync_ram_16x4_file MemJog (
         .clock    ( clock      ), 
-        .address  ( s_endereco ), 
-        .data_out ( s_memoria  )
+        .addr     ( s_endereco ), 
+        .q        ( s_memoria  ),
+        .we       ( gravaM     ),
+        .data     ( s_jogada   )
     );
 
     //Comparador para a jogada atual
