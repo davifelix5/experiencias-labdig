@@ -153,7 +153,7 @@ module exp6_unidade_controle (
     assign zeraCR         = (Eatual == inicializa_elementos);
     assign zeraC          = (Eatual == inicio_jogada || Eatual == inicio_rodada);
     assign zeraTempo      = (Eatual == inicializa_elementos || Eatual == proxima_jogada);
-    assign zeraTM         = (Eatual == mostra || Eatual == proxima_jogada || Eatual == proxima_rodada || Eatual == inicializa_elementos);
+    assign zeraTM         = (Eatual == mostra || Eatual == proxima_jogada || Eatual == proxima_rodada || Eatual == inicializa_elementos || Eatual == inicio_jogada);
     assign contaTM        = (Eatual == espera_mostra || Eatual == apaga_mostra || Eatual == compara || Eatual == inicio_rodada || Eatual == mostra_gravacao);
     assign contaC         = (Eatual == mostra_proximo || Eatual == proxima_jogada || Eatual == incrementa_memoria);
     assign contaTempo     = (Eatual == espera_jogada);
