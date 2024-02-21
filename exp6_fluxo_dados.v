@@ -162,11 +162,11 @@ module exp6_fluxo_dados (
         
     //Memoria ROM sincrona 16 palavras de 4 bits
     sync_ram_16x4_file MemJog (
-        .clock    ( clock      ), 
+        .clk      ( clock      ), 
         .addr     ( s_endereco ), 
         .q        ( s_memoria  ),
         .we       ( gravaM     ),
-        .data     ( s_jogada   )
+        .data     ( botoes     )
     );
 
     //Comparador para a jogada atual

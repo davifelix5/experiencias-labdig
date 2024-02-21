@@ -29,7 +29,8 @@ module circuito_exp6 (
     output       db_jogada_correta,
     output [6:0] db_contagem,
     output [6:0] db_memoria,
-    output [6:0] db_estado,
+    output [6:0] db_estado_lsb,
+    output [6:0] db_estado_msb,
     output [6:0] db_jogada,
     output [6:0] db_rodada,
     output       db_nivel_jogadas,
@@ -51,7 +52,7 @@ module circuito_exp6 (
     wire nivel_jogadas_reg, nivel_tempo_reg;
     // Sinais de depuração
     wire [3:0] s_db_contagem, s_db_jogada, s_db_memoria, s_db_rodada;
-    wire [3:0] s_db_estado;
+    wire [4:0] s_db_estado;
     // Setando sinais de depuração
     assign db_clock               = clock;
 	assign db_jogada_correta      = jogada_correta;
@@ -102,7 +103,7 @@ module circuito_exp6 (
         .db_contagem         ( s_db_contagem       ),
         .db_jogada           ( s_db_jogada         ),
         .db_memoria          ( s_db_memoria        ),
-        .db_rodada           ( s_db_rodada         ),
+        .db_rodada           ( s_db_rodada         )
     );
 
     //Unidade de controle
@@ -169,13 +170,13 @@ module circuito_exp6 (
 	 //Estado primeiros bits
     hexa7seg display_estado_prim (
         .hexa    ( s_db_estado[3:0] ),
-        .display ( db_estado   )
+        .display ( db_estado_lsb   )
     );
 
      //Estado ultimos bits
     hexa7seg display_estado_ult (
-        .hexa    ({3b'0,s_db_estado[4]}),
-        .display ( db_estado   )
+        .hexa    ({3'b0, s_db_estado[4]}),
+        .display ( db_estado_msb   )
     );
 
      //Jogada

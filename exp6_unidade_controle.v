@@ -83,13 +83,13 @@ module exp6_unidade_controle (
                 proxima_rodada       = 5'h0C,
                 errou                = 5'h0E,
                 estado_timeout       = 5'h0F,
-                espera_gravacao      = 5'b10,
-                incrementa_memoria   = 5'b11,
-                mostra_gravacao      = 5'b12;
+                espera_gravacao      = 5'h10,
+                incrementa_memoria   = 5'h11,
+                mostra_gravacao      = 5'h12;
             
 	 
     // Variaveis de estado
-    reg [3:0] Eatual, Eprox;
+    reg [4:0] Eatual, Eprox;
 
     // Depuração do estado
     assign db_estado  = Eatual;
@@ -123,7 +123,7 @@ module exp6_unidade_controle (
                             if ((!nivel_jogadas & meioCR) | (nivel_jogadas & fimCR))
                                 Eprox = acertou;
                             else
-                                Eprox = espera_gravacao;                
+                                Eprox = incrementa_memoria;                
                         end 
                         else
                             Eprox = proxima_jogada;
@@ -138,9 +138,9 @@ module exp6_unidade_controle (
             end
             proxima_rodada:           Eprox = mostra_gravacao;
             proxima_jogada:           Eprox = espera_jogada;
-            espera_gravacao:          Eprox = jogada_feita ? incrementa_memoria : espera_gravacao;
-            incrementa_memoria:       Eprox = proxima_rodada;
-            mostra_gravacao:          Eprox = meiotTM ? inicio_rodada : mostra_gravacao;
+            espera_gravacao:          Eprox = jogada_feita ? proxima_rodada : espera_gravacao;
+            incrementa_memoria:       Eprox = espera_gravacao;
+            mostra_gravacao:          Eprox = meioTM ? inicio_jogada : mostra_gravacao;
             acertou:                  Eprox = iniciar ? inicializa_elementos : acertou;
             errou:                    Eprox = iniciar ? inicializa_elementos : errou;
             estado_timeout:           Eprox = iniciar ? inicializa_elementos : estado_timeout; 
