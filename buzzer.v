@@ -7,6 +7,11 @@ module buzzer (
 
     output reg pulso  // Frequência da nota a ser tocada
 );
+    
+    parameter COUNT_1 = 19,
+              COUNT_2 = 17,
+              COUNT_3 = 15,
+              COUNT_4 = 14;
 
     wire pulso_meio, pulso_quarto, pulso_oitavo, pulso_terco;
 
@@ -14,7 +19,7 @@ module buzzer (
 
     /* Contadores para redução de clock */
     // 1/2 clock
-    contador_m #(.M(2), .N(1)) cont_2 ( 
+    contador_m #(.M(COUNT_1), .N($clog2(COUNT_1))) cont_2 ( 
         .clock   ( clock       ), 
         .zera_s  ( reset       ), 
         .zera_as (             ), 
@@ -25,7 +30,7 @@ module buzzer (
     );
 
     // 1/4 clock
-    contador_m #(.M(4), .N(2)) cont_4 ( 
+    contador_m #(.M(COUNT_2), .N($clog2(COUNT_2))) cont_4 ( 
         .clock   ( clock       ), 
         .zera_s  ( reset       ), 
         .zera_as (             ), 
@@ -36,7 +41,7 @@ module buzzer (
     );
 
     // 1/8 clock
-    contador_m #(.M(8), .N(3)) cont_8 ( 
+    contador_m #(.M(COUNT_3), .N($clog2(COUNT_3))) cont_8 ( 
         .clock   ( clock       ), 
         .zera_s  ( reset       ), 
         .zera_as (             ), 
@@ -47,7 +52,7 @@ module buzzer (
     );
 
     // 1/3 clock
-    contador_m #(.M(3), .N(2)) cont_3 ( 
+    contador_m #(.M(COUNT_4), .N($clog2(COUNT_4))) cont_3 ( 
         .clock   ( clock       ), 
         .zera_s  ( reset       ), 
         .zera_as (             ), 
