@@ -51,6 +51,7 @@ module circuito_exp6_desafio_tb;
   wire [6:0] db_rodada;
 
   parameter clock_freq = 5000;
+  parameter TM         = 1;
 
   //Recupera valores da memória
   initial begin
@@ -194,7 +195,7 @@ module circuito_exp6_desafio_tb;
       botoes_in = valor;
       #(3*clockPeriod);
       botoes_in = 4'b0000;
-      #(2503*clockPeriod);
+      #(((TM*clock_freq)/2 + 3)*clockPeriod);
     end
   endtask 
   
@@ -204,7 +205,7 @@ module circuito_exp6_desafio_tb;
   */
   function automatic integer wait_time;
   input [31:0] step;
-  wait_time = (step*clock_freq+(step-1)*(clock_freq/2 + 2)+2501);
+  wait_time = (step*TM*clock_freq+(step-1)*((TM*clock_freq)/2 + 2)+2501);
   endfunction
 
   /*
