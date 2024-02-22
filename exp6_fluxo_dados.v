@@ -61,7 +61,7 @@ module exp6_fluxo_dados (
     output [3:0] db_rodada
 );
 
-    parameter CLOCK_FREQ = 5000;
+    parameter CLOCK_FREQ = 50000000;
 
     // Sinais internos
     wire tem_jogada;
@@ -149,7 +149,7 @@ module exp6_fluxo_dados (
     );
 
     // Contador (timer) de módulo 1000 (1s) para sinalizar o tempo entre a mostragem de jogadas 
-    contador_m #(.M(CLOCK_FREQ), .N(13)) ContMostra (
+    contador_m #(.M(CLOCK_FREQ), .N($clog2(CLOCK_FREQ)) ) ContMostra (
         .clock   ( clock   ), 
         .zera_as ( 1'b0    ), 
         .zera_s  ( zeraTM  ), 
@@ -160,7 +160,7 @@ module exp6_fluxo_dados (
     );
 
     // Contador (timer) de módulo 3000 (3s) para sinalizar timeout 
-    contador_m  # ( .M(3*CLOCK_FREQ), .N(14) ) TimerTimeout (
+    contador_m  # ( .M(3*CLOCK_FREQ), .N($clog2(3*CLOCK_FREQ)) ) TimerTimeout (
         .clock   ( clock        ),
         .zera_as ( jogada_feita ),
         .zera_s  ( zeraTempo    ),
