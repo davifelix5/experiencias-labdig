@@ -18,6 +18,7 @@ module circuito_exp6 (
     input [3:0]  botoes,
     input        nivel_jogadas, 
     input        nivel_tempo,
+    input        modo2,
 
     output       ganhou,
     output       perdeu,
@@ -49,7 +50,7 @@ module circuito_exp6 (
     // Sinais de condição
     wire fimC, fimCR, fimTM, meioTM, fimTempo, meioCR, meioTempo; 
     wire enderecoIgualRodada, jogada_feita, jogada_correta;
-    wire nivel_jogadas_reg, nivel_tempo_reg;
+    wire nivel_jogadas_reg, nivel_tempo_reg, modo2_reg;
     // Sinais de depuração
     wire [3:0] s_db_contagem, s_db_jogada, s_db_memoria, s_db_rodada;
     wire [4:0] s_db_estado;
@@ -67,6 +68,7 @@ module circuito_exp6 (
         .botoes              ( botoes              ),
         .nivel_jogadas       ( nivel_jogadas       ),
         .nivel_tempo         ( nivel_tempo         ),
+        .modo2               ( modo2               ),
         // Sinais de controle 
         .zeraR               ( zeraR               ),
         .registraR           ( registraR           ),
@@ -96,6 +98,7 @@ module circuito_exp6 (
         .enderecoIgualRodada ( enderecoIgualRodada ),
         .nivel_jogadas_reg   ( nivel_jogadas_reg   ),
         .nivel_tempo_reg     ( nivel_tempo_reg     ),
+        .modo2_reg           ( modo2_reg           ),
         // Sinais de saída
         .leds                ( leds                ),
         .pulso_buzzer        ( pulso_buzzer        ),
@@ -147,6 +150,7 @@ module circuito_exp6 (
         .pronto              ( pronto              ),
 		.vez_jogador         ( vez_jogador         ),
         .nova_jogada         ( nova_jogada         ),
+        .modo2               ( modo2_reg           ),
         // Sinais de depuração
         .db_estado           ( s_db_estado         ),
         .db_timeout          ( db_timeout          )

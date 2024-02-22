@@ -16,7 +16,7 @@ module exp6_fluxo_dados (
     // Entradas
     input clock,
     input [3:0] botoes,
-    input nivel_jogadas, nivel_tempo,
+    input nivel_jogadas, nivel_tempo, modo2,
 
     // Sinais de controle
     input zeraR,
@@ -40,6 +40,7 @@ module exp6_fluxo_dados (
     output jogada_feita,
     output nivel_jogadas_reg,
     output nivel_tempo_reg,
+    output modo2_reg,
     output fimC,
     output meioCR,
     output fimTempo,
@@ -105,6 +106,15 @@ module exp6_fluxo_dados (
         .clear  ( zeraR           ),
         .clock  ( clock           ),
         .enable ( registraN       )
+    );
+
+    // Registrdor no modo de jogo
+    registrador_n #(.SIZE(1)) RegMdJogo (
+        .D      ( modo2     ),
+        .Q      ( modo2_reg ),
+        .clear  ( zeraR     ),
+        .clock  ( clock     ),
+        .enable ( registraN )
     );
 
     //Edge Detector

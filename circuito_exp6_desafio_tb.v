@@ -24,6 +24,7 @@ module circuito_exp6_desafio_tb;
   reg  [3:0] botoes_in;
   reg        nivel_jogadas_in; 
   reg        nivel_tempo_in;
+  reg        modo2_in;
   reg  [3:0] valores [0:15];
   reg  [3:0] novos_valores[0:15];
   reg  [7:0] resultados [0:12];
@@ -75,6 +76,7 @@ module circuito_exp6_desafio_tb;
     .botoes           (botoes_in),
     .nivel_jogadas    (nivel_jogadas_in), 
     .nivel_tempo      (nivel_tempo_in),
+    .modo2            (modo2_in),
 
     .ganhou           (ganhou_out),
     .perdeu           (perdeu_out),
@@ -244,7 +246,7 @@ module circuito_exp6_desafio_tb;
     integer j;
     for (j = 0; j < quantidade; j = j + 1) begin
       caso = caso + 1;
-      if (j == 0)
+      if (j == 0 || modo2_in == 0)
         press_botoes(valores[j]);
       else begin
         press_botoes(novos_valores[j-1]);
@@ -262,12 +264,13 @@ module circuito_exp6_desafio_tb;
   begin: corpo_acerta_rodadas
     integer i;
     for (i = 1; i <= quantidade_rodadas; i = i + 1) begin
-      if (i == 1) begin
+      if (modo2_in == 0 || (modo2_in == 1 && i == 1)) begin
         #(wait_time(i)*clockPeriod); // Espera a apresentação
       end
       acerta_valores(i);
       // Grava
-      press_botoes(novos_valores[i-1]);
+      if (modo2_in == 1)
+        press_botoes(novos_valores[i-1]);
     end
   end
   endtask
@@ -277,12 +280,13 @@ module circuito_exp6_desafio_tb;
     Recebe os níveis de tempo e de jogadas que deverão ser adotados no jogo a ser iniciado. 
   */
   task iniciar_circuito;
-  input nivel_jogadas, nivel_tempo;
+  input nivel_jogadas, nivel_tempo, modo2;
   begin
     @(negedge clock_in)
     iniciar_in = 1;
     nivel_jogadas_in = nivel_jogadas;
     nivel_tempo_in = nivel_tempo;
+    modo2_in = modo2;
     #(3.5*clockPeriod)
     iniciar_in = 0;
     nivel_jogadas_in = 0;
@@ -305,23 +309,50 @@ module circuito_exp6_desafio_tb;
     reset_in         = 0;
     iniciar_in       = 0;
     nivel_jogadas_in = 0;
+    modo2_in         = 0;
     nivel_tempo_in   = 0;
     botoes_in        = 4'b0000;
     #clockPeriod;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //Cenario de Teste: acerta todas as jogadas no nível fácil de jogadas
+    //Cenario de Teste: acerta todas as jogadas no nível fácil de jogadas, modo 1
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     cenario = 1;
-    iniciar_circuito(0, 0);
+    iniciar_circuito(0, 0, 0);
     acerta_rodadas(8);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //Cenario de Teste: acerta todas as jogadas no nível difícil de jogadas
+    //Cenario de Teste: acerta todas as jogadas no nível difícil de jogadas, modo 1
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     cenario = 1;
-    iniciar_circuito(1, 0);
+    iniciar_circuito(1, 0, 0);
     acerta_rodadas(16);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Cenario de Teste: erra na setima jogada da sétima rodada, modo 1
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    cenario = 1;
+    iniciar_circuito(1, 0, 0);
+    acerta_rodadas(6);
+    #(wait_time(7)*clockPeriod);
+    press_botoes(4'b0010);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Cenario de Teste: acerta tudo no modo 2, fácil jogadas
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    cenario = 1;
+    iniciar_circuito(0, 0, 1);
+    acerta_rodadas(16);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Cenario de Teste: erra na setima jogada da sétima rodada, modo 2
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    cenario = 1;
+    iniciar_circuito(1, 0, 1);
+    acerta_rodadas(6);
+    press_botoes(4'b0010);
+
+    #6000
     
     $stop;
   end
