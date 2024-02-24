@@ -61,7 +61,7 @@ module exp6_fluxo_dados (
     output [3:0] db_rodada
 );
 
-    parameter CLOCK_FREQ = 50000000;
+    parameter CLOCK_FREQ = 5000; // Hz
 
     // Sinais internos
     wire tem_jogada;

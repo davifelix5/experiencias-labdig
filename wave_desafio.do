@@ -22,26 +22,23 @@ add wave -noupdate -height 30 /circuito_exp6_desafio_tb/pulso_buzzer_out
 add wave -noupdate -height 30 /circuito_exp6_desafio_tb/vez_jogador_out
 add wave -noupdate -divider depuracao
 add wave -noupdate -height 30 -radix hexadecimal /circuito_exp6_desafio_tb/DUT/unidade_controle/Eatual
-add wave -noupdate -height 30 /circuito_exp6_desafio_tb/DUT/fluxo_dados/s_memoria
-add wave -noupdate -height 30 /circuito_exp6_desafio_tb/DUT/fluxo_dados/s_endereco
+add wave -noupdate -height 30 /circuito_exp6_desafio_tb/DUT/fluxo_dados/modo2_reg
+add wave -noupdate -height 30 -radix hexadecimal /circuito_exp6_desafio_tb/DUT/fluxo_dados/s_memoria
+add wave -noupdate -height 30 -radix hexadecimal /circuito_exp6_desafio_tb/DUT/fluxo_dados/s_endereco
+add wave -noupdate -height 30 -radix hexadecimal /circuito_exp6_desafio_tb/DUT/fluxo_dados/s_rodada
+add wave -noupdate -height 30 -radix hexadecimal /circuito_exp6_desafio_tb/DUT/fluxo_dados/s_jogada
 add wave -noupdate -height 30 /circuito_exp6_desafio_tb/DUT/fluxo_dados/jogada_feita
 add wave -noupdate -height 30 /circuito_exp6_desafio_tb/DUT/fluxo_dados/gravaM
 add wave -noupdate -height 30 /circuito_exp6_desafio_tb/DUT/fluxo_dados/meioTM
-add wave -noupdate -height 30 /circuito_exp6_desafio_tb/DUT/fluxo_dados/s_jogada
 add wave -noupdate -height 30 /circuito_exp6_desafio_tb/DUT/nova_jogada
-add wave -noupdate -height 30 -radix hexadecimal /circuito_exp6_desafio_tb/db_contagem
+add wave -noupdate /circuito_exp6_desafio_tb/DUT/fluxo_dados/contaC
 add wave -noupdate -height 30 /circuito_exp6_desafio_tb/db_enderecoIgualRodada
-add wave -noupdate -height 30 /circuito_exp6_desafio_tb/db_jogada
 add wave -noupdate -height 30 /circuito_exp6_desafio_tb/db_jogada_correta
-add wave -noupdate -height 30 /circuito_exp6_desafio_tb/db_memoria
 add wave -noupdate -height 30 /circuito_exp6_desafio_tb/db_nivel_jogadas
 add wave -noupdate -height 30 /circuito_exp6_desafio_tb/db_nivel_tempo
-add wave -noupdate -height 30 /circuito_exp6_desafio_tb/db_rodada
 add wave -noupdate -height 30 /circuito_exp6_desafio_tb/db_timeout
-add wave -noupdate -height 30 /circuito_exp6_desafio_tb/novos_valores
-add wave -noupdate /circuito_exp6_desafio_tb/DUT/fluxo_dados/contaC
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 2} {601029 ns} 0} {{Cursor 3} {601127 ns} 0}
+WaveRestoreCursors {{Cursor 2} {47499260 ns} 0} {{Cursor 3} {47499260 ns} 0}
 quietly wave cursor active 2
 configure wave -namecolwidth 390
 configure wave -valuecolwidth 100
@@ -57,4 +54,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {600850 ns} {601391 ns}
+WaveRestoreZoom {47498779 ns} {47499742 ns}
