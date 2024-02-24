@@ -24,6 +24,7 @@ module circuito_exp7 (
     output       perdeu,
     output       pronto,
 	output       vez_jogador,
+    output       nova_jogada,
     output [3:0] leds,
     output       pulso_buzzer,
 
@@ -39,7 +40,10 @@ module circuito_exp7 (
     output       db_clock,
     output       db_timeout,
     output       db_enderecoIgualRodada,
-    output       nova_jogada
+    output       db_modo2,
+    output       db_fimTM,
+    output       db_meioTM,
+    output       db_gravaM
 );
 
     // Sinais de controle
@@ -60,6 +64,10 @@ module circuito_exp7 (
     assign db_nivel_jogadas       = nivel_jogadas_reg;
     assign db_nivel_tempo         = nivel_tempo_reg;
     assign db_enderecoIgualRodada = enderecoIgualRodada;
+    assign db_modo2               = modo2_reg;
+    assign db_meioTM              = meioTM;
+    assign db_fimTM               = fimTM;
+    assign db_gravaM              = gravaM;
 
     //Fluxo de Dados
     exp7_fluxo_dados fluxo_dados (
