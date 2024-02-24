@@ -1,5 +1,5 @@
-TOP_LEVEL := circuito_exp6_desafio_tb
-WAVES     := wave_desafio.do
+TOP_LEVEL := circuito_exp7_tb
+WAVES     := wave.do
 
 all: vlog
 	@vsim -do "do $(WAVES); run -all;" work.$(TOP_LEVEL)

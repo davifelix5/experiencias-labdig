@@ -14,7 +14,7 @@
 
 `timescale 1ns/1ns
 
-module circuito_exp6_desafio_tb;
+module circuito_exp7_tb;
 
   // Sinais para conectar com o DUT
   // valores iniciais para fins de simulacao (ModelSim)
@@ -70,7 +70,7 @@ module circuito_exp6_desafio_tb;
   always #((clockPeriod / 2)) clock_in = ~clock_in;
 
   // instanciacao do DUT (Device Under Test)
-  circuito_exp6 DUT (
+  circuito_exp7 DUT (
     .clock            (clock_in),
     .reset            (reset_in),
     .iniciar          (iniciar_in),
@@ -300,7 +300,7 @@ module circuito_exp6_desafio_tb;
   initial begin
   
     $dumpfile("waveforms.vcd");
-    $dumpvars(0, circuito_exp6_desafio_tb);
+    $dumpvars(0, circuito_exp7_tb);
 
     $display("Inicio da simulacao");
 

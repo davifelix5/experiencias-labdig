@@ -11,7 +11,7 @@
  * --------------------------------------------------------------------
 */
 
-module circuito_exp6 (
+module circuito_exp7 (
     input        clock,
     input        reset,
     input        iniciar,
@@ -62,7 +62,7 @@ module circuito_exp6 (
     assign db_enderecoIgualRodada = enderecoIgualRodada;
 
     //Fluxo de Dados
-    exp6_fluxo_dados fluxo_dados (
+    exp7_fluxo_dados fluxo_dados (
         // Sinais de entrada
         .clock               ( clock               ),
         .botoes              ( botoes              ),
@@ -110,7 +110,7 @@ module circuito_exp6 (
     );
 
     //Unidade de controle
-    exp6_unidade_controle unidade_controle (
+    exp7_unidade_controle unidade_controle (
         // Sinais de entrada
         .clock               ( clock               ),
         .reset               ( reset               ),
