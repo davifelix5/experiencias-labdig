@@ -149,7 +149,7 @@ module exp7_fluxo_dados (
     );
 
     // Contador (timer) de módulo 1000 (1s) para sinalizar o tempo entre a mostragem de jogadas 
-    contador_m #(.M(CLOCK_FREQ), .N($clog2(CLOCK_FREQ)) ) ContMostra (
+    contador_m #(.M(2*CLOCK_FREQ), .N($clog2(2*CLOCK_FREQ)) ) ContMostra (
         .clock   ( clock   ), 
         .zera_as ( 1'b0    ), 
         .zera_s  ( zeraTM  ), 
