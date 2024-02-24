@@ -51,7 +51,7 @@ module circuito_exp7_tb;
   wire [6:0] db_rodada;
 
   parameter clock_freq = 5000;
-  parameter TM         = 1;
+  parameter TM         = 2;
 
   //Recupera valores da memória
   initial begin
@@ -205,7 +205,7 @@ module circuito_exp7_tb;
   */
   function automatic integer wait_time;
   input [31:0] step;
-  wait_time = (step*TM*clock_freq+(step-1)*((TM*clock_freq)/2 + 2)+2501);
+  wait_time = (step*TM*clock_freq+(step-1)*((TM*clock_freq)/2 + 2)+(TM*clock_freq)/2 + 1);
   endfunction
 
   /*
