@@ -1,0 +1,96 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Sat Feb 24 15:50:16 2024
+[*]
+[dumpfile] "C:\Users\Caio\OneDrive\Documentos\PROJETOS\LABDIG\exp7\waveforms.vcd"
+[dumpfile_mtime] "Sat Feb 24 15:32:11 2024"
+[dumpfile_size] 246962964
+[savefile] "C:\Users\Caio\OneDrive\Documentos\PROJETOS\LABDIG\exp7\default.gtkw"
+[timestart] 0
+[size] 1536 793
+[pos] -35 -35
+*-19.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] circuito_exp7_tb.
+[treeopen] circuito_exp7_tb.DUT.
+[sst_width] 307
+[signals_width] 206
+[sst_expanded] 1
+[sst_vpaned_height] 222
+@200
+-CLOCK
+@28
+circuito_exp7_tb.clock_in
+circuito_exp7_tb.db_clock
+@200
+-NIVEIS/MODOS
+@28
+circuito_exp7_tb.db_nivel_tempo
+circuito_exp7_tb.nivel_tempo_in
+[color] 3
+circuito_exp7_tb.db_nivel_jogadas
+[color] 3
+circuito_exp7_tb.nivel_jogadas_in
+[color] 6
+circuito_exp7_tb.modo2_in
+@200
+-CASO
+@420
+[color] 7
+circuito_exp7_tb.caso
+@200
+-INICIAR/RESET
+@28
+[color] 2
+circuito_exp7_tb.reset_in
+[color] 2
+circuito_exp7_tb.iniciar_in
+@200
+-ESTADO
+@22
+[color] 3
+#{circuito_exp7_tb.DUT.unidade_controle.db_estado[4:0]} circuito_exp7_tb.DUT.unidade_controle.db_estado[4] circuito_exp7_tb.DUT.unidade_controle.db_estado[3] circuito_exp7_tb.DUT.unidade_controle.db_estado[2] circuito_exp7_tb.DUT.unidade_controle.db_estado[1] circuito_exp7_tb.DUT.unidade_controle.db_estado[0]
+@200
+-BOTOES
+@22
+circuito_exp7_tb.botoes_in[3:0]
+[color] 1
+#{circuito_exp7_tb.leds_out[3:0]} circuito_exp7_tb.leds_out[3] circuito_exp7_tb.leds_out[2] circuito_exp7_tb.leds_out[1] circuito_exp7_tb.leds_out[0]
+@24
+[color] 2
+#{circuito_exp7_tb.DUT.fluxo_dados.s_memoria[3:0]} circuito_exp7_tb.DUT.fluxo_dados.s_memoria[3] circuito_exp7_tb.DUT.fluxo_dados.s_memoria[2] circuito_exp7_tb.DUT.fluxo_dados.s_memoria[1] circuito_exp7_tb.DUT.fluxo_dados.s_memoria[0]
+@200
+-JOGADA/MEMORIA
+@28
+[color] 4
+circuito_exp7_tb.vez_jogador_out
+[color] 3
+circuito_exp7_tb.DUT.fluxo_dados.jogada_feita
+@24
+[color] 2
+#{circuito_exp7_tb.DUT.fluxo_dados.s_jogada[3:0]} circuito_exp7_tb.DUT.fluxo_dados.s_jogada[3] circuito_exp7_tb.DUT.fluxo_dados.s_jogada[2] circuito_exp7_tb.DUT.fluxo_dados.s_jogada[1] circuito_exp7_tb.DUT.fluxo_dados.s_jogada[0]
+@28
+[color] 7
+circuito_exp7_tb.db_enderecoIgualRodada
+[color] 4
+circuito_exp7_tb.DUT.fluxo_dados.jogada_correta
+@200
+-CONTAGEM
+@22
+#{circuito_exp7_tb.DUT.fluxo_dados.db_contagem[3:0]} circuito_exp7_tb.DUT.fluxo_dados.db_contagem[3] circuito_exp7_tb.DUT.fluxo_dados.db_contagem[2] circuito_exp7_tb.DUT.fluxo_dados.db_contagem[1] circuito_exp7_tb.DUT.fluxo_dados.db_contagem[0]
+@200
+-BUZZER
+@28
+[color] 2
+circuito_exp7_tb.pulso_buzzer_out
+@200
+-FINAL
+@28
+[color] 1
+circuito_exp7_tb.db_timeout
+[color] 1
+circuito_exp7_tb.perdeu_out
+circuito_exp7_tb.ganhou_out
+[color] 3
+circuito_exp7_tb.pronto_out
+[pattern_trace] 1
+[pattern_trace] 0
