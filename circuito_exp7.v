@@ -52,7 +52,7 @@ module circuito_exp7 (
     wire ativa_leds_mem, ativa_leds_jog, toca;
     wire gravaM;
     // Sinais de condição
-    wire fimC, fimCR, fimTM, meioTM, fimTempo, meioCR, meioTempo; 
+    wire fimCR, fimTM, meioTM, fimTempo, meioCR, meioTempo; 
     wire enderecoIgualRodada, jogada_feita, jogada_correta;
     wire nivel_jogadas_reg, nivel_tempo_reg, modo2_reg;
     // Sinais de depuração
@@ -96,7 +96,6 @@ module circuito_exp7 (
         // Sinais de condição
         .jogada_correta      ( jogada_correta      ),
         .jogada_feita        ( jogada_feita        ),
-        .fimC                ( fimC                ),
         .meioCR              ( meioCR              ),
         .fimTempo            ( fimTempo            ),
         .meioTempo           ( meioTempo           ),
@@ -128,7 +127,6 @@ module circuito_exp7 (
         // Sinais de condição
         .fimTempo            ( fimTempo            ),
         .meioTempo           ( meioTempo           ),
-        .fimC                ( fimC                ),
         .meioCR              ( meioCR              ),
         .fimCR               ( fimCR               ),
         .fimTM               ( fimTM               ),

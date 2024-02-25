@@ -15,7 +15,6 @@ module exp7_unidade_controle (
     input     iniciar,
     
     /* Sinais de condição */
-    input     fimC,
     input     fimTM,
     input     meioTM,
     input     fimCR,

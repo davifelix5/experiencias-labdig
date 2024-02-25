@@ -41,7 +41,6 @@ module exp7_fluxo_dados (
     output nivel_jogadas_reg,
     output nivel_tempo_reg,
     output modo2_reg,
-    output fimC,
     output meioCR,
     output fimTempo,
     output meioTempo,
@@ -132,7 +131,7 @@ module exp7_fluxo_dados (
         .ent   ( 1'b1       ), 
         .enp   ( contaC     ), 
         .Q     ( s_endereco ),
-        .rco   ( fimC       ),
+        .rco   (            ),
         .ld    ( 1'b1       ),
         .D     (            )
     );
