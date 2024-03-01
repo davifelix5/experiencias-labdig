@@ -48,10 +48,16 @@ module circuito_exp7_tb;
   wire       db_clock;
   wire       db_enderecoIgualRodada;
   wire       db_timeout;
+  wire       db_meioTM;
+  wire       db_fimTM;
+  wire       db_modo2;
+  wire       db_gravaM;
   wire [6:0] db_rodada;
 
   parameter clock_freq = 5000;
-  parameter TM         = 2;
+  parameter MOSTRA     = 2;
+  parameter APRESENTA  = 2;
+  parameter TIMEOUT    = 3;
 
   //Recupera valores da memória
   initial begin
@@ -98,93 +104,12 @@ module circuito_exp7_tb;
     .db_nivel_tempo         (db_nivel_tempo),
     .db_clock               (db_clock),
     .db_enderecoIgualRodada (db_enderecoIgualRodada),
-    .db_timeout             (db_timeout)
+    .db_timeout             (db_timeout),
+    .db_meioTM              (db_meioTM),
+    .db_fimTM               (db_fimTM),
+    .db_modo2               (db_modo2),
+    .db_gravaM              (db_gravaM)
   );
-
-  /*
-    Atualiza os resultados a serem comparados
-  */
-  task atualiza_resultado;
-  begin
-    resultados[0] = hexa(db_contagem);
-    resultados[1] = hexa(db_memoria);
-    resultados[2] = hexa(db_estado_lsb_out);
-    resultados[3] = hexa(db_jogada);
-    resultados[4] = hexa(db_rodada);
-    resultados[5] = db_jogada_correta;
-    resultados[6] = db_nivel_jogadas;
-    resultados[7] = db_nivel_tempo;
-    resultados[8] = db_enderecoIgualRodada;
-    resultados[9] = db_timeout;
-    resultados[10] = ganhou_out;
-    resultados[11] = perdeu_out;
-    resultados[12] = pronto_out;
-  end
-  endtask
-
-  /*
-    Task que mostra os valores dos sinais de output do DUT
-  */
-  task display_outputs;
-    begin
-      $display("---- Resultado cenário %2d ----", cenario);
-      $display("contagem = %2h", hexa(db_contagem));
-      $display("memoria = %2h", hexa(db_memoria));
-      $display("estado = %2h", hexa(db_estado_lsb_out));
-      $display("jogada = %2h", hexa(db_jogada));
-      $display("rodada = %2h", hexa(db_rodada));
-      $display("jogada_correta = %b", db_jogada_correta);
-      $display("nivel_jogadas = %b", db_nivel_jogadas);
-      $display("nivel_tempo = %b", db_nivel_tempo);
-      $display("enderecoIgualRodada = %b", db_enderecoIgualRodada);
-      $display("timeout = %b", db_timeout);
-      $display("ganhou = %b", ganhou_out);
-      $display("perdeu = %b", perdeu_out);
-      $display("pronto = %b", pronto_out);
-
-    end
-  endtask 
-
-  /*
-    Task responsável por comparar os valores esperados com os resultados obtidos do circuito
-  */
-  task compara_resultados;
-    input [7:0] contagem, estado, jogada, rodada;
-    input jogada_correta, nivel_jogadas, nivel_tempo, enderecoIgualRodada, timeout, ganhou, perdeu, pronto;
-    begin: corpo_task
-      reg [7:0] esperado [0:12];
-      integer erros, i;
-      erros = 0;
-
-      esperado[0] = contagem;
-      esperado[1] = valores[esperado[0]];
-      esperado[2] = estado;
-      esperado[3] = jogada;
-      esperado[4] = rodada;
-      esperado[5] = jogada_correta;
-      esperado[6] = nivel_jogadas;
-      esperado[7] = nivel_tempo;
-      esperado[8] = enderecoIgualRodada;
-      esperado[9] = timeout;
-      esperado[10] = ganhou;
-      esperado[11] = perdeu;
-      esperado[12] = pronto;
-
-      display_outputs();
-      atualiza_resultado();
-
-      for (i = 0; i < 13; i = i + 1) begin
-        if (esperado[i] != resultados[i]) begin
-          erros = erros + 1;
-          $display("ERRO! Esperado diferente do observado! Resultado index: %2h", i + 1);
-          $display("Esperado: %2h Observado: %2h", esperado[i], resultados[i]);
-        end
-      end  
-      $display("Fim cenário %2d. Obteve %2d erros.", cenario, erros);   
-      $display("------------------------------\n");
-
-    end
-  endtask
 
   /*
     Task para apertar o botões com um valor desejado, esperando 3 períodos de clock para soltar
@@ -195,7 +120,7 @@ module circuito_exp7_tb;
       botoes_in = valor;
       #(3*clockPeriod);
       botoes_in = 4'b0000;
-      #(((TM*clock_freq)/2 + 3)*clockPeriod);
+      #(((MOSTRA*clock_freq)/2 + 3)*clockPeriod);
     end
   endtask 
   
@@ -205,35 +130,7 @@ module circuito_exp7_tb;
   */
   function automatic integer wait_time;
   input [31:0] step;
-  wait_time = (step*TM*clock_freq+(step-1)*((TM*clock_freq)/2 + 2)+(TM*clock_freq)/2 + 1);
-  endfunction
-
-  /*
-  Task que transforma um código de 7 segmentos em um valor em hexadecimal
-  */
-  function automatic integer hexa;
-  input [6:0] valor_7seg;
-  begin
-    case (valor_7seg)
-      7'b1000000: hexa = 4'h0;
-      7'b1111001: hexa = 4'h1;
-      7'b0100100: hexa = 4'h2;
-      7'b0110000: hexa = 4'h3;
-      7'b0011001: hexa = 4'h4;
-      7'b0010010: hexa = 4'h5;
-      7'b0000010: hexa = 4'h6;
-      7'b1111000: hexa = 4'h7;
-      7'b0000000: hexa = 4'h8;
-      7'b0010000: hexa = 4'h9;
-      7'b0001000: hexa = 4'hA;
-      7'b0000011: hexa = 4'hB;
-      7'b1000110: hexa = 4'hC;
-      7'b0100001: hexa = 4'hD;
-      7'b0000110: hexa = 4'hE;
-      7'b0001110: hexa = 4'hF;
-      default: hexa = 4'h0;
-    endcase
-  end 
+  wait_time = (step*APRESENTA*clock_freq+(step-1)*((MOSTRA*clock_freq)/2 + 2)+(MOSTRA*clock_freq)/2 + 1);
   endfunction
 
   /*
@@ -316,44 +213,54 @@ module circuito_exp7_tb;
     #clockPeriod;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //Cenario de Teste: acerta todas as jogadas no nível fácil de jogadas, modo 1
+    //Cenario de Teste: acerta todas as jogadas no nível difícil de jogadas e fácil de tempo, modo 2
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     cenario = 1;
-    iniciar_circuito(0, 0, 0);
-    acerta_rodadas(8);
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //Cenario de Teste: acerta todas as jogadas no nível difícil de jogadas, modo 1
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    cenario = 2;
-    iniciar_circuito(1, 0, 0);
-    acerta_rodadas(16);
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //Cenario de Teste: erra na setima jogada da sétima rodada, modo 1
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    cenario = 3;
-    iniciar_circuito(1, 0, 0);
-    acerta_rodadas(6);
-    #(wait_time(7)*clockPeriod);
-    press_botoes(4'b0010);
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //Cenario de Teste: acerta tudo no modo 2, difícil jogadas
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    cenario = 4;
     iniciar_circuito(1, 0, 1);
     acerta_rodadas(16);
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Cenario de Teste: erra na primeira rodada, primeira jogada, nível difícil de jogadas e fácil de tempo, modo 2
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    cenario = 2;
+    iniciar_circuito(1, 0, 1);
+    #(wait_time(1)*clockPeriod);
+    press_botoes(4'b1000);
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Cenario de Teste: erra na última rodada, última jogada, nível difícil de jogadas e fácil de tempo, modo 2
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    cenario = 3;
+    iniciar_circuito(1, 0, 1);
+    acerta_rodadas(15);
+    acerta_valores(15);
+    press_botoes(4'b1000);
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Cenario de Teste: erra na sexta rodada, quinta jogada, nível difícil de jogadas e fácil de tempo, modo 2
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    cenario = 4;
+    iniciar_circuito(1, 0, 1);
+    acerta_rodadas(5);
+    acerta_valores(4);
+    press_botoes(4'b1000);
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //Cenario de Teste: erra na setima jogada da sétima rodada, modo 2
+    //Cenario de Teste: timeout na primeira rodada, nível difícil de jogadas e fácil de tempo, modo 2
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     cenario = 5;
     iniciar_circuito(1, 0, 1);
-    acerta_rodadas(6);
-    press_botoes(4'b0010);
+    #(wait_time(1)*clockPeriod);
+    #(TIMEOUT*clock_freq*clockPeriod);
 
-    #6000
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Cenario de Teste: timeout na terceira rodada, segunda jogada, nível difícil de jogadas e fácil de tempo, modo 2 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    cenario = 6;
+    iniciar_circuito(1, 0, 1);
+    acerta_rodadas(2);
+    acerta_valores(1);
+    #(TIMEOUT*clock_freq*clockPeriod);
     
     $stop;
   end
