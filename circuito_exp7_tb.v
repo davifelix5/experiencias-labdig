@@ -26,7 +26,6 @@ module circuito_exp7_tb;
   reg        nivel_tempo_in;
   reg        modo2_in;
   reg  [3:0] valores [0:15];
-  reg  [3:0] novos_valores[0:15];
   reg  [7:0] resultados [0:12];
 
   wire       ganhou_out;
@@ -54,15 +53,14 @@ module circuito_exp7_tb;
   wire       db_gravaM;
   wire [6:0] db_rodada;
 
-  parameter clock_freq = 5000;
-  parameter MOSTRA     = 2;
-  parameter APRESENTA  = 2;
-  parameter TIMEOUT    = 3;
+  parameter clock_freq = 5000; // Hz
+  parameter MOSTRA     = 2500; // Hz
+  parameter APRESENTA  = 2; // s
+  parameter TIMEOUT    = 3; // s
 
   //Recupera valores da memória
   initial begin
     $readmemh("valores.dat", valores, 4'b0, 4'hF); 
-    $readmemh("novos_valores.dat", novos_valores, 4'h0, 4'hF);
   end 
 
   // Configuração do clock
@@ -120,7 +118,7 @@ module circuito_exp7_tb;
       botoes_in = valor;
       #(3*clockPeriod);
       botoes_in = 4'b0000;
-      #(((MOSTRA*clock_freq)/2 + 3)*clockPeriod);
+      #((MOSTRA + 3)*clockPeriod);
     end
   endtask 
   
@@ -130,7 +128,7 @@ module circuito_exp7_tb;
   */
   function automatic integer wait_time;
   input [31:0] step;
-  wait_time = (step*APRESENTA*clock_freq+(step-1)*((MOSTRA*clock_freq)/2 + 2)+(MOSTRA*clock_freq)/2 + 1);
+  wait_time = (step*APRESENTA*clock_freq+(step-1)*(MOSTRA + 2)+MOSTRA + 1);
   endfunction
 
   /*
@@ -144,11 +142,7 @@ module circuito_exp7_tb;
     integer j;
     for (j = 0; j < quantidade; j = j + 1) begin
       caso = caso + 1;
-      if (j == 0 || modo2_in == 0)
         press_botoes(valores[j]);
-      else begin
-        press_botoes(novos_valores[j-1]);
-      end
     end
   end
   endtask
@@ -168,7 +162,7 @@ module circuito_exp7_tb;
       acerta_valores(i);
       // Grava
       if (modo2_in == 1)
-        press_botoes(novos_valores[i-1]);
+        press_botoes(valores[i]);
     end
   end
   endtask
@@ -261,7 +255,13 @@ module circuito_exp7_tb;
     acerta_rodadas(2);
     acerta_valores(1);
     #(TIMEOUT*clock_freq*clockPeriod);
-    
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Cenario de Teste: acerta tudo no nível dífícil de jogadas, fácil de tempo, modo1
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    cenario = 7;
+    iniciar_circuito(1, 0, 0);
+    acerta_rodadas(16);    
     $stop;
   end
 

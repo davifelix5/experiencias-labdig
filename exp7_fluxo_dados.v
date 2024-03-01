@@ -60,8 +60,9 @@ module exp7_fluxo_dados (
     output [3:0] db_rodada
 );
 
-    parameter CLOCK_FREQ = 5000, 
-              TEMPO_MOSTRA = 2, TIMEOUT=3; // Hz
+    parameter CLOCK_FREQ = 5000, // Hz
+              TEMPO_MOSTRA = 2, TIMEOUT=3, // s
+              TEMPO_FEEDBACK = 2500;
 
     // Sinais internos
     wire tem_jogada;
@@ -148,18 +149,29 @@ module exp7_fluxo_dados (
         .meio    ( meioCR )
     );
 
-    // Contador (timer) de módulo 1000 (1s) para sinalizar o tempo entre a mostragem de jogadas 
-    contador_m #(.M(TEMPO_MOSTRA*CLOCK_FREQ), .N($clog2(TEMPO_MOSTRA*CLOCK_FREQ)) ) ContMostra (
+    // Contador (timer) COM 0.5s para sinalizar o feedback de led apertada
+    contador_m #(.M(TEMPO_FEEDBACK), .N($clog2(TEMPO_FEEDBACK)) ) ContMostra (
+        .clock   ( clock   ), 
+        .zera_as ( 1'b0    ), 
+        .zera_s  ( zeraTM  ), 
+        .conta   ( contaTM ), 
+        .fim     (  meioTM ),
+        .Q       (         ),
+        .meio    (         )
+    );
+
+    // Contador (timer) COM 2s para sinalizar a apresentação de jogada
+    contador_m #(.M(TEMPO_MOSTRA*CLOCK_FREQ), .N($clog2(TEMPO_MOSTRA*CLOCK_FREQ)) ) ContFeedback (
         .clock   ( clock   ), 
         .zera_as ( 1'b0    ), 
         .zera_s  ( zeraTM  ), 
         .conta   ( contaTM ), 
         .fim     ( fimTM   ),
         .Q       (         ),
-        .meio    ( meioTM  )
+        .meio    (         )
     );
 
-    // Contador (timer) de módulo 3000 (3s) para sinalizar timeout 
+    // Contador (timer) de 3s para sinalizar timeout 
     contador_m  # ( .M(TIMEOUT*CLOCK_FREQ), .N($clog2(TIMEOUT*CLOCK_FREQ)) ) TimerTimeout (
         .clock   ( clock        ),
         .zera_as ( jogada_feita ),
