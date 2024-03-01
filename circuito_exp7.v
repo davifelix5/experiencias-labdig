@@ -1,9 +1,9 @@
 /* --------------------------------------------------------------------
- * Arquivo   : circuito_exp6.v
- * Projeto   : Experiencia 6 - Desenvolvimento de Projeto de 
+ * Arquivo   : circuito_exp7.v
+ * Projeto   : Experiencia 7 - Desenvolvimento de Projeto de 
  *             Circuitos Digitais em FPGA
  * --------------------------------------------------------------------
- * Descricao : Circuito em Verilog para a Experiencia 6 
+ * Descricao : Circuito em Verilog para a Experiencia 7 
  * --------------------------------------------------------------------
  * Revisoes  :
  *     Data        Versao  Autor                                            Descricao

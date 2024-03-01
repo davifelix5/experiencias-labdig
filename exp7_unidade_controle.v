@@ -1,6 +1,6 @@
 //------------------------------------------------------------------
 // Arquivo   : exp6_unidade_controle.v
-// Projeto   : Experiencia 6 - Projeto de uma Unidade de Controle
+// Projeto   : Experiencia 7 - Projeto de uma Unidade de Controle
 //------------------------------------------------------------------
 // Descricao : Unidade de controle          
 //------------------------------------------------------------------

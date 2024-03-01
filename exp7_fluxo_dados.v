@@ -1,9 +1,9 @@
 /* --------------------------------------------------------------------
- * Arquivo   : exp6_fluxo_dados.v
- * Projeto   : Experiencia 6 - Desenvolvimento de Projeto de 
+ * Arquivo   : exp7_fluxo_dados.v
+ * Projeto   : Experiencia 7 - Desenvolvimento de Projeto de 
  *             Circuitos Digitais em FPGA
  * --------------------------------------------------------------------
- * Descricao : Fluxo de dados Verilog para circuito da Experiencia 6
+ * Descricao : Fluxo de dados Verilog para circuito da Experiencia 7
  * --------------------------------------------------------------------
  * Revisoes  :
  *     Data        Versao  Autor                                            Descricao
@@ -61,7 +61,7 @@ module exp7_fluxo_dados (
 );
 
     parameter CLOCK_FREQ = 5000, // Hz
-              TEMPO_MOSTRA = 2, TIMEOUT=3, // s
+              TEMPO_MOSTRA = 2, TIMEOUT=5, // s
               TEMPO_FEEDBACK = 2500;
 
     // Sinais internos
@@ -171,7 +171,7 @@ module exp7_fluxo_dados (
         .meio    (         )
     );
 
-    // Contador (timer) de 3s para sinalizar timeout 
+    // Contador (timer) de 5s para sinalizar timeout 
     contador_m  # ( .M(TIMEOUT*CLOCK_FREQ), .N($clog2(TIMEOUT*CLOCK_FREQ)) ) TimerTimeout (
         .clock   ( clock        ),
         .zera_as ( jogada_feita ),
@@ -182,7 +182,7 @@ module exp7_fluxo_dados (
         .meio    ( meioTempo    )
     );
         
-    //Memoria ROM sincrona 16 palavras de 4 bits
+    //Memoria RAM sincrona 16 palavras de 4 bits
     sync_ram_16x4_file MemJog (
         .clk      ( clock      ), 
         .addr     ( s_endereco ), 

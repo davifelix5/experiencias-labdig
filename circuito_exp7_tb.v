@@ -1,9 +1,9 @@
 /* --------------------------------------------------------------------
- * Arquivo   : circuito_exp6_tb.v
- * Projeto   : Experiencia 6 - Desenvolvimento de Projeto de 
+ * Arquivo   : circuito_exp7_tb.v
+ * Projeto   : Experiencia 7 - Desenvolvimento de Projeto de 
  *             Circuitos Digitais em FPGA
  * --------------------------------------------------------------------
- * Descricao : testbench Verilog para o desafio do circuito da Experiencia 6
+ * Descricao : testbench Verilog para o desafio do circuito da Experiencia 7
  *
  * --------------------------------------------------------------------
  * Revisoes  :
@@ -56,7 +56,7 @@ module circuito_exp7_tb;
   parameter clock_freq = 5000; // Hz
   parameter MOSTRA     = 2500; // Hz
   parameter APRESENTA  = 2; // s
-  parameter TIMEOUT    = 3; // s
+  parameter TIMEOUT    = 5; // s
 
   //Recupera valores da memória
   initial begin
