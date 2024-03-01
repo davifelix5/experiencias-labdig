@@ -219,7 +219,7 @@ module circuito_exp7_tb;
     cenario = 2;
     iniciar_circuito(1, 0, 1);
     #(wait_time(1)*clockPeriod);
-    press_botoes(4'b1000);
+    press_botoes(4'b0001);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Cenario de Teste: erra na última rodada, última jogada, nível difícil de jogadas e fácil de tempo, modo 2
