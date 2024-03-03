@@ -140,7 +140,7 @@ module exp7_unidade_controle (
             end
             grava_rodada:           Eprox = mostra_gravacao;
             proxima_jogada:           Eprox = espera_jogada;
-            espera_gravacao:          Eprox = jogada_feita ? grava_rodada : espera_gravacao;
+            espera_gravacao:          Eprox = ((nivel_tempo && meioTempo) || (!nivel_tempo && fimTempo)) ? estado_timeout : (jogada_feita ? grava_rodada : espera_gravacao);
             incrementa_memoria:       Eprox = espera_gravacao;
             mostra_gravacao:          Eprox = meioTM ? inicio_jogada : mostra_gravacao;
             acertou:                  Eprox = iniciar ? inicializa_elementos : acertou;
@@ -155,11 +155,11 @@ module exp7_unidade_controle (
     assign zeraR          = (Eatual == inicial);
     assign zeraCR         = (Eatual == inicializa_elementos);
     assign zeraC          = (Eatual == inicio_jogada || Eatual == inicio_rodada);
-    assign zeraTempo      = (Eatual == inicializa_elementos || Eatual == proxima_jogada);
+    assign zeraTempo      = (Eatual == inicializa_elementos || Eatual == proxima_jogada || Eatual == incrementa_memoria);
     assign zeraTM         = (Eatual == mostra || Eatual == proxima_jogada || Eatual == grava_rodada || Eatual == inicializa_elementos || Eatual == inicio_jogada || Eatual == proxima_rodada);
     assign contaTM        = (Eatual == espera_mostra || Eatual == apaga_mostra || Eatual == compara || Eatual == inicio_rodada || Eatual == mostra_gravacao);
     assign contaC         = (Eatual == mostra_proximo || Eatual == proxima_jogada || Eatual == incrementa_memoria);
-    assign contaTempo     = (Eatual == espera_jogada);
+    assign contaTempo     = (Eatual == espera_jogada || Eatual == espera_gravacao);
     assign vez_jogador    = (Eatual == espera_jogada);
     assign registraR      = (Eatual == registra);
     assign contaCR        = (Eatual == grava_rodada || Eatual == proxima_rodada);

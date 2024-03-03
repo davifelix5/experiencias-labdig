@@ -23,25 +23,25 @@ add wave -noupdate -height 30 /circuito_exp7_tb/vez_jogador_out
 add wave -noupdate -divider depuracao
 add wave -noupdate -height 30 -radix hexadecimal /circuito_exp7_tb/DUT/unidade_controle/Eatual
 add wave -noupdate -height 30 /circuito_exp7_tb/DUT/fluxo_dados/modo2_reg
-add wave -noupdate -height 30 -radix hexadecimal /circuito_exp7_tb/DUT/fluxo_dados/s_memoria
 add wave -noupdate -height 30 -radix hexadecimal /circuito_exp7_tb/DUT/fluxo_dados/s_endereco
-add wave -noupdate -height 30 -radix hexadecimal /circuito_exp7_tb/DUT/fluxo_dados/s_rodada
+add wave -noupdate -height 30 -radix hexadecimal /circuito_exp7_tb/DUT/fluxo_dados/s_memoria
 add wave -noupdate -height 30 -radix hexadecimal /circuito_exp7_tb/DUT/fluxo_dados/s_jogada
+add wave -noupdate -height 30 /circuito_exp7_tb/db_jogada_correta
+add wave -noupdate -height 30 /circuito_exp7_tb/db_enderecoIgualRodada
+add wave -noupdate -height 30 -radix hexadecimal /circuito_exp7_tb/DUT/fluxo_dados/s_rodada
 add wave -noupdate -height 30 /circuito_exp7_tb/DUT/fluxo_dados/jogada_feita
+add wave -noupdate -height 30 /circuito_exp7_tb/db_timeout
 add wave -noupdate -height 30 /circuito_exp7_tb/DUT/nova_jogada
 add wave -noupdate -height 30 /circuito_exp7_tb/DUT/db_fimTM
 add wave -noupdate -height 30 /circuito_exp7_tb/DUT/db_gravaM
 add wave -noupdate -height 30 /circuito_exp7_tb/DUT/db_meioTM
 add wave -noupdate -height 30 /circuito_exp7_tb/DUT/db_modo2
 add wave -noupdate -height 30 /circuito_exp7_tb/DUT/fluxo_dados/contaC
-add wave -noupdate -height 30 /circuito_exp7_tb/db_enderecoIgualRodada
-add wave -noupdate -height 30 /circuito_exp7_tb/db_jogada_correta
 add wave -noupdate -height 30 /circuito_exp7_tb/db_nivel_jogadas
 add wave -noupdate -height 30 /circuito_exp7_tb/db_nivel_tempo
-add wave -noupdate -height 30 /circuito_exp7_tb/db_timeout
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 2} {15918580 ns} 0} {{Cursor 3} {47499260 ns} 0}
-quietly wave cursor active 1
+WaveRestoreCursors {{Cursor 6} {198917000000 ns} 0} {{Cursor 3} {174397800000 ns} 0}
+quietly wave cursor active 2
 configure wave -namecolwidth 390
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
@@ -54,6 +54,6 @@ configure wave -gridoffset 0
 configure wave -gridperiod 1
 configure wave -griddelta 40
 configure wave -timeline 0
-configure wave -timelineunits ns
+configure wave -timelineunits sec
 update
-WaveRestoreZoom {35939540 ns} {35940909 ns}
+WaveRestoreZoom {174392100231 ns} {174403499769 ns}

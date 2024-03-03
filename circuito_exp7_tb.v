@@ -12,7 +12,7 @@
  * --------------------------------------------------------------------
 */
 
-`timescale 1ns/1ns
+`timescale 100us/100us
 
 module circuito_exp7_tb;
 
@@ -64,7 +64,7 @@ module circuito_exp7_tb;
   end 
 
   // Configuração do clock
-  parameter clockPeriod = 20; // in ns, f=50MHz
+  parameter clockPeriod = 2; // in ns, f=5kHz
 
   // Identificacao do caso de teste
   integer caso = 0;
@@ -161,7 +161,7 @@ module circuito_exp7_tb;
       end
       acerta_valores(i);
       // Grava
-      if (modo2_in == 1)
+      if ((modo2_in == 1) && (i != 16))
         press_botoes(valores[i]);
     end
   end
@@ -256,10 +256,19 @@ module circuito_exp7_tb;
     acerta_valores(1);
     #(TIMEOUT*clock_freq*clockPeriod);
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //Cenario de Teste: timeout ao gravar a rodada da terceira rodada, nível difícil de jogadas e fácil de tempo, modo 2 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    cenario = 7;
+    iniciar_circuito(1, 0, 1);
+    acerta_rodadas(2);
+    acerta_valores(3);
+    #(TIMEOUT*clock_freq*clockPeriod);
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Cenario de Teste: acerta tudo no nível dífícil de jogadas, fácil de tempo, modo1
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    cenario = 7;
+    cenario = 8;
     iniciar_circuito(1, 0, 0);
     acerta_rodadas(16);    
     $stop;

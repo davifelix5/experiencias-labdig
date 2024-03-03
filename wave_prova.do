@@ -40,8 +40,8 @@ add wave -noupdate -height 30 /circuito_exp7_tb_prova/db_nivel_jogadas
 add wave -noupdate -height 30 /circuito_exp7_tb_prova/db_nivel_tempo
 add wave -noupdate -height 30 /circuito_exp7_tb_prova/db_timeout
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 2} {15918580 ns} 0} {{Cursor 3} {47499260 ns} 0}
-quietly wave cursor active 1
+WaveRestoreCursors {{Cursor 3} {10006600000 ns} 0} {{Cursor 3} {5006600000 ns} 0}
+quietly wave cursor active 2
 configure wave -namecolwidth 390
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
@@ -54,6 +54,6 @@ configure wave -gridoffset 0
 configure wave -gridperiod 1
 configure wave -griddelta 40
 configure wave -timeline 0
-configure wave -timelineunits ns
+configure wave -timelineunits sec
 update
-WaveRestoreZoom {35939540 ns} {35940909 ns}
+WaveRestoreZoom {5006511611 ns} {5006670528 ns}

@@ -12,7 +12,7 @@
  * --------------------------------------------------------------------
 */
 
-`timescale 1ns/1ns
+`timescale 100us/100us
 
 module circuito_exp7_tb_prova;
 
@@ -64,7 +64,7 @@ module circuito_exp7_tb_prova;
   end 
 
   // Configuração do clock
-  parameter clockPeriod = 20; // in ns, f=50MHz
+  parameter clockPeriod = 2; // in ns, f=5kHz
 
   // Identificacao do caso de teste
   integer caso = 0;
