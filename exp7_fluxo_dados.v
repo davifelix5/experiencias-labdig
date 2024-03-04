@@ -142,15 +142,15 @@ module exp7_fluxo_dados (
     contador_m #(.M(16), .N(4)) ContRod (
         .clock   ( clock    ), 
         .zera_s  ( zeraCR   ), 
-        .zera_as (  ), 
+        .zera_as ( 1'b0     ), 
         .conta   ( contaCR  ),
         .Q       ( s_rodada ),
         .fim     ( fimCR    ),
-        .meio    ( meioCR )
+        .meio    ( meioCR   )
     );
 
     // Contador (timer) COM 0.5s para sinalizar o feedback de led apertada
-    contador_m #(.M(TEMPO_FEEDBACK), .N($clog2(TEMPO_FEEDBACK)) ) ContMostra (
+    contador_m #(.M(TEMPO_FEEDBACK), .N($clog2(TEMPO_FEEDBACK)) ) ContFeedback (
         .clock   ( clock   ), 
         .zera_as ( 1'b0    ), 
         .zera_s  ( zeraTM  ), 
@@ -161,7 +161,7 @@ module exp7_fluxo_dados (
     );
 
     // Contador (timer) COM 2s para sinalizar a apresentação de jogada
-    contador_m #(.M(TEMPO_MOSTRA*CLOCK_FREQ), .N($clog2(TEMPO_MOSTRA*CLOCK_FREQ)) ) ContFeedback (
+    contador_m #(.M(TEMPO_MOSTRA*CLOCK_FREQ), .N($clog2(TEMPO_MOSTRA*CLOCK_FREQ)) ) ContMostra (
         .clock   ( clock   ), 
         .zera_as ( 1'b0    ), 
         .zera_s  ( zeraTM  ), 
@@ -174,7 +174,7 @@ module exp7_fluxo_dados (
     // Contador (timer) de 5s para sinalizar timeout 
     contador_m  # ( .M(TIMEOUT*CLOCK_FREQ), .N($clog2(TIMEOUT*CLOCK_FREQ)) ) TimerTimeout (
         .clock   ( clock        ),
-        .zera_as ( jogada_feita ),
+        .zera_as ( 1'b0         ),
         .zera_s  ( zeraTempo    ),
         .conta   ( contaTempo   ),
         .Q       (              ),
