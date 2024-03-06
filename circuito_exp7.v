@@ -44,8 +44,8 @@ module circuito_exp7 (
     output       db_enderecoIgualRodada,
     output       db_modo2,
     output       db_fimTM,
-    output       db_meioTM,
-    output       db_gravaM
+    output       db_meioTM
+    //output       db_gravaM
 );
 
     // Sinais de controle

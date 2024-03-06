@@ -181,7 +181,7 @@ module exp7_unidade_controle (
     assign toca           = (Eatual == espera_mostra || Eatual == compara || Eatual == mostra_gravacao);
     assign nova_jogada    = (Eatual == espera_gravacao);
     assign gravaM         = (Eatual == grava_rodada);
-    assign jogo_pausado   = (Eatual == pausa_gravacao || Eatual == pausa_jogo);
+    assign jogo_pausado   = (Eatual == pausa_gravacao || Eatual == pausa_jogada);
 
 
 endmodule
