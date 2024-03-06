@@ -207,13 +207,13 @@ module circuito_exp7_tb_prova;
     #clockPeriod;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //Cenario de Teste: acerta tudo no nível dífícil de jogadas, fácil de tempo, modo1
+    //Cenario de Teste: timeout na terceira jgoada da quarta rodada, nível difícil de jogadas e de tempo, modo 2
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    cenario = 8;
-    iniciar_circuito(1,0,1);
-    acerta_rodadas(2);
-    #(TIMEOUT*clock_freq*clockPeriod);
-
+    cenario = 1;
+    iniciar_circuito(1,0,1); // inicia o circuito no modo 2
+    acerta_rodadas(3); // acerta 3 rodadsa
+    acerta_valores(3); // acerta 3 jogadas
+    #(TIMEOUT*clock_freq*clockPeriod)
     $stop;
   end
 

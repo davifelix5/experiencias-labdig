@@ -32,6 +32,8 @@ module exp7_unidade_controle (
     input     meioTempo,
 
     input     modo2,
+
+    input     pausa_jogo,
     
     /* Sinais de controle */
     output    zeraC,
@@ -87,7 +89,8 @@ module exp7_unidade_controle (
                 espera_gravacao      = 5'h10,
                 incrementa_memoria   = 5'h11,
                 mostra_gravacao      = 5'h12,
-                proxima_rodada       = 5'h13;
+                proxima_rodada       = 5'h13,
+                jogo_pausado         = 5'b14;
             
 	 
     // Variaveis de estado
@@ -116,7 +119,9 @@ module exp7_unidade_controle (
             apaga_mostra:             Eprox = meioTM ? mostra_proximo : apaga_mostra;
             mostra_proximo:           Eprox = mostra;
             inicio_jogada:            Eprox = espera_jogada;
-            espera_jogada:            Eprox = ((!nivel_tempo & fimTempo) || (nivel_tempo & meioTempo)) ? estado_timeout : (jogada_feita ? registra : espera_jogada);
+            espera_jogada:            Eprox = pausa_jogo ? jogo_pausado 
+                                                         : ((!nivel_tempo & fimTempo) || (nivel_tempo & meioTempo)) ? estado_timeout : (jogada_feita ? registra : espera_jogada);
+            jogo_pausado:             Eprox = pausa_jogo ? jogo_pausado : espera_jogada;
             registra:                 Eprox = compara;
             compara: begin
                 if (meioTM) begin

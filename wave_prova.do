@@ -22,6 +22,9 @@ add wave -noupdate -height 30 /circuito_exp7_tb_prova/pulso_buzzer_out
 add wave -noupdate -height 30 /circuito_exp7_tb_prova/vez_jogador_out
 add wave -noupdate -divider depuracao
 add wave -noupdate -height 30 -radix hexadecimal /circuito_exp7_tb_prova/DUT/unidade_controle/Eatual
+add wave -noupdate -height 30 /circuito_exp7_tb_prova/DUT/contaTempo
+add wave -noupdate -height 30 /circuito_exp7_tb_prova/DUT/fimTempo
+add wave -noupdate -height 30 /circuito_exp7_tb_prova/db_timeout
 add wave -noupdate -height 30 /circuito_exp7_tb_prova/DUT/fluxo_dados/modo2_reg
 add wave -noupdate -height 30 -radix hexadecimal /circuito_exp7_tb_prova/DUT/fluxo_dados/s_memoria
 add wave -noupdate -height 30 -radix hexadecimal /circuito_exp7_tb_prova/DUT/fluxo_dados/s_endereco
@@ -38,9 +41,8 @@ add wave -noupdate -height 30 /circuito_exp7_tb_prova/db_enderecoIgualRodada
 add wave -noupdate -height 30 /circuito_exp7_tb_prova/db_jogada_correta
 add wave -noupdate -height 30 /circuito_exp7_tb_prova/db_nivel_jogadas
 add wave -noupdate -height 30 /circuito_exp7_tb_prova/db_nivel_tempo
-add wave -noupdate -height 30 /circuito_exp7_tb_prova/db_timeout
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 3} {10006600000 ns} 0} {{Cursor 3} {5006600000 ns} 0}
+WaveRestoreCursors {{Cursor 3} {8515000000 ns} 0} {{Cursor 3} {13514996610 ns} 0}
 quietly wave cursor active 2
 configure wave -namecolwidth 390
 configure wave -valuecolwidth 100
@@ -56,4 +58,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits sec
 update
-WaveRestoreZoom {5006511611 ns} {5006670528 ns}
+WaveRestoreZoom {13512230066 ns} {13517769935 ns}

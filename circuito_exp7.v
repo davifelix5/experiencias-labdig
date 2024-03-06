@@ -19,6 +19,7 @@ module circuito_exp7 (
     input        nivel_jogadas, 
     input        nivel_tempo,
     input        modo2,
+    input        pausa_jogo,
 
     output       ganhou,
     output       perdeu,
@@ -124,6 +125,7 @@ module circuito_exp7 (
         .iniciar             ( iniciar             ),
         .nivel_jogadas       ( nivel_jogadas_reg   ),
         .nivel_tempo         ( nivel_tempo_reg     ),
+        .pausa_jogo          ( pausa_jogo          ),
         // Sinais de condição
         .fimTempo            ( fimTempo            ),
         .meioTempo           ( meioTempo           ),
