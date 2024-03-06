@@ -90,7 +90,7 @@ module exp7_unidade_controle (
                 incrementa_memoria   = 5'h11,
                 mostra_gravacao      = 5'h12,
                 proxima_rodada       = 5'h13,
-                jogo_pausado         = 5'b14;
+                jogo_pausado         = 5'h14;
             
 	 
     // Variaveis de estado
