@@ -11,7 +11,7 @@ module buzzer_tb;
 
     integer caso;
     // Criação do clock de 1kHz
-    integer clockPeriod = 200; 
+    integer clockPeriod = 20; 
     always  #((clockPeriod / 2)) clock = ~clock;
 
     buzzer UUT (

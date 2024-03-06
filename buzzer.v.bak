@@ -8,10 +8,10 @@ module buzzer (
     output reg pulso  // Frequência da nota a ser tocada
 );
     
-    parameter COUNT_1 = 190,
-              COUNT_2 = 170,
-              COUNT_3 = 150,
-              COUNT_4 = 140;
+    parameter COUNT_1 = 19,
+              COUNT_2 = 17,
+              COUNT_3 = 15,
+              COUNT_4 = 14;
 
     wire pulso_meio, pulso_quarto, pulso_oitavo, pulso_terco;
 

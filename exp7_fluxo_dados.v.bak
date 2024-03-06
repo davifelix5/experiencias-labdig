@@ -60,9 +60,9 @@ module exp7_fluxo_dados (
     output [3:0] db_rodada
 );
 
-    parameter CLOCK_FREQ = 50000000, // Hz
+    parameter CLOCK_FREQ = 5000, // Hz
               TEMPO_MOSTRA = 2, TIMEOUT=5, // s
-              TEMPO_FEEDBACK = 25000000;
+              TEMPO_FEEDBACK = 2500;
 
     // Sinais internos
     wire tem_jogada;
