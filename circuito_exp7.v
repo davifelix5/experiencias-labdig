@@ -28,6 +28,7 @@ module circuito_exp7 (
     output       nova_jogada,
     output [3:0] leds,
     output       pulso_buzzer,
+    output       jogo_pausado,
 
     output       db_jogada_correta,
     output [6:0] db_contagem,
@@ -136,6 +137,7 @@ module circuito_exp7 (
         .jogada_feita        ( jogada_feita        ),
         .jogada_correta      ( jogada_correta      ),
         .enderecoIgualRodada ( enderecoIgualRodada ),
+        .modo2               ( modo2_reg           ),
         // Sinais de controle
         .zeraC               ( zeraC               ),
         .contaC              ( contaC              ),
@@ -158,7 +160,7 @@ module circuito_exp7 (
         .pronto              ( pronto              ),
 		.vez_jogador         ( vez_jogador         ),
         .nova_jogada         ( nova_jogada         ),
-        .modo2               ( modo2_reg           ),
+        .jogo_pausado        ( jogo_pausado        ),
         // Sinais de depuração
         .db_estado           ( s_db_estado         ),
         .db_timeout          ( db_timeout          )

@@ -64,6 +64,7 @@ module exp7_unidade_controle (
     output    pronto,
     output    vez_jogador,
     output    nova_jogada,
+    output     jogo_pausado,
     
     output       db_timeout,
     output [4:0] db_estado
@@ -90,7 +91,8 @@ module exp7_unidade_controle (
                 incrementa_memoria   = 5'h11,
                 mostra_gravacao      = 5'h12,
                 proxima_rodada       = 5'h13,
-                jogo_pausado         = 5'h14;
+                pausa_jogada         = 5'h14,
+                pausa_gravacao       = 5'h15;
             
 	 
     // Variaveis de estado
@@ -119,9 +121,9 @@ module exp7_unidade_controle (
             apaga_mostra:             Eprox = meioTM ? mostra_proximo : apaga_mostra;
             mostra_proximo:           Eprox = mostra;
             inicio_jogada:            Eprox = espera_jogada;
-            espera_jogada:            Eprox = pausa_jogo ? jogo_pausado 
+            espera_jogada:            Eprox = pausa_jogo ? pausa_jogada 
                                                          : ((!nivel_tempo & fimTempo) || (nivel_tempo & meioTempo)) ? estado_timeout : (jogada_feita ? registra : espera_jogada);
-            jogo_pausado:             Eprox = pausa_jogo ? jogo_pausado : espera_jogada;
+            pausa_jogada:             Eprox = pausa_jogo ? pausa_jogada : espera_jogada;
             registra:                 Eprox = compara;
             compara: begin
                 if (meioTM) begin
@@ -145,7 +147,9 @@ module exp7_unidade_controle (
             end
             grava_rodada:           Eprox = mostra_gravacao;
             proxima_jogada:           Eprox = espera_jogada;
-            espera_gravacao:          Eprox = ((nivel_tempo && meioTempo) || (!nivel_tempo && fimTempo)) ? estado_timeout : (jogada_feita ? grava_rodada : espera_gravacao);
+            espera_gravacao:          Eprox = pausa_jogo ? pausa_gravacao
+                                                         : ((nivel_tempo && meioTempo) || (!nivel_tempo && fimTempo)) ? estado_timeout : (jogada_feita ? grava_rodada : espera_gravacao);
+            pausa_gravacao:           Eprox = pausa_jogo ? pausa_gravacao : espera_gravacao;
             incrementa_memoria:       Eprox = espera_gravacao;
             mostra_gravacao:          Eprox = meioTM ? inicio_jogada : mostra_gravacao;
             acertou:                  Eprox = iniciar ? inicializa_elementos : acertou;
@@ -177,6 +181,7 @@ module exp7_unidade_controle (
     assign toca           = (Eatual == espera_mostra || Eatual == compara || Eatual == mostra_gravacao);
     assign nova_jogada    = (Eatual == espera_gravacao);
     assign gravaM         = (Eatual == grava_rodada);
+    assign jogo_pausado   = (Eatual == pausa_gravacao || Eatual == pausa_jogo);
 
 
 endmodule
