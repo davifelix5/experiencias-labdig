@@ -1,4 +1,4 @@
-module buzzer (
+module buzzer #(parameter CLOCK_FREQ) (
     input clock, // Clock do circuito
     input conta,
     input reset,
@@ -8,10 +8,15 @@ module buzzer (
     output reg pulso  // Frequência da nota a ser tocada
 );
     
-    parameter COUNT_1 = 190,
-              COUNT_2 = 170,
-              COUNT_3 = 150,
-              COUNT_4 = 140;
+    parameter DO =  264,
+              RE =  300,
+              SOL = 396,
+              LA =  440; // Hz
+
+    parameter COUNT_1 = (CLOCK_FREQ/DO)/2-1,
+              COUNT_2 = (CLOCK_FREQ/RE)/2-1,
+              COUNT_3 = (CLOCK_FREQ/SOL)/2-1,
+              COUNT_4 = (CLOCK_FREQ/LA)/2-1;
 
     wire pulso_meio, pulso_quarto, pulso_oitavo, pulso_terco;
 

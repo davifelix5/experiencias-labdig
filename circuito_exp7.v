@@ -11,7 +11,7 @@
  * --------------------------------------------------------------------
 */
 
-module circuito_exp7 #(parameter CLOCK_FREQ = 50000000) // 50MHz 
+module circuito_exp7 #(parameter CLOCK_FREQ = 5000) // 50MHz 
 (
     input        clock,
     input        reset,

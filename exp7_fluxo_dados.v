@@ -81,7 +81,7 @@ module exp7_fluxo_dados #(parameter CLOCK_FREQ)
     assign db_rodada     = s_rodada;
 
     //Buzzer para jogadas
-    buzzer BuzzerLeds (
+    buzzer #(.CLOCK_FREQ(CLOCK_FREQ)) BuzzerLeds (
         .clock   ( clock ),
         .conta   ( toca ),
         .reset   ( zeraR ),
