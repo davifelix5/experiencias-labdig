@@ -25,6 +25,7 @@ module circuito_exp7_tb_prova;
   reg        nivel_jogadas_in; 
   reg        nivel_tempo_in;
   reg        modo2_in;
+  reg        pausa_jogo_in;
   reg  [3:0] valores [0:15];
   reg  [7:0] resultados [0:12];
 
@@ -35,6 +36,7 @@ module circuito_exp7_tb_prova;
   wire       nova_jogada_out;
   wire [3:0] leds_out;
   wire       pulso_buzzer_out;
+  wire       jogo_pausado_in;
 
   wire       db_jogada_correta;
   wire [6:0] db_contagem;
@@ -50,7 +52,6 @@ module circuito_exp7_tb_prova;
   wire       db_meioTM;
   wire       db_fimTM;
   wire       db_modo2;
-  wire       db_gravaM;
   wire [6:0] db_rodada;
 
   parameter clock_freq = 5000; // Hz
@@ -82,6 +83,7 @@ module circuito_exp7_tb_prova;
     .nivel_jogadas    (nivel_jogadas_in), 
     .nivel_tempo      (nivel_tempo_in),
     .modo2            (modo2_in),
+    .pausa_jogo       (pausa_jogo_in),
 
     .ganhou           (ganhou_out),
     .perdeu           (perdeu_out),
@@ -90,6 +92,7 @@ module circuito_exp7_tb_prova;
     .nova_jogada      (nova_jogada_out),
     .leds             (leds_out),
     .pulso_buzzer     (pulso_buzzer_out),
+    .jogo_pausado      (jogo_pausado_out),
 
     .db_jogada_correta      (db_jogada_correta),
     .db_contagem            (db_contagem),
@@ -105,8 +108,7 @@ module circuito_exp7_tb_prova;
     .db_timeout             (db_timeout),
     .db_meioTM              (db_meioTM),
     .db_fimTM               (db_fimTM),
-    .db_modo2               (db_modo2),
-    .db_gravaM              (db_gravaM)
+    .db_modo2               (db_modo2)
   );
 
   /*
@@ -197,6 +199,7 @@ module circuito_exp7_tb_prova;
 
     // condicoes iniciais
     caso             = 0;
+    pausa_jogo_in    = 0;
     clock_in         = 1;
     reset_in         = 0;
     iniciar_in       = 0;

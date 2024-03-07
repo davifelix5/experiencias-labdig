@@ -164,7 +164,7 @@ module exp7_unidade_controle (
     assign zeraR          = (Eatual == inicial);
     assign zeraCR         = (Eatual == inicializa_elementos);
     assign zeraC          = (Eatual == inicio_jogada || Eatual == inicio_rodada);
-    assign zeraTempo      = (Eatual == proxima_jogada || Eatual == incrementa_memoria || Eatual == inicio_jogada);
+    assign zeraTempo      = (Eatual == proxima_jogada || Eatual == incrementa_memoria || Eatual == inicio_jogada || Eatual == inicializa_elementos);
     assign zeraTM         = (Eatual == mostra || Eatual == proxima_jogada || Eatual == grava_rodada || Eatual == inicializa_elementos || Eatual == inicio_jogada || Eatual == proxima_rodada);
     assign contaTM        = (Eatual == espera_mostra || Eatual == apaga_mostra || Eatual == compara || Eatual == inicio_rodada || Eatual == mostra_gravacao);
     assign contaC         = (Eatual == mostra_proximo || Eatual == proxima_jogada || Eatual == incrementa_memoria);
