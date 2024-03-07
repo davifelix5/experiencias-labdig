@@ -12,7 +12,8 @@
 */
 
 
-module exp7_fluxo_dados (
+module exp7_fluxo_dados #(parameter CLOCK_FREQ)
+(
     // Entradas
     input clock,
     input [3:0] botoes,
@@ -60,9 +61,8 @@ module exp7_fluxo_dados (
     output [3:0] db_rodada
 );
 
-    parameter CLOCK_FREQ = 50000000, // Hz
-              TEMPO_MOSTRA = 2, TIMEOUT=5, // s
-              TEMPO_FEEDBACK = 25000000;
+    parameter TEMPO_MOSTRA = 2, TIMEOUT=5, // s
+              TEMPO_FEEDBACK = CLOCK_FREQ/2;
 
     // Sinais internos
     wire tem_jogada;

@@ -54,8 +54,8 @@ module circuito_exp7_tb_prova;
   wire       db_modo2;
   wire [6:0] db_rodada;
 
-  parameter clock_freq = 5000; // Hz
-  parameter MOSTRA     = 2500; // Hz
+  parameter CLOCK_FREQ = 5000; // 5kHz
+  parameter MOSTRA     = CLOCK_FREQ/2; // Hz
   parameter APRESENTA  = 2; // s
   parameter TIMEOUT    = 5; // s
 
@@ -75,7 +75,7 @@ module circuito_exp7_tb_prova;
   always #((clockPeriod / 2)) clock_in = ~clock_in;
 
   // instanciacao do DUT (Device Under Test)
-  circuito_exp7 DUT (
+  circuito_exp7 #(.CLOCK_FREQ(CLOCK_FREQ)) DUT (
     .clock            (clock_in),
     .reset            (reset_in),
     .iniciar          (iniciar_in),
@@ -130,7 +130,7 @@ module circuito_exp7_tb_prova;
   */
   function automatic integer wait_time;
   input [31:0] step;
-  wait_time = (step*APRESENTA*clock_freq+(step-1)*(MOSTRA + 2)+MOSTRA + 1);
+  wait_time = (step*APRESENTA*CLOCK_FREQ+(step-1)*(MOSTRA + 2)+MOSTRA + 1);
   endfunction
 
   /*
@@ -163,7 +163,7 @@ module circuito_exp7_tb_prova;
       end
       acerta_valores(i);
       // Grava
-      if (modo2_in == 1)
+      if (modo2_in == 1 && i != quantidade_rodadas)
         press_botoes(valores[i]);
     end
   end
@@ -207,16 +207,17 @@ module circuito_exp7_tb_prova;
     modo2_in         = 0;
     nivel_tempo_in   = 0;
     botoes_in        = 4'b0000;
-    #clockPeriod;
+    #(clockPeriod);
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //Cenario de Teste: timeout na terceira jgoada da quarta rodada, nível difícil de jogadas e de tempo, modo 2
+    /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     cenario = 1;
     iniciar_circuito(1,0,1); // inicia o circuito no modo 2
-    acerta_rodadas(3); // acerta 3 rodadsa
-    acerta_valores(3); // acerta 3 jogadas
-    #(TIMEOUT*clock_freq*clockPeriod)
+    acerta_rodadas(2); // acerta 2 rodadsa
+    #(40*clockPeriod);
+    $stop;*/
+    iniciar_circuito(1, 0, 1);
+    acerta_rodadas(16);
     $stop;
   end
 

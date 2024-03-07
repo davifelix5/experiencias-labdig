@@ -2,7 +2,7 @@ onerror {resume}
 quietly WaveActivateNextPane {} 0
 add wave -noupdate -height 30 /circuito_exp7_tb/cenario
 add wave -noupdate -height 30 /circuito_exp7_tb/caso
-add wave -noupdate -height 30 /circuito_exp7_tb/clock_freq
+add wave -noupdate -height 30 /circuito_exp7_tb/CLOCK_FREQ
 add wave -noupdate -height 30 /circuito_exp7_tb/clockPeriod
 add wave -noupdate -divider input
 add wave -noupdate -height 30 /circuito_exp7_tb/clock_in

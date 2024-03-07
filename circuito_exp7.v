@@ -11,7 +11,8 @@
  * --------------------------------------------------------------------
 */
 
-module circuito_exp7 (
+module circuito_exp7 #(parameter CLOCK_FREQ = 50000000) // 50MHz 
+(
     input        clock,
     input        reset,
     input        iniciar,
@@ -45,7 +46,6 @@ module circuito_exp7 (
     output       db_modo2,
     output       db_fimTM,
     output       db_meioTM
-    //output       db_gravaM
 );
 
     // Sinais de controle
@@ -72,7 +72,7 @@ module circuito_exp7 (
     assign db_gravaM              = gravaM;
 
     //Fluxo de Dados
-    exp7_fluxo_dados fluxo_dados (
+    exp7_fluxo_dados #(.CLOCK_FREQ(CLOCK_FREQ)) fluxo_dados (
         // Sinais de entrada
         .clock               ( clock               ),
         .botoes              ( botoes              ),

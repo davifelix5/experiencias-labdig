@@ -55,7 +55,7 @@ module circuito_exp7_tb;
   wire       db_modo2;
   wire [6:0] db_rodada;
 
-  parameter clock_freq = 5000; // Hz
+  parameter CLOCK_FREQ = 5000; // Hz
   parameter MOSTRA     = 2500; // Hz
   parameter APRESENTA  = 2; // s
   parameter TIMEOUT    = 5; // s
@@ -76,7 +76,7 @@ module circuito_exp7_tb;
   always #((clockPeriod / 2)) clock_in = ~clock_in;
 
   // instanciacao do DUT (Device Under Test)
-  circuito_exp7 DUT (
+  circuito_exp7 #(.CLOCK_FREQ(CLOCK_FREQ)) DUT (
     .clock            (clock_in),
     .reset            (reset_in),
     .iniciar          (iniciar_in),
@@ -131,7 +131,7 @@ module circuito_exp7_tb;
   */
   function automatic integer wait_time;
   input [31:0] step;
-  wait_time = (step*APRESENTA*clock_freq+(step-1)*(MOSTRA + 2)+MOSTRA + 1);
+  wait_time = (step*APRESENTA*CLOCK_FREQ+(step-1)*(MOSTRA + 2)+MOSTRA + 1);
   endfunction
 
   /*
@@ -249,7 +249,7 @@ module circuito_exp7_tb;
     cenario = 5;
     iniciar_circuito(1, 0, 1);
     #(wait_time(1)*clockPeriod);
-    #(TIMEOUT*clock_freq*clockPeriod);
+    #(TIMEOUT*CLOCK_FREQ*clockPeriod);
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Cenario de Teste: timeout na terceira rodada, segunda jogada, nível difícil de jogadas e fácil de tempo, modo 2 
@@ -258,7 +258,7 @@ module circuito_exp7_tb;
     iniciar_circuito(1, 0, 1);
     acerta_rodadas(2);
     acerta_valores(1);
-    #(TIMEOUT*clock_freq*clockPeriod);
+    #(TIMEOUT*CLOCK_FREQ*clockPeriod);
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Cenario de Teste: timeout ao gravar a rodada da terceira rodada, nível difícil de jogadas e fácil de tempo, modo 2 
@@ -267,7 +267,7 @@ module circuito_exp7_tb;
     iniciar_circuito(1, 0, 1);
     acerta_rodadas(2);
     acerta_valores(3);
-    #(TIMEOUT*clock_freq*clockPeriod);
+    #(TIMEOUT*CLOCK_FREQ*clockPeriod);
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Cenario de Teste: acerta tudo no nível dífícil de jogadas, fácil de tempo, modo1
