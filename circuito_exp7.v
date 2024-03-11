@@ -20,7 +20,6 @@ module circuito_exp7 #(parameter CLOCK_FREQ = 5000) // 50MHz
     input        nivel_jogadas, 
     input        nivel_tempo,
     input        modo2,
-    input        pausa_jogo,
 
     output       ganhou,
     output       perdeu,
@@ -29,7 +28,6 @@ module circuito_exp7 #(parameter CLOCK_FREQ = 5000) // 50MHz
     output       nova_jogada,
     output [3:0] leds,
     output       pulso_buzzer,
-    output       jogo_pausado,
 
     output       db_jogada_correta,
     output [6:0] db_contagem,
@@ -45,7 +43,8 @@ module circuito_exp7 #(parameter CLOCK_FREQ = 5000) // 50MHz
     output       db_enderecoIgualRodada,
     output       db_modo2,
     output       db_fimTM,
-    output       db_meioTM
+    output       db_meioTM,
+    output       db_gravaM
 );
 
     // Sinais de controle
@@ -126,7 +125,6 @@ module circuito_exp7 #(parameter CLOCK_FREQ = 5000) // 50MHz
         .iniciar             ( iniciar             ),
         .nivel_jogadas       ( nivel_jogadas_reg   ),
         .nivel_tempo         ( nivel_tempo_reg     ),
-        .pausa_jogo          ( pausa_jogo          ),
         // Sinais de condição
         .fimTempo            ( fimTempo            ),
         .meioTempo           ( meioTempo           ),
@@ -160,7 +158,6 @@ module circuito_exp7 #(parameter CLOCK_FREQ = 5000) // 50MHz
         .pronto              ( pronto              ),
 		.vez_jogador         ( vez_jogador         ),
         .nova_jogada         ( nova_jogada         ),
-        .jogo_pausado        ( jogo_pausado        ),
         // Sinais de depuração
         .db_estado           ( s_db_estado         ),
         .db_timeout          ( db_timeout          )
