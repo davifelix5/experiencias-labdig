@@ -13,58 +13,56 @@ module buzzer #(parameter CLOCK_FREQ) (
               SOL = 396,
               LA =  440; // Hz
 
-    parameter COUNT_1 = (CLOCK_FREQ/DO)/2-1,
-              COUNT_2 = (CLOCK_FREQ/RE)/2-1,
-              COUNT_3 = (CLOCK_FREQ/SOL)/2-1,
-              COUNT_4 = (CLOCK_FREQ/LA)/2-1;
+    parameter COUNT_1 = (CLOCK_FREQ/DO),
+              COUNT_2 = (CLOCK_FREQ/RE),
+              COUNT_3 = (CLOCK_FREQ/SOL),
+              COUNT_4 = (CLOCK_FREQ/LA);
 
     wire pulso_meio, pulso_quarto, pulso_oitavo, pulso_terco;
 
-    reg[1:0] seletor_final;
-
     /* Contadores para redução de clock */
     // 1/2 clock
-    contador_m #(.M(COUNT_1), .N($clog2(COUNT_1))) cont_2 ( 
+    gerador_pwm #(.M(COUNT_1), .N($clog2(COUNT_1))) cont_2 ( 
         .clock   ( clock       ), 
         .zera_s  ( reset       ), 
         .zera_as (             ), 
         .conta   ( conta       ),
         .Q       (             ),
-        .fim     ( pulso_meio ),
-        .meio    (             )
+        .fim     (             ),
+        .meio    ( pulso_meio  )
     );
 
     // 1/4 clock
-    contador_m #(.M(COUNT_2), .N($clog2(COUNT_2))) cont_4 ( 
+    gerador_pwm #(.M(COUNT_2), .N($clog2(COUNT_2))) cont_4 ( 
         .clock   ( clock       ), 
         .zera_s  ( reset       ), 
         .zera_as (             ), 
         .conta   ( conta       ),
         .Q       (             ),
-        .fim     ( pulso_quarto ),
-        .meio    (             )
+        .fim     (             ),
+        .meio    ( pulso_quarto  )
     );
 
     // 1/8 clock
-    contador_m #(.M(COUNT_3), .N($clog2(COUNT_3))) cont_8 ( 
+    gerador_pwm #(.M(COUNT_3), .N($clog2(COUNT_3))) cont_8 ( 
         .clock   ( clock       ), 
         .zera_s  ( reset       ), 
         .zera_as (             ), 
         .conta   ( conta       ),
         .Q       (             ),
-        .fim     ( pulso_oitavo ),
-        .meio    (             )
+        .fim     (             ),
+        .meio    ( pulso_oitavo  )
     );
 
     // 1/3 clock
-    contador_m #(.M(COUNT_4), .N($clog2(COUNT_4))) cont_3 ( 
+    gerador_pwm #(.M(COUNT_4), .N($clog2(COUNT_4))) cont_3 ( 
         .clock   ( clock       ), 
         .zera_s  ( reset       ), 
         .zera_as (             ), 
         .conta   ( 1'b1        ),
         .Q       (             ),
-        .fim     ( pulso_terco ),
-        .meio    (             )
+        .fim     (             ),
+        .meio    ( pulso_terco  )
     );
 
     /* Multiplexador para selecionar o pulso final 

@@ -1,4 +1,4 @@
-`timescale 1ns/1ns
+`timescale 100us/100us
 
 module buzzer_tb;
 
@@ -10,11 +10,12 @@ module buzzer_tb;
     wire pulso;
 
     integer caso;
-    // Criação do clock de 1kHz
-    integer clockPeriod = 200; 
+    parameter CLOCK_FREQ = 5000;
+    // Criação do clock de 50MHz
+    integer clockPeriod = 2; 
     always  #((clockPeriod / 2)) clock = ~clock;
 
-    buzzer UUT (
+    buzzer #(.CLOCK_FREQ(CLOCK_FREQ)) UUT (
         .clock   ( clock ),
         .conta   ( conta ),
         .reset   ( reset ),
@@ -40,8 +41,9 @@ module buzzer_tb;
 
         caso = 2;
         // Teste sem habilitar o clock
-        conta = 0;
-        #(50*clockPeriod);
+        conta = 1;
+        seletor = 4'b1000;
+        #(2*CLOCK_FREQ*clockPeriod);
 
         caso = 3;
         // Conta com 500Hz
