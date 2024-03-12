@@ -22,13 +22,12 @@ module fluxo_dados #(parameter CLOCK_FREQ)
     input registraR,
     input zeraC,
     input contaC,
-    input registraN,
     input contaTempo,
     input zeraCR,
     input zeraTempo,
     input contaCR,
-    input zeraTM,
-    input contaTM,
+    input zeraTF,
+    input contaTF,
     input leds_mem,
     input ativa_leds,
     input toca,
@@ -40,6 +39,7 @@ module fluxo_dados #(parameter CLOCK_FREQ)
     // Sinais de codição
     output nota_correta,
     output tempo_correto,
+    output tempo_correto_baixo,
     output nota_feita,
     output meioCR,
     output fimTempo,
@@ -62,18 +62,18 @@ module fluxo_dados #(parameter CLOCK_FREQ)
 
     parameter TEMPO_MOSTRA = 2, TIMEOUT=5, // s
               TEMPO_FEEDBACK = CLOCK_FREQ/2,
-              METRO_60BPM = 10000, METRO_120BPM = 100000;
+              METRO_60BPM = CLOCK_FREQ/2, METRO_120BPM = CLOCK_FREQ/4;
 
     // Sinais internos
-    wire tem_nota;
+    wire tem_nota, metro, meio_metro, nota_apertada_pulso;
     wire [3:0] s_memoria_nota, s_memoria_tempo, s_endereco, 
                s_rodada, s_nota, nota_reg_in, tempo;
     wire metro120, metro60, meio_metro120, meio_metro60;
-    wire tempo_correto_baixo, tempo_correto_cima;
+    wire tempo_correto_cima;
 
 
     // OR dos botoes
-    assign tem_nota    = |botoes;
+    assign nota_feita    = |botoes;
 
     // Seleção do metrônomo: 1 para 120BPM e 0 para 60BPM
     assign metro      = metro_120BPM ? metro120      : metro60;
@@ -102,10 +102,10 @@ module fluxo_dados #(parameter CLOCK_FREQ)
 
     //Edge Detector
     edge_detector EdgeDetector (
-        .clock( clock        ),
-        .reset( 1'b0         ), 
-        .sinal( tem_nota   ), 
-        .pulso( nota_feita )
+        .clock( clock               ),
+        .reset( 1'b0                ), 
+        .sinal( nota_feita          ), 
+        .pulso( nota_apertada_pulso )
     );
 
     //Contador para a nota atual
@@ -124,7 +124,7 @@ module fluxo_dados #(parameter CLOCK_FREQ)
     contador_m #(.M(METRO_60BPM)) Metro60 (
         .clock   ( clock        ), 
         .zera_s  ( zeraMetro    ), 
-        .zera_as ( 1'b0         ), 
+        .zera_as ( 1'b0         ),
         .conta   ( contaMetro   ),
         .Q       (              ),
         .fim     ( metro60      ),
@@ -168,8 +168,8 @@ module fluxo_dados #(parameter CLOCK_FREQ)
     contador_m #(.M(TEMPO_FEEDBACK) ) ContFeedback (
         .clock   ( clock   ), 
         .zera_as ( 1'b0    ), 
-        .zera_s  ( zeraTM  ), 
-        .conta   ( contaTM ), 
+        .zera_s  ( zeraTF  ), 
+        .conta   ( contaTF ), 
         .fim     (  fimTF  ),
         .Q       (         ),
         .meio    (         )
@@ -253,15 +253,15 @@ module fluxo_dados #(parameter CLOCK_FREQ)
 
     //Registrador 4 bits
     registrador_n #(.SIZE(4)) RegChv (
-        .D      ( nota_reg_in ),
-        .clear  ( zeraR       ),
-        .clock  ( clock       ),
-        .enable ( registraR   ),
-        .Q      ( s_nota      )
+        .D      ( nota_reg_in                       ),
+        .clear  ( zeraR                             ),
+        .clock  ( clock                             ),
+        .enable ( registraR & nota_apertada_pulso   ),
+        .Q      ( s_nota                            )
     );
 
     decoder_valor_nota DeocodificaNota (
-        .valor   ( ativa_leds_mem ? s_memoria_nota : s_nota ), 
+        .valor   ( leds_mem ? s_memoria_nota : s_nota ), 
         .enable ( ativa_leds ), 
         .nota ( leds )       
     );

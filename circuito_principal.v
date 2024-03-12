@@ -1,36 +1,38 @@
 module circuito_principal #(parameter CLOCK_FREQ = 5000) // 50MHz 
 (
-    input        clock,
-    input        reset,
-    input        iniciar,
+    input         clock,
+    input         reset,
+    input         iniciar,
     input [11:0]  botoes,
+    input         apresenta_ultima,
+    input         tentar_dnv_rep,
+    input         tentar_dnv,
 
-    output       ganhou,
-    output       perdeu,
-    output       pronto,
-	output       vez_jogador,
+    output        ganhou,
+    output        perdeu,
+	output        vez_jogador,
     output [11:0] leds,
-    output       pulso_buzzer,
+    output        pulso_buzzer,
 
-    output       db_nota_correta,
-    output [6:0] db_contagem,
-    output [6:0] db_memoria_nota,
-    output [6:0] db_memoria_tempo,
-    output [6:0] db_estado_lsb,
-    output [6:0] db_estado_msb,
-    output [6:0] db_nota,
-    output [6:0] db_rodada,
-    output       db_clock,
-    output       db_enderecoIgualRodada
+    output        db_nota_correta,
+    output [6:0]  db_contagem,
+    output [6:0]  db_memoria_nota,
+    output [6:0]  db_memoria_tempo,
+    output [6:0]  db_estado_lsb,
+    output [6:0]  db_estado_msb,
+    output [6:0]  db_nota,
+    output [6:0]  db_rodada,
+    output        db_clock,
+    output        db_enderecoIgualRodada
 );
 
     // Sinais de controle
-    wire contaC, contaTempo, contaTM, contaCR, registraR, registraN;
-    wire zeraC, zeraR, zeraCR, zeraTM, zeraTempo, zeraMetro, contaMetro, metro_120BPM, tempo_correto;
+    wire contaC, contaTempo, contaTF, contaCR, registraR;
+    wire zeraC, zeraR, zeraCR, zeraTF, zeraTempo, zeraMetro, contaMetro, metro_120BPM, tempo_correto, tempo_correto_baixo;
     wire leds_mem, ativa_leds, toca;
     wire gravaM;
     // Sinais de condição
-    wire fimCR, fimTM, meioTM, fimTempo, meioCR, meioTempo; 
+    wire fimCR, fimTF, fimTempo, meioCR, meioTempo; 
     wire enderecoIgualRodada, nota_feita, nota_correta;
     // Sinais de depuração
     wire [3:0] s_db_contagem,  s_db_rodada, s_db_memoria_nota,
@@ -51,15 +53,14 @@ module circuito_principal #(parameter CLOCK_FREQ = 5000) // 50MHz
         .registraR           ( registraR           ),
         .zeraC               ( zeraC               ),
         .contaC              ( contaC              ),
-        .registraN           ( registraN           ),
         .zeraTempo           ( zeraTempo           ),
         .contaTempo          ( contaTempo          ),
         .contaCR             ( contaCR             ),
         .zeraCR              ( zeraCR              ),
-        .contaTM             ( contaTM             ),
-        .zeraTM              ( zeraTM              ),
-        .leds_mem            ( ativa_leds_mem      ),
-        .ativa_leds          ( ativa_leds_jog      ),
+        .contaTF             ( contaTF             ),
+        .zeraTF              ( zeraTF              ),
+        .leds_mem            ( leds_mem            ),
+        .ativa_leds          ( ativa_leds          ),
         .toca                ( toca                ),
         .gravaM              ( gravaM              ),
         .metro_120BPM        ( metro_120BPM        ),          
@@ -68,6 +69,7 @@ module circuito_principal #(parameter CLOCK_FREQ = 5000) // 50MHz
         // Sinais de condição
         .nota_correta        ( nota_correta        ),
         .tempo_correto       ( tempo_correto       ),
+        .tempo_correto_baixo ( tempo_correto_baixo ),
         .nota_feita          ( nota_feita          ),
         .meioCR              ( meioCR              ),
         .fimTempo            ( fimTempo            ),
@@ -101,21 +103,24 @@ module circuito_principal #(parameter CLOCK_FREQ = 5000) // 50MHz
         .nota_feita          ( nota_feita          ),
         .nota_correta        ( nota_correta        ),
         .tempo_correto       ( tempo_correto       ),
+        .tempo_correto_baixo ( tempo_correto_baixo ),
         .enderecoIgualRodada ( enderecoIgualRodada ),
+        .apresenta_ultima    ( apresenta_ultima    ),
+        .tentar_dnv_rep      ( tentar_dnv_rep      ),
+        .tentar_dnv          ( tentar_dnv          ),
         // Sinais de controle
         .zeraC               ( zeraC               ),
         .contaC              ( contaC              ),
-        .zeraTM              ( zeraTM              ),
-        .contaTM             ( contaTM             ),
+        .zeraTF              ( zeraTF              ),
+        .contaTF             ( contaTF             ),
         .zeraCR              ( zeraCR              ),
         .contaCR             ( contaCR             ),
         .zeraR               ( zeraR               ),
         .registraR           ( registraR           ),
-        .registraN           ( registraN           ),
         .contaTempo          ( contaTempo          ),
         .zeraTempo           ( zeraTempo           ),
         .leds_mem            ( leds_mem            ),
-        .ativa_leds          ( ativas_leds         ),
+        .ativa_leds          ( ativa_leds         ),
         .toca                ( toca                ),
         .gravaM              ( gravaM              ),
         .metro_120BPM        ( metro_120BPM        ),          
@@ -124,12 +129,9 @@ module circuito_principal #(parameter CLOCK_FREQ = 5000) // 50MHz
         // Sinais de saída
         .ganhou              ( ganhou              ),
         .perdeu              ( perdeu              ),
-        .pronto              ( pronto              ),
 		.vez_jogador         ( vez_jogador         ),
         // Sinais de depuração
-        .db_estado           ( s_db_estado         ),
-        .db_timeout          ( db_timeout          )
-    
+        .db_estado           ( s_db_estado         )    
     );
 
     /* Displays */
