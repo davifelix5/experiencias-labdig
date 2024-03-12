@@ -12,12 +12,11 @@
 */
 
 
-module exp7_fluxo_dados #(parameter CLOCK_FREQ)
+module fluxo_dados #(parameter CLOCK_FREQ)
 (
     // Entradas
     input clock,
     input [3:0] botoes,
-    input nivel_jogadas, nivel_tempo, modo2,
 
     // Sinais de controle
     input zeraR,
@@ -39,16 +38,12 @@ module exp7_fluxo_dados #(parameter CLOCK_FREQ)
     // Sinais de codição
     output jogada_correta,
     output jogada_feita,
-    output nivel_jogadas_reg,
-    output nivel_tempo_reg,
-    output modo2_reg,
     output meioCR,
     output fimTempo,
     output meioTempo,
     output enderecoIgualRodada,
     output fimCR,
-    output fimTM,
-    output meioTM,
+    output fimTF,
     output pulso_buzzer,
 
     // Sinais de saída
@@ -91,33 +86,6 @@ module exp7_fluxo_dados #(parameter CLOCK_FREQ)
         .pulso   ( pulso_buzzer )  // Frequência da nota a ser tocada
     );
 
-    // Registrdor no nível de jogadas
-    registrador_n #(.SIZE(1)) RegNvlJog (
-        .D      ( nivel_jogadas     ),
-        .Q      ( nivel_jogadas_reg ),
-        .clear  ( zeraR             ),
-        .clock  ( clock             ),
-        .enable ( registraN         )
-    );
-
-    // Registrdor no nível de tempo
-    registrador_n #(.SIZE(1)) RegNvlTime (
-        .D      ( nivel_tempo     ),
-        .Q      ( nivel_tempo_reg ),
-        .clear  ( zeraR           ),
-        .clock  ( clock           ),
-        .enable ( registraN       )
-    );
-
-    // Registrdor no modo de jogo
-    registrador_n #(.SIZE(1)) RegMdJogo (
-        .D      ( modo2     ),
-        .Q      ( modo2_reg ),
-        .clear  ( zeraR     ),
-        .clock  ( clock     ),
-        .enable ( registraN )
-    );
-
     //Edge Detector
     edge_detector EdgeDetector (
         .clock( clock        ),
@@ -155,18 +123,7 @@ module exp7_fluxo_dados #(parameter CLOCK_FREQ)
         .zera_as ( 1'b0    ), 
         .zera_s  ( zeraTM  ), 
         .conta   ( contaTM ), 
-        .fim     (  meioTM ),
-        .Q       (         ),
-        .meio    (         )
-    );
-
-    // Contador (timer) COM 2s para sinalizar a apresentação de jogada
-    contador_m #(.M(TEMPO_MOSTRA*CLOCK_FREQ), .N($clog2(TEMPO_MOSTRA*CLOCK_FREQ)) ) ContMostra (
-        .clock   ( clock   ), 
-        .zera_as ( 1'b0    ), 
-        .zera_s  ( zeraTM  ), 
-        .conta   ( contaTM ), 
-        .fim     ( fimTM   ),
+        .fim     (  fimTF  ),
         .Q       (         ),
         .meio    (         )
     );
