@@ -3,82 +3,43 @@ module buzzer #(parameter CLOCK_FREQ) (
     input conta,
     input reset,
 
-    input[3:0] seletor,
+    input[11:0] seletor,
 
-    output reg pulso  // Frequência da nota a ser tocada
+    output pulso  // Frequência da nota a ser tocada
 );
+
+    genvar i;
+    wire [0:11] pulsos;
+    wire [3:0]  seletor_pulso;
     
-    parameter DO =  264,
-              RE =  300,
-              SOL = 396,
-              LA =  440; // Hz
+    parameter N = 16, SIZE = 12;
+    // Array de frequências
+    parameter [(N*SIZE-1):0] frequencias = {12'd201, 12'd201, 12'd201, 
+    12'd201, 12'd201, 12'd201, 
+    12'd201, 12'd201, 12'd201, 
+    12'd201, 12'd201, 12'd201,
+    12'd201, 12'd201, 12'd201, 12'd201  };
 
-    parameter COUNT_1 = (CLOCK_FREQ/DO),
-              COUNT_2 = (CLOCK_FREQ/RE),
-              COUNT_3 = (CLOCK_FREQ/SOL),
-              COUNT_4 = (CLOCK_FREQ/LA);
+    generate
+        for (i=0; i <12; i = i + 1) begin: GENERATE_PULSES
+            gerador_pwm #( .M(CLOCK_FREQ/(frequencias[i*SIZE+:SIZE])) ) cont_2 ( 
+                .clock   ( clock         ), 
+                .zera_s  ( reset         ), 
+                .zera_as (               ), 
+                .conta   ( conta         ),
+                .Q       (               ),
+                .fim     (               ),
+                .meio    ( pulsos[i]     )
+            );
+        end
+    endgenerate
 
-    wire pulso_meio, pulso_quarto, pulso_oitavo, pulso_terco;
-
-    /* Contadores para redução de clock */
-    // 1/2 clock
-    gerador_pwm #( .M(COUNT_1) ) cont_2 ( 
-        .clock   ( clock       ), 
-        .zera_s  ( reset       ), 
-        .zera_as (             ), 
-        .conta   ( conta       ),
-        .Q       (             ),
-        .fim     (             ),
-        .meio    ( pulso_meio  )
+    decoder_nota_valor CodificaNota (
+        .nota   ( seletor ),
+        .enable (1'b1),
+        .valor  (seletor_pulso)
     );
 
-    // 1/4 clock
-    gerador_pwm #( .M(COUNT_2) ) cont_4 ( 
-        .clock   ( clock       ), 
-        .zera_s  ( reset       ), 
-        .zera_as (             ), 
-        .conta   ( conta       ),
-        .Q       (             ),
-        .fim     (             ),
-        .meio    ( pulso_quarto  )
-    );
-
-    // 1/8 clock
-    gerador_pwm #( .M(COUNT_3) ) cont_8 ( 
-        .clock   ( clock       ), 
-        .zera_s  ( reset       ), 
-        .zera_as (             ), 
-        .conta   ( conta       ),
-        .Q       (             ),
-        .fim     (             ),
-        .meio    ( pulso_oitavo  )
-    );
-
-    // 1/3 clock
-    gerador_pwm #( .M(COUNT_4) ) cont_3 ( 
-        .clock   ( clock       ), 
-        .zera_s  ( reset       ), 
-        .zera_as (             ), 
-        .conta   ( 1'b1        ),
-        .Q       (             ),
-        .fim     (             ),
-        .meio    ( pulso_terco  )
-    );
-
-    /* Multiplexador para selecionar o pulso final 
-        0001: 1/8 clock
-        0010: 1/4 clock
-        0100: 1/3 clock
-        1000: 1/2 clock  */
-    always @* begin
-        case (seletor)
-            4'b0001: pulso = pulso_oitavo;
-            4'b0010: pulso = pulso_quarto;
-            4'b0100: pulso = pulso_terco;
-            4'b1000: pulso = pulso_meio;
-            4'b0000: pulso = 4'b0;
-            default: pulso = 4'b0;
-        endcase
-    end
+    assign pulso = pulsos[seletor_pulso];
 
 endmodule

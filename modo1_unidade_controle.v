@@ -20,8 +20,9 @@ module modo1_unidade_controle (
     input     fimCR,
     input     meioCR,
 
-    input     jogada_feita,
-    input     jogada_correta,
+    input     nota_feita,
+    input     nota_correta,
+    input     tempo_correto,
     
     input     enderecoIgualRodada,
     
@@ -38,6 +39,9 @@ module modo1_unidade_controle (
     output    contaCR,
     output    zeraCR,
 
+    output    contaMetro,
+    output    zeraMetro,
+
     output    contaTempo,
     output    zeraTempo,
 
@@ -46,9 +50,10 @@ module modo1_unidade_controle (
 
     output    registraN,
 
-    output    ativa_leds_mem,
-    output    ativa_leds_jog,
+    output    leds_mem,
+    output    ativa_leds,
     output    toca,
+    output    metro_120BPM,
     output    gravaM,
 
     /* Saídas */
@@ -69,12 +74,12 @@ module modo1_unidade_controle (
                 espera_mostra        = 5'h04,
                 apaga_mostra         = 5'h0D,
                 mostra_proximo       = 5'h05,
-                inicio_jogada        = 5'h06,
-                espera_jogada        = 5'h07,
+                inicio_nota          = 5'h06,
+                espera_nota          = 5'h07,
                 registra             = 5'h08,
                 compara              = 5'h09,
                 acertou              = 5'h0A,
-                proxima_jogada       = 5'h0B,
+                proxima_nota         = 5'h0B,
                 errou                = 5'h0E,
                 estado_timeout       = 5'h0F,
                 proxima_rodada       = 5'h13;
@@ -102,15 +107,15 @@ module modo1_unidade_controle (
             inicializa_elementos:     Eprox = inicio_rodada;
             inicio_rodada:            Eprox = fimTF ? mostra : inicio_rodada;
             mostra:                   Eprox = espera_mostra;
-            espera_mostra:            Eprox = fimTF ? (enderecoIgualRodada ? inicio_jogada : apaga_mostra) : espera_mostra;
+            espera_mostra:            Eprox = fimTF ? (enderecoIgualRodada ? inicio_nota : apaga_mostra) : espera_mostra;
             apaga_mostra:             Eprox = fimTF ? mostra_proximo : apaga_mostra;
             mostra_proximo:           Eprox = mostra;
-            inicio_jogada:            Eprox = espera_jogada;
-            espera_jogada:            Eprox = fimTempo ? estado_timeout : (jogada_feita ? registra : espera_jogada);
+            inicio_nota:            Eprox = espera_nota;
+            espera_nota:            Eprox = fimTempo ? estado_timeout : (nota_feita ? registra : espera_nota);
             registra:                 Eprox = compara;
             compara: begin
                 if (fimTF) begin
-                    if (jogada_correta) begin
+                    if (nota_correta) begin
                         if (enderecoIgualRodada) begin
                             if (fimCR)
                                 Eprox = acertou;
@@ -118,7 +123,7 @@ module modo1_unidade_controle (
                                 Eprox = proxima_rodada;                
                         end 
                         else
-                            Eprox = proxima_jogada;
+                            Eprox = proxima_nota;
                     end
                     else begin
                         Eprox = errou;
@@ -128,7 +133,7 @@ module modo1_unidade_controle (
                     Eprox = compara;
                 end
             end
-            proxima_jogada:           Eprox = espera_jogada;
+            proxima_nota:           Eprox = espera_nota;
             acertou:                  Eprox = iniciar ? inicializa_elementos : acertou;
             errou:                    Eprox = iniciar ? inicializa_elementos : errou;
             estado_timeout:           Eprox = iniciar ? inicializa_elementos : estado_timeout; 
@@ -140,21 +145,21 @@ module modo1_unidade_controle (
     // Logica de saida (maquina Moore)
     assign zeraR          = (Eatual == inicial);
     assign zeraCR         = (Eatual == inicializa_elementos);
-    assign zeraC          = (Eatual == inicio_jogada || Eatual == inicio_rodada);
-    assign zeraTempo      = (Eatual == proxima_jogada || Eatual == inicio_jogada || Eatual == inicializa_elementos);
-    assign zeraTM         = (Eatual == mostra || Eatual == proxima_jogada || Eatual == inicializa_elementos || Eatual == inicio_jogada || Eatual == proxima_rodada);
+    assign zeraC          = (Eatual == inicio_nota || Eatual == inicio_rodada);
+    assign zeraTempo      = (Eatual == proxima_nota || Eatual == inicio_nota || Eatual == inicializa_elementos);
+    assign zeraTM         = (Eatual == mostra || Eatual == proxima_nota || Eatual == inicializa_elementos || Eatual == inicio_nota || Eatual == proxima_rodada);
     assign contaTM        = (Eatual == espera_mostra || Eatual == apaga_mostra || Eatual == compara || Eatual == inicio_rodada);
-    assign contaC         = (Eatual == mostra_proximo || Eatual == proxima_jogada);
-    assign contaTempo     = (Eatual == espera_jogada);
-    assign vez_jogador    = (Eatual == espera_jogada);
+    assign contaC         = (Eatual == mostra_proximo || Eatual == proxima_nota);
+    assign contaTempo     = (Eatual == espera_nota);
+    assign vez_jogador    = (Eatual == espera_nota);
     assign registraR      = (Eatual == registra);
     assign contaCR        = (Eatual == proxima_rodada);
     assign ganhou         = (Eatual == acertou);
     assign perdeu         = (Eatual == errou || Eatual == estado_timeout);
     assign pronto         = ((Eatual == errou) || (Eatual == acertou) || (Eatual == estado_timeout)); 
     assign registraN      = (Eatual == inicializa_elementos);
-    assign ativa_leds_mem = (Eatual == espera_mostra);
-    assign ativa_leds_jog = (Eatual == compara);
+    assign leds_mem       = (Eatual == espera_mostra);
+    assign ativa_leds     = (Eatual == compara || Eatual == espera_mostra);
     assign toca           = (Eatual == espera_mostra || Eatual == compara);
 
 

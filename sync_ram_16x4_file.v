@@ -19,7 +19,7 @@
 //
 
 module sync_ram_16x4_file #(
-    parameter BINFILE = "ram_init.txt"
+    parameter HEXFILE = "ram_init.txt"
 )
 (
     input        clk,
@@ -40,7 +40,7 @@ module sync_ram_16x4_file #(
     initial 
     begin : INICIA_RAM
         // leitura do conteudo a partir de um arquivo
-        $readmemb(BINFILE, ram);
+        $readmemh(HEXFILE, ram);
     end 
 
     always @ (posedge clk)
