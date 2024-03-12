@@ -1,14 +1,15 @@
-//------------------------------------------------------------------
-// Arquivo   : exp7_unidade_controle.v
-// Projeto   : Experiencia 7 - Projeto de uma Unidade de Controle
+/* --------------------------------------------------------------------
+ * Arquivo   : fluxo_dados.v
+ * Projeto   : FPGAudio - Piano didático com FPGA
 //------------------------------------------------------------------
 // Descricao : Unidade de controle          
 //------------------------------------------------------------------
 // Revisoes  :
 //     Data        Versao  Autor                                        Descricao
-//     14/02/2024  1.0     Caio Dourado, Davi Félix, Vinicius Batista   versao inicial
+//     11/03/2024  1.0     Caio Dourado, Davi Félix, Vinicius Batista   versao inicial
 //------------------------------------------------------------------
-//
+*/
+
 module modo1_unidade_controle (
     input     clock,
     input     reset,

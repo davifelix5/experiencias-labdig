@@ -16,13 +16,13 @@
  *-----------------------------------------------------------------------
  */
 
-module contador_m #(parameter M=100, N=7)
+module contador_m #(parameter M=100)
   (
    input  wire          clock,
    input  wire          zera_as,
    input  wire          zera_s,
    input  wire          conta,
-   output reg  [N-1:0]  Q,
+   output reg  [$clog2(M)-1:0]  Q,
    output reg           fim,
    output reg           meio
   );

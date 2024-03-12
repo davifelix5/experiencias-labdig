@@ -1,28 +1,25 @@
 
-/*---------------Laboratorio Digital-------------------------------------
- * Arquivo   : contador_m.v
- * Projeto   : Experiencia 5 - Desenvolvimento de Projeto de 
- *                             Circuitos Digitais em FPGA
- *-----------------------------------------------------------------------
- * Descricao : contador binario, modulo m, com parametros 
- *             M (modulo do contador) e N (numero de bits),
- *             sinais para clear assincrono (zera_as) e sincrono (zera_s)
- *             e saidas de fim e meio de contagem
- *             
- *-----------------------------------------------------------------------
+/*---------------Laboratorio Digital--------------------------------------------
+ * Arquivo   : gerador_pwn.v
+ * Projeto   : FPGAudio - Piano didático com FPGA
+ *-------------------------------------------------------------------------------
+ * Descricao : módulo responsável por gerar uma onda PWM a 
+               partir de uma determinada frequência informada
+               a partir do módulo do contador
+ *--------------------------------------------------------------------------------
  * Revisoes  :
- *     Data        Versao  Autor             Descricao
- *     30/01/2024  1.0     Edson Midorikawa  criacao
- *-----------------------------------------------------------------------
+ *     Data        Versao  Autor                                        Descricao
+ *     30/01/2024  1.0     Caio Dourado, Davi Félix e Vinicius Batista  criacao
+ *--------------------------------------------------------------------------------
  */
 
-module gerador_pwm #(parameter M=100, N=7)
+module gerador_pwm #(parameter M=100)
   (
    input  wire          clock,
    input  wire          zera_as,
    input  wire          zera_s,
    input  wire          conta,
-   output reg  [N-1:0]  Q,
+   output reg  [$clog2(M)-1:0]  Q,
    output reg           fim,
    output reg           meio
   );

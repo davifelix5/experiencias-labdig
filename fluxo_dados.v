@@ -1,13 +1,12 @@
 /* --------------------------------------------------------------------
- * Arquivo   : exp7_fluxo_dados.v
- * Projeto   : Experiencia 7 - Desenvolvimento de Projeto de 
- *             Circuitos Digitais em FPGA
+ * Arquivo   : fluxo_dados.v
+ * Projeto   : FPGAudio - Piano didático com FPGA
  * --------------------------------------------------------------------
- * Descricao : Fluxo de dados Verilog para circuito da Experiencia 7
+ * Descricao : Fluxo de dados Verilog para circuito
  * --------------------------------------------------------------------
  * Revisoes  :
  *     Data        Versao  Autor                                            Descricao
- *     14/02/2024  1.0     Caio Dourado, Davi Félix e Vinicius Batista      versao inicial
+ *     11/03/2024  1.0     Caio Dourado, Davi Félix e Vinicius Batista      versao inicial
  * --------------------------------------------------------------------
 */
 
@@ -107,7 +106,7 @@ module fluxo_dados #(parameter CLOCK_FREQ)
     );
 
     // Contador para a rodada atual
-    contador_m #(.M(16), .N(4)) ContRod (
+    contador_m #(.M(16)) ContRod (
         .clock   ( clock    ), 
         .zera_s  ( zeraCR   ), 
         .zera_as ( 1'b0     ), 
@@ -118,7 +117,7 @@ module fluxo_dados #(parameter CLOCK_FREQ)
     );
 
     // Contador (timer) COM 0.5s para sinalizar o feedback de led apertada
-    contador_m #(.M(TEMPO_FEEDBACK), .N($clog2(TEMPO_FEEDBACK)) ) ContFeedback (
+    contador_m #(.M(TEMPO_FEEDBACK) ) ContFeedback (
         .clock   ( clock   ), 
         .zera_as ( 1'b0    ), 
         .zera_s  ( zeraTM  ), 
@@ -129,7 +128,7 @@ module fluxo_dados #(parameter CLOCK_FREQ)
     );
 
     // Contador (timer) de 5s para sinalizar timeout 
-    contador_m  # ( .M(TIMEOUT*CLOCK_FREQ), .N($clog2(TIMEOUT*CLOCK_FREQ)) ) TimerTimeout (
+    contador_m  # ( .M(TIMEOUT*CLOCK_FREQ) ) TimerTimeout (
         .clock   ( clock        ),
         .zera_as ( 1'b0         ),
         .zera_s  ( zeraTempo    ),

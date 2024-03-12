@@ -1,16 +1,3 @@
-/* --------------------------------------------------------------------
- * Arquivo   : circuito_exp7.v
- * Projeto   : Experiencia 7 - Desenvolvimento de Projeto de 
- *             Circuitos Digitais em FPGA
- * --------------------------------------------------------------------
- * Descricao : Circuito em Verilog para a Experiencia 7 
- * --------------------------------------------------------------------
- * Revisoes  :
- *     Data        Versao  Autor                                            Descricao
- *     14/02/2024  1.0     Caio Dourado, Davi Félix e Vinicius Batista      versao inicial
- * --------------------------------------------------------------------
-*/
-
 module circuito_exp7 #(parameter CLOCK_FREQ = 5000) // 50MHz 
 (
     input        clock,

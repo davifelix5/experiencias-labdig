@@ -22,7 +22,7 @@ module buzzer #(parameter CLOCK_FREQ) (
 
     /* Contadores para redução de clock */
     // 1/2 clock
-    gerador_pwm #(.M(COUNT_1), .N($clog2(COUNT_1))) cont_2 ( 
+    gerador_pwm #( .M(COUNT_1) ) cont_2 ( 
         .clock   ( clock       ), 
         .zera_s  ( reset       ), 
         .zera_as (             ), 
@@ -33,7 +33,7 @@ module buzzer #(parameter CLOCK_FREQ) (
     );
 
     // 1/4 clock
-    gerador_pwm #(.M(COUNT_2), .N($clog2(COUNT_2))) cont_4 ( 
+    gerador_pwm #( .M(COUNT_2) ) cont_4 ( 
         .clock   ( clock       ), 
         .zera_s  ( reset       ), 
         .zera_as (             ), 
@@ -44,7 +44,7 @@ module buzzer #(parameter CLOCK_FREQ) (
     );
 
     // 1/8 clock
-    gerador_pwm #(.M(COUNT_3), .N($clog2(COUNT_3))) cont_8 ( 
+    gerador_pwm #( .M(COUNT_3) ) cont_8 ( 
         .clock   ( clock       ), 
         .zera_s  ( reset       ), 
         .zera_as (             ), 
@@ -55,7 +55,7 @@ module buzzer #(parameter CLOCK_FREQ) (
     );
 
     // 1/3 clock
-    gerador_pwm #(.M(COUNT_4), .N($clog2(COUNT_4))) cont_3 ( 
+    gerador_pwm #( .M(COUNT_4) ) cont_3 ( 
         .clock   ( clock       ), 
         .zera_s  ( reset       ), 
         .zera_as (             ), 
