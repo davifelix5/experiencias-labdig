@@ -121,7 +121,7 @@ module fluxo_dados #(parameter CLOCK_FREQ)
     );
 
     // Metronomo 60BPM para a rodada atual
-    contador_m #(.M(METRO_60BPM)) Metro60 (
+    gerador_pwm #(.M(METRO_60BPM)) Metro60 (
         .clock   ( clock        ), 
         .zera_s  ( zeraMetro    ), 
         .zera_as ( 1'b0         ),
@@ -132,7 +132,7 @@ module fluxo_dados #(parameter CLOCK_FREQ)
     );
 
     // Metronomo 120BPM para a rodada atual
-    contador_m #(.M(METRO_120BPM)) Metro120 (
+    gerador_pwm #(.M(METRO_120BPM)) Metro120 (
         .clock   ( clock         ), 
         .zera_s  ( zeraMetro     ),  
         .zera_as ( 1'b0          ), 
@@ -142,15 +142,14 @@ module fluxo_dados #(parameter CLOCK_FREQ)
         .meio    ( meio_metro120 )
     );
 
-    contador_163 ContadorTempo (
-        .clock ( metro      ), 
-        .clr   ( ~zeraMetro ),
-        .ent   ( 1'b1       ), 
-        .enp   ( contaMetro ), 
-        .Q     ( tempo      ),
-        .rco   (            ),
-        .ld    ( 1'b1       ),
-        .D     (            )
+    contador_m #(.M(16)) ContadorTempo (
+        .clock   ( metro         ), 
+        .zera_s  ( 1'b0          ),  
+        .zera_as ( zeraMetro     ), 
+        .conta   ( contaMetro    ),
+        .Q       ( tempo         ),
+        .fim     (               ),
+        .meio    (               )
     );
 
     // Contador para a rodada atual

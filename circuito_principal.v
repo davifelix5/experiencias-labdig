@@ -15,11 +15,12 @@ module circuito_principal #(parameter CLOCK_FREQ = 5000) // 50MHz
     output        pulso_buzzer,
 
     output        db_nota_correta,
+    output        db_tempo_correto,
     output [6:0]  db_contagem,
     output [6:0]  db_memoria_nota,
     output [6:0]  db_memoria_tempo,
     output [6:0]  db_estado_lsb,
-    output [6:0]  db_estado_msb,
+    output        db_estado_msb,
     output [6:0]  db_nota,
     output [6:0]  db_rodada,
     output        db_clock,
@@ -42,6 +43,8 @@ module circuito_principal #(parameter CLOCK_FREQ = 5000) // 50MHz
     assign db_clock               = clock;
 	assign db_nota_correta      = nota_correta;
     assign db_enderecoIgualRodada = enderecoIgualRodada;
+    assign db_estado_msb = s_db_rodada[4];
+    assign db_tempo_correto = tempo_correto;
 
     //Fluxo de Dados
     fluxo_dados #(.CLOCK_FREQ(CLOCK_FREQ)) fluxo_dados (
@@ -160,11 +163,7 @@ module circuito_principal #(parameter CLOCK_FREQ = 5000) // 50MHz
         .display ( db_estado_lsb   )
     );
 
-     //Estado ultimos bits
-    hexa7seg display_estado_ult (
-        .hexa    ({3'b0, s_db_estado[4]}),
-        .display ( db_estado_msb   )
-    );
+    /* eu */
 
      //Jogada
     hexa7seg display_nota (
