@@ -92,7 +92,7 @@ module fluxo_dados #(parameter CLOCK_FREQ)
     //Buzzer para notas
     buzzer #(.CLOCK_FREQ(CLOCK_FREQ)) BuzzerLeds (
         .clock   ( clock ),
-        .conta   ( toca ),
+        .toca    ( toca ),
         .reset   ( zeraR ),
 
         .seletor ( leds ),

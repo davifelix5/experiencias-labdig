@@ -1,6 +1,6 @@
 module buzzer #(parameter CLOCK_FREQ) (
     input clock, // Clock do circuito
-    input conta,
+    input toca,
     input reset,
 
     input[11:0] seletor,
@@ -14,9 +14,9 @@ module buzzer #(parameter CLOCK_FREQ) (
     
     parameter N = 16, SIZE = 12;
     // Array de frequências
-    parameter [(N*SIZE-1):0] frequencias = {12'd201, 12'd201, 12'd201, 
-    12'd201, 12'd201, 12'd201, 
-    12'd201, 12'd201, 12'd201, 
+    parameter [0:(N*SIZE-1)] frequencias = {12'd264, 12'd297, 12'd330, 
+    12'd352, 12'd396, 12'd440, 
+    12'd495, 12'd528, 12'd201, 
     12'd201, 12'd201, 12'd201,
     12'd201, 12'd201, 12'd201, 12'd201  };
 
@@ -26,7 +26,7 @@ module buzzer #(parameter CLOCK_FREQ) (
                 .clock   ( clock         ), 
                 .zera_s  ( reset         ), 
                 .zera_as (               ), 
-                .conta   ( conta         ),
+                .conta   ( toca          ),
                 .Q       (               ),
                 .fim     (               ),
                 .meio    ( pulsos[i]     )
@@ -40,6 +40,6 @@ module buzzer #(parameter CLOCK_FREQ) (
         .valor  (seletor_pulso)
     );
 
-    assign pulso = pulsos[seletor_pulso];
+    assign pulso = toca ? pulsos[seletor_pulso] : 0;
 
 endmodule
