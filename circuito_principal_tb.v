@@ -349,9 +349,81 @@ module circuito_principal_tb;
         botoes_in = 12'b000000000000;
         #(10*CLOCK_PERIOD);
 
+        /************************************************************************************************
+            Timeout na segunda jogada
+        *************************************************************************************************/
+        cenario = 8;
+        // Reseta o circuito
+        @(negedge clock_in);
+        reset_in = 1;
+        #(CLOCK_PERIOD);
+        reset_in = 0;
+        #(CLOCK_PERIOD);
+
+        // Inicia o circuito
+        iniciar_in = 1;
+        #(CLOCK_PERIOD)
+        iniciar_in = 0;
         
+        // Apresenta a primeira nota
+        #(0.5*CLOCK_FREQ*CLOCK_PERIOD);
+        #(CLOCK_PERIOD);
+        #(1.5*CLOCK_FREQ*CLOCK_PERIOD);
+        #(10*CLOCK_PERIOD);
 
+            
+        botoes_in = 12'b000000000100; // Primeira nota
+        #(7500*CLOCK_PERIOD);
+        botoes_in = 12'b000000000000;
 
+        #((2500 + 7500 + 10000 + 10 + 2500)*CLOCK_PERIOD); // Apresentação da segunda rodada
+
+        botoes_in = 12'b000000000100; // Primeira nota
+        #(7500*CLOCK_PERIOD);
+        botoes_in = 12'b000000000000;
+        #(10*CLOCK_PERIOD);
+
+        #(25000*CLOCK_PERIOD);
+        #(10*CLOCK_PERIOD);
+
+        /************************************************************************************************
+            Erra a segunda nota da segunda rodada
+        *************************************************************************************************/
+        cenario = 9;
+        // Reseta o circuito
+        @(negedge clock_in);
+        reset_in = 1;
+        #(CLOCK_PERIOD);
+        reset_in = 0;
+        #(CLOCK_PERIOD);
+
+        // Inicia o circuito
+        iniciar_in = 1;
+        #(CLOCK_PERIOD)
+        iniciar_in = 0;
+        
+        // Apresenta a primeira nota
+        #(0.5*CLOCK_FREQ*CLOCK_PERIOD);
+        #(CLOCK_PERIOD);
+        #(1.5*CLOCK_FREQ*CLOCK_PERIOD);
+        #(10*CLOCK_PERIOD);
+
+            
+        botoes_in = 12'b000000000100; // Primeira nota
+        #(7500*CLOCK_PERIOD);
+        botoes_in = 12'b000000000000;
+
+        #((2500 + 7500 + 10000 + 10 + 2500)*CLOCK_PERIOD); // Apresentação da segunda rodada
+
+        botoes_in = 12'b000000000100; // Primeira nota
+        #(7500*CLOCK_PERIOD);
+        botoes_in = 12'b000000000000;
+        #(10*CLOCK_PERIOD);
+
+        botoes_in = 12'b000000001000; // Primeira nota
+        #(10000*CLOCK_PERIOD);
+        botoes_in = 12'b000000000000;
+        #(10*CLOCK_PERIOD);
         $finish;
 
     end

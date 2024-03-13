@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Wed Mar 13 02:04:54 2024
+[*] Wed Mar 13 03:37:07 2024
 [*]
 [dumpfile] "/home/davifelix/Documentos/usp/quadri/labdig/projeto/circuito/verilog/waveforms.vcd"
-[dumpfile_mtime] "Wed Mar 13 02:00:44 2024"
-[dumpfile_size] 53923238
+[dumpfile_mtime] "Wed Mar 13 03:06:51 2024"
+[dumpfile_size] 72286652
 [savefile] "/home/davifelix/Documentos/usp/quadri/labdig/projeto/circuito/verilog/default.gtkw"
-[timestart] 65141404
+[timestart] 45483330
 [size] 1366 740
 [pos] -1 -1
-*-10.000000 65143500 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-13.921664 45495700 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] circuito_principal_tb.
 [treeopen] circuito_principal_tb.UUT.
 [treeopen] circuito_principal_tb.UUT.fluxo_dados.
@@ -17,25 +17,64 @@
 [signals_width] 232
 [sst_expanded] 1
 [sst_vpaned_height] 197
-@420
+@c00420
 circuito_principal_tb.cenario
+@28
+(0)circuito_principal_tb.cenario
+(1)circuito_principal_tb.cenario
+(2)circuito_principal_tb.cenario
+(3)circuito_principal_tb.cenario
+(4)circuito_principal_tb.cenario
+(5)circuito_principal_tb.cenario
+(6)circuito_principal_tb.cenario
+(7)circuito_principal_tb.cenario
+(8)circuito_principal_tb.cenario
+(9)circuito_principal_tb.cenario
+(10)circuito_principal_tb.cenario
+(11)circuito_principal_tb.cenario
+(12)circuito_principal_tb.cenario
+(13)circuito_principal_tb.cenario
+(14)circuito_principal_tb.cenario
+(15)circuito_principal_tb.cenario
+(16)circuito_principal_tb.cenario
+(17)circuito_principal_tb.cenario
+(18)circuito_principal_tb.cenario
+(19)circuito_principal_tb.cenario
+(20)circuito_principal_tb.cenario
+(21)circuito_principal_tb.cenario
+(22)circuito_principal_tb.cenario
+(23)circuito_principal_tb.cenario
+(24)circuito_principal_tb.cenario
+(25)circuito_principal_tb.cenario
+(26)circuito_principal_tb.cenario
+(27)circuito_principal_tb.cenario
+(28)circuito_principal_tb.cenario
+(29)circuito_principal_tb.cenario
+(30)circuito_principal_tb.cenario
+(31)circuito_principal_tb.cenario
+@1401200
+-group_end
 @28
 circuito_principal_tb.clock_in
 circuito_principal_tb.botoes_in[11:0]
+circuito_principal_tb.UUT.reset
 circuito_principal_tb.iniciar_in
-@23
+@22
 circuito_principal_tb.UUT.unidade_controle.Eatual[4:0]
 @800200
 -saida
 @28
 #{circuito_principal_tb.UUT.fluxo_dados.leds[11:0]} circuito_principal_tb.UUT.fluxo_dados.leds[11] circuito_principal_tb.UUT.fluxo_dados.leds[10] circuito_principal_tb.UUT.fluxo_dados.leds[9] circuito_principal_tb.UUT.fluxo_dados.leds[8] circuito_principal_tb.UUT.fluxo_dados.leds[7] circuito_principal_tb.UUT.fluxo_dados.leds[6] circuito_principal_tb.UUT.fluxo_dados.leds[5] circuito_principal_tb.UUT.fluxo_dados.leds[4] circuito_principal_tb.UUT.fluxo_dados.leds[3] circuito_principal_tb.UUT.fluxo_dados.leds[2] circuito_principal_tb.UUT.fluxo_dados.leds[1] circuito_principal_tb.UUT.fluxo_dados.leds[0]
+@29
+circuito_principal_tb.UUT.fluxo_dados.pulso_buzzer
 @1000200
 -saida
 @800200
 -depuração
 @22
-#{circuito_principal_tb.UUT.fluxo_dados.s_memoria_tempo[3:0]} circuito_principal_tb.UUT.fluxo_dados.s_memoria_tempo[3] circuito_principal_tb.UUT.fluxo_dados.s_memoria_tempo[2] circuito_principal_tb.UUT.fluxo_dados.s_memoria_tempo[1] circuito_principal_tb.UUT.fluxo_dados.s_memoria_tempo[0]
+#{circuito_principal_tb.UUT.fluxo_dados.s_endereco[3:0]} circuito_principal_tb.UUT.fluxo_dados.s_endereco[3] circuito_principal_tb.UUT.fluxo_dados.s_endereco[2] circuito_principal_tb.UUT.fluxo_dados.s_endereco[1] circuito_principal_tb.UUT.fluxo_dados.s_endereco[0]
 #{circuito_principal_tb.UUT.fluxo_dados.s_memoria_nota[3:0]} circuito_principal_tb.UUT.fluxo_dados.s_memoria_nota[3] circuito_principal_tb.UUT.fluxo_dados.s_memoria_nota[2] circuito_principal_tb.UUT.fluxo_dados.s_memoria_nota[1] circuito_principal_tb.UUT.fluxo_dados.s_memoria_nota[0]
+#{circuito_principal_tb.UUT.fluxo_dados.s_memoria_tempo[3:0]} circuito_principal_tb.UUT.fluxo_dados.s_memoria_tempo[3] circuito_principal_tb.UUT.fluxo_dados.s_memoria_tempo[2] circuito_principal_tb.UUT.fluxo_dados.s_memoria_tempo[1] circuito_principal_tb.UUT.fluxo_dados.s_memoria_tempo[0]
 #{circuito_principal_tb.UUT.fluxo_dados.s_nota[3:0]} circuito_principal_tb.UUT.fluxo_dados.s_nota[3] circuito_principal_tb.UUT.fluxo_dados.s_nota[2] circuito_principal_tb.UUT.fluxo_dados.s_nota[1] circuito_principal_tb.UUT.fluxo_dados.s_nota[0]
 @c00022
 #{circuito_principal_tb.UUT.fluxo_dados.tempo[3:0]} circuito_principal_tb.UUT.fluxo_dados.tempo[3] circuito_principal_tb.UUT.fluxo_dados.tempo[2] circuito_principal_tb.UUT.fluxo_dados.tempo[1] circuito_principal_tb.UUT.fluxo_dados.tempo[0]
@@ -47,12 +86,15 @@ circuito_principal_tb.UUT.fluxo_dados.tempo[0]
 @1401200
 -group_end
 @28
+circuito_principal_tb.UUT.fluxo_dados.tempo_correto
+circuito_principal_tb.UUT.fluxo_dados.nota_correta
+circuito_principal_tb.ganhou_out
+circuito_principal_tb.perdeu_out
 circuito_principal_tb.UUT.fluxo_dados.enderecoIgualRodada
 circuito_principal_tb.UUT.fluxo_dados.tempo_correto_baixo
 circuito_principal_tb.UUT.fluxo_dados.tempo_correto_cima
 circuito_principal_tb.UUT.fluxo_dados.metro
 circuito_principal_tb.UUT.fluxo_dados.meio_metro
-circuito_principal_tb.UUT.fluxo_dados.tempo_correto
 circuito_principal_tb.UUT.fluxo_dados.zeraMetro
 circuito_principal_tb.UUT.fluxo_dados.fimTF
 circuito_principal_tb.UUT.fluxo_dados.contaTF
