@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Wed Mar 13 01:36:05 2024
+[*] Wed Mar 13 02:04:54 2024
 [*]
 [dumpfile] "/home/davifelix/Documentos/usp/quadri/labdig/projeto/circuito/verilog/waveforms.vcd"
-[dumpfile_mtime] "Wed Mar 13 01:34:47 2024"
-[dumpfile_size] 20006185
+[dumpfile_mtime] "Wed Mar 13 02:00:44 2024"
+[dumpfile_size] 53923238
 [savefile] "/home/davifelix/Documentos/usp/quadri/labdig/projeto/circuito/verilog/default.gtkw"
-[timestart] 24747804
+[timestart] 65141404
 [size] 1366 740
 [pos] -1 -1
-*-10.000000 24749894 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-10.000000 65143500 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] circuito_principal_tb.
 [treeopen] circuito_principal_tb.UUT.
 [treeopen] circuito_principal_tb.UUT.fluxo_dados.

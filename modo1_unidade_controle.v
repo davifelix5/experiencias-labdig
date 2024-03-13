@@ -160,7 +160,8 @@ module modo1_unidade_controle (
     assign ativa_leds     = (Eatual == toca_nota || Eatual == espera_mostra || Eatual == espera_mostra2);
     assign toca           = (Eatual == espera_mostra || Eatual == espera_mostra2 || Eatual == toca_nota);
     assign contaMetro     = (Eatual == espera_mostra2 || Eatual == espera_mostra || Eatual == toca_nota);
-    assign zeraMetro      = (Eatual == proxima_nota || Eatual == mostra || Eatual == errou_tempo || Eatual == inicio_nota || Eatual == errou_nota || Eatual == inicializa_elementos);
+    assign zeraMetro      = (Eatual == mostra || Eatual == errou_tempo || Eatual == espera_nota || 
+                             Eatual == errou_nota || Eatual == inicializa_elementos);
     assign metro_120BPM   = 1'b0;
     assign gravaM         = 1'b0;
 
