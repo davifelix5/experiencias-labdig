@@ -1,4 +1,4 @@
-module circuito_principal #(parameter CLOCK_FREQ = 5000) // 50MHz 
+module circuito_principal #(parameter CLOCK_FREQ = 50000000) // 50MHz 
 (
     input         clock,
     input         reset,
@@ -43,7 +43,7 @@ module circuito_principal #(parameter CLOCK_FREQ = 5000) // 50MHz
     assign db_clock               = clock;
 	assign db_nota_correta      = nota_correta;
     assign db_enderecoIgualRodada = enderecoIgualRodada;
-    assign db_estado_msb = s_db_rodada[4];
+    assign db_estado_msb = s_db_estado[4];
     assign db_tempo_correto = tempo_correto;
 
     //Fluxo de Dados
