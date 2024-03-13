@@ -53,6 +53,7 @@ module fluxo_dados #(parameter CLOCK_FREQ)
     output [11:0] leds,
 
     // Sinais de depuração
+    output       db_metro,
     output [3:0] db_contagem,
     output [3:0] db_nota  ,
     output [3:0] db_memoria_nota,
@@ -83,6 +84,7 @@ module fluxo_dados #(parameter CLOCK_FREQ)
     assign tempo_correto = tempo_correto_baixo | (tempo_correto_cima & meio_metro);
 
     // Sinais de depuração
+    assign db_metro           = meio_metro;
     assign db_contagem        = s_endereco;
     assign db_nota            = s_nota;
     assign db_memoria_nota    = s_memoria_nota;

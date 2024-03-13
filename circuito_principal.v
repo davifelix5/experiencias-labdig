@@ -16,6 +16,7 @@ module circuito_principal #(parameter CLOCK_FREQ = 50000000) // 50MHz
 
     output        db_nota_correta,
     output        db_tempo_correto,
+    output        db_metro,
     output [6:0]  db_contagem,
     output [6:0]  db_memoria_nota,
     output [6:0]  db_memoria_tempo,
@@ -84,6 +85,7 @@ module circuito_principal #(parameter CLOCK_FREQ = 50000000) // 50MHz
         .leds                ( leds                ),
         .pulso_buzzer        ( pulso_buzzer        ),
         // Sinais de depuração
+        .db_metro            ( db_metro            ),
         .db_contagem         ( s_db_contagem       ),
         .db_nota             ( s_db_nota           ),
         .db_memoria_nota     ( s_db_memoria_nota   ),

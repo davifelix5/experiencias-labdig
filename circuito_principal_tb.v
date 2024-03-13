@@ -24,7 +24,8 @@ module circuito_principal_tb;
         db_clock_out,
         db_enderecoIgualRodada_out,
         db_estado_msb_out,
-        db_tempo_correto_out;
+        db_tempo_correto_out,
+        db_metro;
 
     wire [11:0] leds_out;
 
@@ -61,6 +62,7 @@ module circuito_principal_tb;
         .db_estado_msb(db_estado_msb_out),
         .db_nota(db_nota_out),
         .db_rodada(db_rodada_out),
+        .db_metro(db_metro_out),
         .db_clock(db_clock_out),
         .db_enderecoIgualRodada(db_enderecoIgualRodada_out)
     );

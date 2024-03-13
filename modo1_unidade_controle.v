@@ -158,7 +158,7 @@ module modo1_unidade_controle (
     assign perdeu         = (Eatual == errou_tempo || Eatual == errou_nota);
     assign leds_mem       = (Eatual == espera_mostra || Eatual == espera_mostra2);
     assign ativa_leds     = (Eatual == toca_nota || Eatual == espera_mostra || Eatual == espera_mostra2);
-    assign toca           = (Eatual == espera_mostra || Eatual == espera_mostra2 || Eatual == toca_nota);
+    assign toca           = (Eatual == toca_nota);
     assign contaMetro     = (Eatual == espera_mostra2 || Eatual == espera_mostra || Eatual == toca_nota);
     assign zeraMetro      = (Eatual == mostra || Eatual == errou_tempo || Eatual == espera_nota || 
                              Eatual == errou_nota || Eatual == inicializa_elementos);
