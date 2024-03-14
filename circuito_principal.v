@@ -7,6 +7,8 @@ module circuito_principal #(parameter CLOCK_FREQ = 50000000) // 50MHz
     input         apresenta_ultima,
     input         tentar_dnv_rep,
     input         tentar_dnv,
+    input         metronomo_120BPM,
+    input         apresenta_todas_as_notas,
 
     output        ganhou,
     output        perdeu,
@@ -33,13 +35,16 @@ module circuito_principal #(parameter CLOCK_FREQ = 50000000) // 50MHz
     wire zeraC, zeraR, zeraCR, zeraTF, zeraTempo, zeraMetro, contaMetro, metro_120BPM, tempo_correto, tempo_correto_baixo;
     wire leds_mem, ativa_leds, toca;
     wire gravaM;
+
     // Sinais de condição
     wire fimCR, fimTF, fimTempo, meioCR, meioTempo; 
     wire enderecoIgualRodada, nota_feita, nota_correta;
+    
     // Sinais de depuração
     wire [3:0] s_db_contagem,  s_db_rodada, s_db_memoria_nota,
                s_db_memoria_tempo, s_db_nota; // Valores que entram nos displays
     wire [4:0] s_db_estado;
+
     // Setando sinais de depuração
     assign db_clock               = clock;
 	assign db_nota_correta      = nota_correta;

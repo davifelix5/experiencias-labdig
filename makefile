@@ -1,4 +1,4 @@
-TOP_LEVEL := circuito_principal_tb
+TOP_LEVEL := circuito_principal_modo1_tb
 WAVES     := wave.do
 
 all: vlog

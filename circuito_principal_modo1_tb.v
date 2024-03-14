@@ -1,6 +1,6 @@
 `timescale 100us/100us
 
-module circuito_principal_tb;
+module circuito_principal_modo1_tb;
 
     parameter CLOCK_FREQ = 5000, // Hz
               CLOCK_PERIOD = 2;  //s
@@ -12,7 +12,9 @@ module circuito_principal_tb;
           iniciar_in,
           apresenta_ultima_in,
           tentar_dnv_rep_in,
-          tentar_dnv_in;
+          tentar_dnv_in,
+          metronomo_120BPM_in,
+          apresenta_todas_as_notas_in;
 
     reg [11:0] botoes_in;
         
@@ -46,6 +48,8 @@ module circuito_principal_tb;
         .apresenta_ultima(apresenta_ultima_in),
         .tentar_dnv_rep(tentar_dnv_rep_in),
         .tentar_dnv(tentar_dnv_in),
+        .metronomo_120BPM(metronomo_120BPM_in),
+        .apresenta_todas_as_notas(apresenta_todas_as_notas_in),
 
         .ganhou(ganhou_out),
         .perdeu(perdeu_out),
@@ -70,7 +74,7 @@ module circuito_principal_tb;
 
     initial begin
         $dumpfile("./waveforms.vcd");
-        $dumpvars(0, circuito_principal_tb);
+        $dumpvars(0, circuito_principal_modo1_tb);
 
         /************************************************************************************************
             Condições iniciais 
@@ -82,6 +86,8 @@ module circuito_principal_tb;
         apresenta_ultima_in = 1'b0;
         tentar_dnv_rep_in   = 1'b0;
         tentar_dnv_in       = 1'b0;
+        metronomo_120BPM_in = 1'b0;
+        apresenta_todas_as_notas_in = 1'b0;
 
         /************************************************************************************************
             Inicia o circuito e digita uma nota certa
@@ -133,7 +139,7 @@ module circuito_principal_tb;
         #(10*CLOCK_PERIOD);
 
         /************************************************************************************************
-            Inicia o circuito e digita uma nota no tempo errado, mas dentro da tolerância para baixo
+            Inicia o circuito e digita uma nota no tempo errado e fora da tolerância para baixo
         *************************************************************************************************/
         cenario = 3;
         // Reseta o circuito
@@ -156,7 +162,7 @@ module circuito_principal_tb;
 
         // Aciona a primeira nota
         botoes_in = 12'b000000000100;
-        #(7120*CLOCK_PERIOD); // Aperta por pouco tempo 
+        #(1.2*CLOCK_FREQ*CLOCK_PERIOD); // Aperta por pouco tempo 
         botoes_in = 12'b0;
         #(10*CLOCK_PERIOD);
 

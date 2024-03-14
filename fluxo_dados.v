@@ -62,26 +62,18 @@ module fluxo_dados #(parameter CLOCK_FREQ)
 );
 
     parameter TEMPO_MOSTRA = 2, TIMEOUT=5, // s
-              TEMPO_FEEDBACK = CLOCK_FREQ/2,
-              METRO_60BPM = CLOCK_FREQ/2, METRO_120BPM = CLOCK_FREQ/4;
+              TEMPO_FEEDBACK = CLOCK_FREQ/2;
 
     // Sinais internos
     wire tem_nota, metro, meio_metro, nota_apertada_pulso;
     wire [3:0] s_memoria_nota, s_memoria_tempo, s_endereco, 
-               s_rodada, s_nota, nota_reg_in, tempo;
+               s_rodada, s_nota, nota_reg_in, tempo, valor_leds;
     wire metro120, metro60, meio_metro120, meio_metro60;
     wire tempo_correto_cima;
 
 
     // OR dos botoes
     assign nota_feita    = |botoes;
-
-    // Seleção do metrônomo: 1 para 120BPM e 0 para 60BPM
-    assign metro      = metro_120BPM ? metro120      : metro60;
-    assign meio_metro = metro_120BPM ? meio_metro120 : meio_metro60; 
-
-    // Computa a tolerância do tempo
-    assign tempo_correto = tempo_correto_baixo | (tempo_correto_cima & meio_metro);
 
     // Sinais de depuração
     assign db_metro           = meio_metro;
@@ -90,6 +82,24 @@ module fluxo_dados #(parameter CLOCK_FREQ)
     assign db_memoria_nota    = s_memoria_nota;
     assign db_memoria_tempo   = s_memoria_tempo;
     assign db_rodada          = s_rodada;
+
+
+    mux_2x1 #(.SIZE(4)) mux_sinal_leds (
+        .A(s_memoria_nota),
+        .B(s_nota),
+        .sel(leds_mem),
+        .res(valor_leds)
+    );
+
+    metronomo #(.CLOCK_FREQ(CLOCK_FREQ)) conta_metronomo (
+        .clock        ( clock        ),
+        .zeraMetro    ( zeraMetro    ),
+        .contaMetro   ( contaMetro   ),
+        .metro_120BPM ( metro_120BPM ),
+    
+        .metro        ( metro        ),
+        .meio_metro   ( meio_metro   )
+    );
 
     //Buzzer para notas
     buzzer #(.CLOCK_FREQ(CLOCK_FREQ)) BuzzerLeds (
@@ -100,6 +110,37 @@ module fluxo_dados #(parameter CLOCK_FREQ)
         .seletor ( leds ),
 
         .pulso   ( pulso_buzzer )  // Frequência da nota a ser tocada
+    );
+
+    decoder_valor_nota DeocodificaNota (
+        .valor   ( valor_leds ), 
+        .enable ( ativa_leds ), 
+        .nota ( leds )       
+    );
+
+    decoder_nota_valor CodificaNota (
+        .nota  ( botoes ),
+        .enable (1'b1),
+        .valor  (nota_reg_in)
+    );
+
+    contador_m #(.M(16)) ContadorTempo (
+        .clock   ( metro         ), 
+        .zera_s  ( 1'b0          ),  
+        .zera_as ( zeraMetro     ), 
+        .conta   ( contaMetro    ),
+        .Q       ( tempo         ),
+        .fim     (               ),
+        .meio    (               )
+    );
+
+    comparador_tempo CompTempo (
+        .s_memoria_tempo     ( s_memoria_tempo ),
+        .tempo               ( tempo ),
+        .meio_metro          ( meio_metro ),
+        
+        .tempo_correto_baixo ( tempo_correto_baixo ),
+        .tempo_correto       ( tempo_correto )
     );
 
     //Edge Detector
@@ -120,38 +161,6 @@ module fluxo_dados #(parameter CLOCK_FREQ)
         .rco   (            ),
         .ld    ( 1'b1       ),
         .D     (            )
-    );
-
-    // Metronomo 60BPM para a rodada atual
-    gerador_pwm #(.M(METRO_60BPM)) Metro60 (
-        .clock   ( clock        ), 
-        .zera_s  ( zeraMetro    ), 
-        .zera_as ( 1'b0         ),
-        .conta   ( contaMetro   ),
-        .Q       (              ),
-        .fim     ( metro60      ),
-        .meio    ( meio_metro60 )
-    );
-
-    // Metronomo 120BPM para a rodada atual
-    gerador_pwm #(.M(METRO_120BPM)) Metro120 (
-        .clock   ( clock         ), 
-        .zera_s  ( zeraMetro     ),  
-        .zera_as ( 1'b0          ), 
-        .conta   ( contaMetro    ),
-        .Q       (               ),
-        .fim     ( metro120      ),
-        .meio    ( meio_metro120 )
-    );
-
-    contador_m #(.M(16)) ContadorTempo (
-        .clock   ( metro         ), 
-        .zera_s  ( 1'b0          ),  
-        .zera_as ( zeraMetro     ), 
-        .conta   ( contaMetro    ),
-        .Q       ( tempo         ),
-        .fim     (               ),
-        .meio    (               )
     );
 
     // Contador para a rodada atual
@@ -217,29 +226,6 @@ module fluxo_dados #(parameter CLOCK_FREQ)
         .ALBo (                )
     );
 
-    // Comparador para o tempo atual (tolerância de errar para cima)
-    comparador_85 CompTempoBaixo (
-        .AEBi ( 1'b1                ), 
-        .AGBi ( 1'b0                ), 
-        .ALBi ( 1'b0                ), 
-        .A    ( s_memoria_tempo     ), 
-        .B    ( tempo               ), 
-        .AEBo ( tempo_correto_baixo ),
-        .AGBo (                     ),
-        .ALBo (                     )
-    );
-
-    comparador_85 CompTempoAlto (
-        .AEBi ( 1'b1                  ), 
-        .AGBi ( 1'b0                  ), 
-        .ALBi ( 1'b0                  ), 
-        .A    ( s_memoria_tempo - 4'b1 ), 
-        .B    ( tempo                 ), 
-        .AEBo ( tempo_correto_cima    ),
-        .AGBo (                       ),
-        .ALBo (                       )
-    );
-
     //Comparador para a rodada atual
     comparador_85 CompEnd (
         .AEBi ( 1'b1                ), 
@@ -260,19 +246,6 @@ module fluxo_dados #(parameter CLOCK_FREQ)
         .enable ( registraR & nota_apertada_pulso   ),
         .Q      ( s_nota                            )
     );
-
-    decoder_valor_nota DeocodificaNota (
-        .valor   ( leds_mem ? s_memoria_nota : s_nota ), 
-        .enable ( ativa_leds ), 
-        .nota ( leds )       
-    );
-
-    decoder_nota_valor CodificaNota (
-        .nota  ( botoes ),
-        .enable (1'b1),
-        .valor  (nota_reg_in)
-    );
-
 
     
 endmodule
