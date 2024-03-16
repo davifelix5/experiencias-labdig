@@ -72,7 +72,6 @@ module modo1_unidade_controle (
                 inicio_rodada           = 5'h02,
                 mostra                  = 5'h03,
                 espera_mostra           = 5'h04,
-                apaga_mostra            = 5'h0D,
                 mostra_proximo          = 5'h05,
                 inicio_nota             = 5'h06,
                 espera_nota             = 5'h07,
@@ -106,11 +105,12 @@ module modo1_unidade_controle (
     always @* begin
         case (Eatual)
             inicial:                  Eprox = iniciar ? inicializa_elementos : inicial;
+            
+            /* MODO 1 */
             inicializa_elementos:     Eprox = inicio_rodada;
             inicio_rodada:            Eprox = fimTF ? mostra : inicio_rodada;
             mostra:                   Eprox = espera_mostra;
-            espera_mostra:            Eprox = tempo_correto_baixo ? (enderecoIgualRodada ? inicio_nota : apaga_mostra) : espera_mostra;
-            apaga_mostra:             Eprox = fimTF ? mostra_proximo : apaga_mostra;
+            espera_mostra:            Eprox = tempo_correto_baixo ? (enderecoIgualRodada ? inicio_nota : mostra_proximo) : espera_mostra;
             mostra_proximo:           Eprox = mostra;
             inicio_nota:              Eprox = espera_nota;
             espera_nota:              Eprox = fimTempo ? errou_tempo : (nota_feita ? toca_nota : espera_nota);
@@ -148,7 +148,7 @@ module modo1_unidade_controle (
     assign zeraC          = (Eatual == inicio_nota || Eatual == inicio_rodada);
     assign zeraTempo      = (Eatual == proxima_nota || Eatual == inicio_nota || Eatual == inicializa_elementos || Eatual == errou_tempo || Eatual == errou_nota);
     assign zeraTF         = (Eatual == mostra || Eatual == inicializa_elementos || Eatual == inicio_nota);
-    assign contaTF        = (Eatual == apaga_mostra || Eatual == inicio_rodada);
+    assign contaTF        = (Eatual == inicio_rodada);
     assign contaC         = (Eatual == mostra_proximo || Eatual == proxima_nota);
     assign contaTempo     = (Eatual == espera_nota);
     assign vez_jogador    = (Eatual == espera_nota);
