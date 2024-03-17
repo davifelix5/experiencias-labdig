@@ -1,15 +1,15 @@
-[*]circuito_principal_modo1_tb
+[*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Wed Mar 13 13:50:14 2024
+[*] Sat Mar 16 20:30:30 2024
 [*]
 [dumpfile] "/home/davifelix/Documentos/usp/quadri/labdig/projeto/circuito/verilog/waveforms.vcd"
-[dumpfile_mtime] "Wed Mar 13 13:22:28 2024"
-[dumpfile_size] 72556625
+[dumpfile_mtime] "Sat Mar 16 20:29:14 2024"
+[dumpfile_size] 31481828
 [savefile] "/home/davifelix/Documentos/usp/quadri/labdig/projeto/circuito/verilog/default.gtkw"
-[timestart] 9532612
+[timestart] 0
 [size] 1366 740
 [pos] -1 -1
-*-10.921664 9536300 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-10.921664 0 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] circuito_principal_modo1_tb.
 [treeopen] circuito_principal_modo1_tb.UUT.
 [treeopen] circuito_principal_modo1_tb.UUT.fluxo_dados.
@@ -56,10 +56,9 @@ circuito_principal_modo1_tb.cenario
 -group_end
 @28
 circuito_principal_modo1_tb.clock_in
-circuito_principal_modo1_tb.botoes_in[11:0]
 circuito_principal_modo1_tb.UUT.reset
 circuito_principal_modo1_tb.iniciar_in
-@23
+@22
 circuito_principal_modo1_tb.UUT.unidade_controle.Eatual[4:0]
 @800200
 -saida
@@ -95,7 +94,7 @@ circuito_principal_modo1_tb.ganhou_out
 circuito_principal_modo1_tb.perdeu_out
 circuito_principal_modo1_tb.UUT.fluxo_dados.enderecoIgualRodada
 circuito_principal_modo1_tb.UUT.fluxo_dados.tempo_correto_baixo
-circuito_principal_modo1_tb.UUT.fluxo_dados.tempo_correto_cima
+circuito_principal_modo1_tb.UUT.fluxo_dados.CompTempo.tempo_correto_cima
 circuito_principal_modo1_tb.UUT.fluxo_dados.metro
 circuito_principal_modo1_tb.UUT.fluxo_dados.meio_metro
 circuito_principal_modo1_tb.UUT.fluxo_dados.zeraMetro

@@ -1,4 +1,4 @@
-module decoder_valor_nota ( 
+module decoder_nota ( 
     input  [3:0]  valor, 
     input             enable, 
     output reg [11:0] nota       

@@ -15,7 +15,7 @@ module fluxo_dados #(parameter CLOCK_FREQ)
 (
     // Entradas
     input clock,
-    input [11:0] botoes,
+    input [3:0] botoes_encoded,
 
     // Sinais de controle
     input zeraR,
@@ -48,6 +48,7 @@ module fluxo_dados #(parameter CLOCK_FREQ)
     output fimCR,
     output fimTF,
     output pulso_buzzer,
+    output fim_musica,
 
     // Sinais de saída
     output [11:0] leds,
@@ -66,31 +67,32 @@ module fluxo_dados #(parameter CLOCK_FREQ)
 
     // Sinais internos
     wire tem_nota, metro, meio_metro, nota_apertada_pulso;
-    wire [3:0] s_memoria_nota, s_memoria_tempo, s_endereco, 
-               s_rodada, s_nota, nota_reg_in, tempo, valor_leds;
+    wire [3:0] s_memoria_nota, s_memoria_tempo, 
+               s_nota, tempo, leds_encoded;
+    wire [4:0] s_endereco, s_rodada;
     wire metro120, metro60, meio_metro120, meio_metro60;
-    wire tempo_correto_cima;
 
 
     // OR dos botoes
-    assign nota_feita    = |botoes;
+    assign nota_feita    = |botoes_encoded;
 
     // Sinais de depuração
     assign db_metro           = meio_metro;
-    assign db_contagem        = s_endereco;
+    assign db_contagem        = s_endereco[3:0];
     assign db_nota            = s_nota;
     assign db_memoria_nota    = s_memoria_nota;
     assign db_memoria_tempo   = s_memoria_tempo;
-    assign db_rodada          = s_rodada;
+    assign db_rodada          = s_rodada[3:0];
 
-
+    // Multiplexador para escolher se o valor dos leds será definido pela memória ou pelo valor
     mux_2x1 #(.SIZE(4)) mux_sinal_leds (
         .A(s_memoria_nota),
         .B(s_nota),
         .sel(leds_mem),
-        .res(valor_leds)
+        .res(leds_encoded)
     );
 
+    // Módulo para fornecer o pulso do metrônomo
     metronomo #(.CLOCK_FREQ(CLOCK_FREQ)) conta_metronomo (
         .clock        ( clock        ),
         .zeraMetro    ( zeraMetro    ),
@@ -112,18 +114,14 @@ module fluxo_dados #(parameter CLOCK_FREQ)
         .pulso   ( pulso_buzzer )  // Frequência da nota a ser tocada
     );
 
-    decoder_valor_nota DeocodificaNota (
-        .valor   ( valor_leds ), 
+    // Contador para traduzir o valor das leds para o formato em que será mostrado
+    decoder_nota DeocodificaNota (
+        .valor   ( leds_encoded ), 
         .enable ( ativa_leds ), 
         .nota ( leds )       
     );
 
-    decoder_nota_valor CodificaNota (
-        .nota  ( botoes ),
-        .enable (1'b1),
-        .valor  (nota_reg_in)
-    );
-
+    // Contador que indica o tempo a partir do metrônomo
     contador_m #(.M(16)) ContadorTempo (
         .clock   ( metro         ), 
         .zera_s  ( 1'b0          ),  
@@ -134,6 +132,7 @@ module fluxo_dados #(parameter CLOCK_FREQ)
         .meio    (               )
     );
 
+    // Comparador para identificar se o tempo de música está correto
     comparador_tempo CompTempo (
         .s_memoria_tempo     ( s_memoria_tempo ),
         .tempo               ( tempo ),
@@ -151,20 +150,19 @@ module fluxo_dados #(parameter CLOCK_FREQ)
         .pulso( nota_apertada_pulso )
     );
 
-    //Contador para a nota atual
-    contador_163 ContEnd (
-        .clock ( clock      ), 
-        .clr   ( ~zeraC     ),
-        .ent   ( 1'b1       ), 
-        .enp   ( contaC     ), 
-        .Q     ( s_endereco ),
-        .rco   (            ),
-        .ld    ( 1'b1       ),
-        .D     (            )
+    // Contador para o endereço atual
+    contador_m #(.M(32)) ContEnd (
+        .clock   ( clock      ), 
+        .zera_s  ( zeraC      ), 
+        .zera_as ( 1'b0       ), 
+        .conta   ( contaC     ),
+        .Q       ( s_endereco ),
+        .fim     (            ),
+        .meio    (            )
     );
 
     // Contador para a rodada atual
-    contador_m #(.M(16)) ContRod (
+    contador_m #(.M(32)) ContRod (
         .clock   ( clock    ), 
         .zera_s  ( zeraCR   ), 
         .zera_as ( 1'b0     ), 
@@ -196,22 +194,18 @@ module fluxo_dados #(parameter CLOCK_FREQ)
         .meio    ( meioTempo    )
     );
         
-    //Memoria RAM para as notas
-    sync_ram_16x4_file #(.HEXFILE("notas_init.txt")) MemNotas (
-        .clk      ( clock      ), 
-        .addr     ( s_endereco ), 
-        .q        ( s_memoria_nota ),
-        .we       ( gravaM     ),
-        .data     (            )
-    );
+    //Memoria RAM para o tempo e notas
+    sync_ram_musicas_32x4x16_file MemTempos (
+        .clk        ( clock           ), 
+        .addr       ( s_endereco      ), 
+        .musica     ( 4'd1            ),
+        .we         ( gravaM          ),
+        .data_nota  (                 ),
+        .data_tempo (                 ),
+        .tempo      ( s_memoria_tempo ),
+        .nota       ( s_memoria_nota  ),
+        .fim_musica ( fim_musica      )
 
-    //Memoria RAM para o tempo
-    sync_ram_16x4_file #(.HEXFILE("tempo_init.txt")) MemTempos (
-        .clk      ( clock           ), 
-        .addr     ( s_endereco      ), 
-        .q        ( s_memoria_tempo ),
-        .we       ( gravaM          ),
-        .data     (                 )
     );
 
     //Comparador para a nota atual
@@ -227,7 +221,7 @@ module fluxo_dados #(parameter CLOCK_FREQ)
     );
 
     //Comparador para a rodada atual
-    comparador_85 CompEnd (
+    comparador_85 #(.SIZE(5)) CompEnd (
         .AEBi ( 1'b1                ), 
         .AGBi ( 1'b0                ), 
         .ALBi ( 1'b0                ), 
@@ -240,7 +234,7 @@ module fluxo_dados #(parameter CLOCK_FREQ)
 
     //Registrador 4 bits
     registrador_n #(.SIZE(4)) RegChv (
-        .D      ( nota_reg_in                       ),
+        .D      ( botoes_encoded                    ),
         .clear  ( zeraR                             ),
         .clock  ( clock                             ),
         .enable ( registraR & nota_apertada_pulso   ),

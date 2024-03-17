@@ -33,6 +33,8 @@ module modo1_unidade_controle (
     input     fimTempo,
     input     meioTempo,
 
+    input fim_musica,
+
     /* Sinais de controle */
     output    zeraC,
     output    contaC,
@@ -125,7 +127,7 @@ module modo1_unidade_controle (
                     end // Nota e tempo estão corretos
                     else begin
                         if (enderecoIgualRodada) begin
-                            Eprox = fimCR ? acertou : proxima_rodada;
+                            Eprox = (fimCR | fim_musica) ? acertou : proxima_rodada;
                         end
                         else begin
                             Eprox = proxima_nota;

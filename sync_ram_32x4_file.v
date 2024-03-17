@@ -1,11 +1,11 @@
 // sync_ram_16x4_file.v
 
 //------------------------------------------------------------------
-// Arquivo   : sync_ram_16x4_file.v
+// Arquivo   : sync_ram_32x4_file.v
 // Projeto   : Experiencia 7 - Projeto do Jogo do Desafio da Memória
  
 //------------------------------------------------------------------
-// Descricao : RAM sincrona 16x4
+// Descricao : RAM sincrona 32x4
 //
 //   - conteudo inicial armazenado em arquivo .txt
 //   - descricao baseada em template 'single_port_ram_with_init.v' 
@@ -18,22 +18,22 @@
 //------------------------------------------------------------------
 //
 
-module sync_ram_16x4_file #(
+module sync_ram_32x4_file #(
     parameter HEXFILE = "ram_init.txt"
 )
 (
     input        clk,
     input        we,
     input  [3:0] data,
-    input  [3:0] addr,
+    input  [4:0] addr,
     output [3:0] q
 );
 
     // Variavel RAM (armazena dados)
-    reg [3:0] ram[15:0];
+    reg [3:0] ram[32:0];
 
     // Registra endereco de acesso
-    reg [3:0] addr_reg;
+    reg [4:0] addr_reg;
 
     // Especifica conteudo inicial da RAM
     // a partir da leitura de arquivo usando $readmemb

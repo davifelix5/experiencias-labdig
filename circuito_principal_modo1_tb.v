@@ -16,7 +16,7 @@ module circuito_principal_modo1_tb;
           metronomo_120BPM_in,
           apresenta_todas_as_notas_in;
 
-    reg [11:0] botoes_in;
+    reg [3:0] botoes_encoded_in;
         
     wire ganhou_out,
         perdeu_out,
@@ -44,7 +44,7 @@ module circuito_principal_modo1_tb;
         .clock(clock_in),
         .reset(reset_in),
         .iniciar(iniciar_in),
-        .botoes(botoes_in),
+        .botoes_encoded(botoes_encoded_in),
         .apresenta_ultima(apresenta_ultima_in),
         .tentar_dnv_rep(tentar_dnv_rep_in),
         .tentar_dnv(tentar_dnv_in),
@@ -82,7 +82,7 @@ module circuito_principal_modo1_tb;
         clock_in            = 1'b0;
         reset_in            = 1'b0;
         iniciar_in          = 1'b0;
-        botoes_in           = 12'b0;
+        botoes_encoded_in           = 4'd0;
         apresenta_ultima_in = 1'b0;
         tentar_dnv_rep_in   = 1'b0;
         tentar_dnv_in       = 1'b0;
@@ -105,9 +105,9 @@ module circuito_principal_modo1_tb;
         #(10*CLOCK_PERIOD);
 
         // Aciona a primeira nota
-        botoes_in = 12'b000000000100;
+        botoes_encoded_in = 4'd2;
         #(7500*CLOCK_PERIOD);
-        botoes_in = 12'b0;
+        botoes_encoded_in = 4'b0;
         #(10*CLOCK_PERIOD);
 
         /************************************************************************************************
@@ -133,9 +133,9 @@ module circuito_principal_modo1_tb;
         #(10*CLOCK_PERIOD);
 
         // Aciona a primeira nota
-        botoes_in = 12'b000000000100;
+        botoes_encoded_in = 4'd2;
         #(3000*CLOCK_PERIOD); // Aperta por pouco tempo 
-        botoes_in = 12'b0;
+        botoes_encoded_in = 4'd0;
         #(10*CLOCK_PERIOD);
 
         /************************************************************************************************
@@ -161,9 +161,9 @@ module circuito_principal_modo1_tb;
         #(10*CLOCK_PERIOD);
 
         // Aciona a primeira nota
-        botoes_in = 12'b000000000100;
+        botoes_encoded_in = 4'd2;
         #(1.2*CLOCK_FREQ*CLOCK_PERIOD); // Aperta por pouco tempo 
-        botoes_in = 12'b0;
+        botoes_encoded_in = 4'd0;
         #(10*CLOCK_PERIOD);
 
         /************************************************************************************************
@@ -189,9 +189,9 @@ module circuito_principal_modo1_tb;
         #(10*CLOCK_PERIOD);
 
         // Aciona a primeira nota
-        botoes_in = 12'b000000000100;
+        botoes_encoded_in = 4'd2;
         #(8500*CLOCK_PERIOD); // Aperta por muito tempo 
-        botoes_in = 12'b0;
+        botoes_encoded_in = 4'd0;
         #(10*CLOCK_PERIOD);
 
         /************************************************************************************************
@@ -217,35 +217,35 @@ module circuito_principal_modo1_tb;
         #(10*CLOCK_PERIOD);
 
             
-        botoes_in = 12'b000000000100; // Primeira nota
+        botoes_encoded_in = 4'd2; // Primeira nota
         #(7500*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
         
         
         #((2500 + 7500 + 10000 + 10 + 2500)*CLOCK_PERIOD); // Apresentação da segunda rodada
 
-        botoes_in = 12'b000000000100; // Primeira nota
+        botoes_encoded_in = 4'd2; // Primeira nota
         #(7500*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
         #(10*CLOCK_PERIOD);
 
-        botoes_in = 12'b000000010000; // Segunda nota
+        botoes_encoded_in = 4'd4; // Segunda nota
         #(13100*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
         #(10*CLOCK_PERIOD);
 
         tentar_dnv_in = 1;
         #(5*CLOCK_PERIOD);
         tentar_dnv_in = 0;
 
-        botoes_in = 12'b000000000100; // Primeira nota
+        botoes_encoded_in = 4'd2; // Primeira nota
         #(7500*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
         #(10*CLOCK_PERIOD);
 
-        botoes_in = 12'b000000010000; // Segunda nota
+        botoes_encoded_in = 4'd4;
         #(10000*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
         #(10*CLOCK_PERIOD);
 
         /************************************************************************************************
@@ -271,21 +271,21 @@ module circuito_principal_modo1_tb;
         #(10*CLOCK_PERIOD);
 
             
-        botoes_in = 12'b000000000100; // Primeira nota
+        botoes_encoded_in = 4'd2; // Primeira nota
         #(7500*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
         
         
         #((2500 + 7500 + 10000 + 10 + 2500)*CLOCK_PERIOD); // Apresentação da segunda rodada
 
-        botoes_in = 12'b000000000100; // Primeira nota
+        botoes_encoded_in = 4'd2; // Primeira nota
         #(7500*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
         #(10*CLOCK_PERIOD);
 
-        botoes_in = 12'b000000010000; // Segunda nota
+        botoes_encoded_in = 4'd4; // Segunda nota
         #(13100*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
         #(10*CLOCK_PERIOD);
 
         tentar_dnv_rep_in = 1;
@@ -294,14 +294,14 @@ module circuito_principal_modo1_tb;
 
         #((2500 + 7500 + 10000 + 10 + 2500)*CLOCK_PERIOD); // Apresentação da segunda rodada
 
-        botoes_in = 12'b000000000100; // Primeira nota
+        botoes_encoded_in = 4'd2; // Primeira nota
         #(7500*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
         #(10*CLOCK_PERIOD);
 
-        botoes_in = 12'b000000010000; // Segunda nota
+        botoes_encoded_in = 4'd4; // Segunda nota
         #(10000*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
         #(10*CLOCK_PERIOD);
 
 
@@ -328,21 +328,21 @@ module circuito_principal_modo1_tb;
         #(10*CLOCK_PERIOD);
 
             
-        botoes_in = 12'b000000000100; // Primeira nota
+        botoes_encoded_in = 4'd2; // Primeira nota
         #(7500*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
         
         
         #((2500 + 7500 + 10000 + 10 + 2500)*CLOCK_PERIOD); // Apresentação da segunda rodada
 
-        botoes_in = 12'b000000000100; // Primeira nota
+        botoes_encoded_in = 4'd2; // Primeira nota
         #(7500*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
         #(10*CLOCK_PERIOD);
 
-        botoes_in = 12'b000000010000; // Segunda nota
+        botoes_encoded_in = 4'd4; // Segunda nota
         #(13100*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
         #(10*CLOCK_PERIOD);
 
         apresenta_ultima_in = 1;
@@ -352,9 +352,9 @@ module circuito_principal_modo1_tb;
         #((10000)*CLOCK_PERIOD); // Apresentação da segunda jogada
         #(5*CLOCK_PERIOD);
 
-        botoes_in = 12'b000000010000; // Segunda nota
+        botoes_encoded_in = 4'd4; // Segunda nota
         #(10000*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
         #(10*CLOCK_PERIOD);
 
         /************************************************************************************************
@@ -380,15 +380,15 @@ module circuito_principal_modo1_tb;
         #(10*CLOCK_PERIOD);
 
             
-        botoes_in = 12'b000000000100; // Primeira nota
+        botoes_encoded_in = 4'd2; // Primeira nota
         #(7500*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
 
         #((2500 + 7500 + 10000 + 10 + 2500)*CLOCK_PERIOD); // Apresentação da segunda rodada
 
-        botoes_in = 12'b000000000100; // Primeira nota
+        botoes_encoded_in = 4'd2; // Primeira nota
         #(7500*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
         #(10*CLOCK_PERIOD);
 
         #(25000*CLOCK_PERIOD);
@@ -417,20 +417,20 @@ module circuito_principal_modo1_tb;
         #(10*CLOCK_PERIOD);
 
             
-        botoes_in = 12'b000000000100; // Primeira nota
+        botoes_encoded_in = 4'd2; // Primeira nota
         #(7500*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
 
         #((2500 + 7500 + 10000 + 10 + 2500)*CLOCK_PERIOD); // Apresentação da segunda rodada
 
-        botoes_in = 12'b000000000100; // Primeira nota
+        botoes_encoded_in = 4'd2; // Primeira nota
         #(7500*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
         #(10*CLOCK_PERIOD);
 
-        botoes_in = 12'b000000001000; // Primeira nota
+        botoes_encoded_in = 4'd3; // Primeira nota
         #(10000*CLOCK_PERIOD);
-        botoes_in = 12'b000000000000;
+        botoes_encoded_in = 4'd0;
         #(10*CLOCK_PERIOD);
         $finish;
 

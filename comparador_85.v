@@ -13,17 +13,17 @@
  * -----------------------------------------------------------------
  */
 
-module comparador_85 (ALBi, AGBi, AEBi, A, B, ALBo, AGBo, AEBo);
+module comparador_85 #(parameter SIZE=4) (ALBi, AGBi, AEBi, A, B, ALBo, AGBo, AEBo);
 
-    input[3:0] A, B;
+    input[SIZE-1:0] A, B;
     input      ALBi, AGBi, AEBi;
     output     ALBo, AGBo, AEBo;
-    wire[4:0]  CSL, CSG;
+    wire[SIZE:0]  CSL, CSG;
 
     assign CSL  = ~A + B + ALBi;
-    assign ALBo = ~CSL[4];
+    assign ALBo = ~CSL[SIZE];
     assign CSG  = A + ~B + AGBi;
-    assign AGBo = ~CSG[4];
+    assign AGBo = ~CSG[SIZE];
     assign AEBo = ((A == B) && AEBi);
 
 endmodule /* comparador_85 */

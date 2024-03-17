@@ -34,7 +34,7 @@ module buzzer #(parameter CLOCK_FREQ) (
         end
     endgenerate
 
-    decoder_nota_valor CodificaNota (
+    encoder_nota CodificaNota (
         .nota   ( seletor ),
         .enable (1'b1),
         .valor  (seletor_pulso)

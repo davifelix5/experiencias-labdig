@@ -3,7 +3,7 @@ module circuito_principal #(parameter CLOCK_FREQ = 50000000) // 50MHz
     input         clock,
     input         reset,
     input         iniciar,
-    input [11:0]  botoes,
+    input [3:0]   botoes_encoded,
     input         apresenta_ultima,
     input         tentar_dnv_rep,
     input         tentar_dnv,
@@ -32,7 +32,8 @@ module circuito_principal #(parameter CLOCK_FREQ = 50000000) // 50MHz
 
     // Sinais de controle
     wire contaC, contaTempo, contaTF, contaCR, registraR;
-    wire zeraC, zeraR, zeraCR, zeraTF, zeraTempo, zeraMetro, contaMetro, metro_120BPM, tempo_correto, tempo_correto_baixo;
+    wire zeraC, zeraR, zeraCR, zeraTF, zeraTempo, zeraMetro, contaMetro;
+    wire fim_musica, metro_120BPM, tempo_correto, tempo_correto_baixo;
     wire leds_mem, ativa_leds, toca;
     wire gravaM;
 
@@ -56,7 +57,7 @@ module circuito_principal #(parameter CLOCK_FREQ = 50000000) // 50MHz
     fluxo_dados #(.CLOCK_FREQ(CLOCK_FREQ)) fluxo_dados (
         // Sinais de entrada
         .clock               ( clock               ),
-        .botoes              ( botoes              ),
+        .botoes_encoded      ( botoes_encoded      ),
         // Sinais de controle 
         .zeraR               ( zeraR               ),
         .registraR           ( registraR           ),
@@ -86,6 +87,7 @@ module circuito_principal #(parameter CLOCK_FREQ = 50000000) // 50MHz
         .fimCR               ( fimCR               ),
         .fimTF               ( fimTF               ),
         .enderecoIgualRodada ( enderecoIgualRodada ),
+        .fim_musica          ( fim_musica          ),
         // Sinais de saída
         .leds                ( leds                ),
         .pulso_buzzer        ( pulso_buzzer        ),
@@ -118,6 +120,7 @@ module circuito_principal #(parameter CLOCK_FREQ = 50000000) // 50MHz
         .apresenta_ultima    ( apresenta_ultima    ),
         .tentar_dnv_rep      ( tentar_dnv_rep      ),
         .tentar_dnv          ( tentar_dnv          ),
+        .fim_musica          ( fim_musica          ),
         // Sinais de controle
         .zeraC               ( zeraC               ),
         .contaC              ( contaC              ),
