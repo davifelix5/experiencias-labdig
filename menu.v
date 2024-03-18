@@ -1,5 +1,5 @@
 module menu #(
-    parameter MODO = 3,
+    parameter MODO = 4,
               BPM = 2,
               TOM = 4,
               MUSICA = 16,
@@ -15,14 +15,16 @@ module menu #(
     output apresenta_ultima,
     output [MODO - 1:0] modos,
     output [BPM - 1:0] bpms,
-    output [TOM - 1:0] toms,
-    output [MUSICA - 1:0] musicas,
+    output [$clog2(TOM) - 1:0] toms,
+    output [$clog2(MUSICA) - 1:0] musicas,
     output [$clog2(MUSICA) - 1:0] arduino_out
 );
 parameter SIZE = 2;
 
 wire [ERRO - 1:0] erros;
 wire [MUSICA - 1:0] arduino_signal;
+wire [TOM-1:0] toms_decoded;
+wire [MUSICA-1:0] musicas_decoded;
 wire right_arrow_pulse, left_arrow_pulse;
 wire shift;
 
@@ -47,6 +49,19 @@ assign {tentar_dnv_rep, tentar_dnv, apresenta_ultima} = erros;
         .pulso( left_arrow_pulse    )
     );
 
+/////////////////////////////////////////////////////////////////////////
+//Devolvendo sinais decodificados de tom e música
+/////////////////////////////////////////////////////////////////////////
+
+encoder #(.SIZE(TOM)) tom_value (
+    .data_i (toms_decoded),
+    .data_o (toms)
+);
+
+encoder #(.SIZE(MUSICA)) musica_value (
+    .data_i (musicas_decoded),
+    .data_o (musicas)
+);
 
 /////////////////////////////////////////////////////////////////////////
 //Seleciona qual dos One-Hot irá ser codificado e ir para o arduino
@@ -55,8 +70,8 @@ mux4_1 #(.SIZE(MUSICA)) mux_arduino (
         .sel    (menu_sel),
         .i0     ({{(MUSICA - MODO){1'b0}} , modos}),
         .i1     ({{(MUSICA - BPM){1'b0}} , bpms}),
-        .i2     ({{(MUSICA - TOM){1'b0}},toms}),
-        .i3     (musicas),
+        .i2     ({{(MUSICA - TOM){1'b0}},toms_decoded}),
+        .i3     (musicas_decoded),
         .data_o (arduino_signal)
     );
 
@@ -96,7 +111,7 @@ shift_register #(.SIZE(TOM)) tom_sr(
     .dir        (right_arrow_pressed),
     .reset      (reset),
     .shift      (shift),
-    .value      (toms)
+    .value      (toms_decoded)
 ); 
 
 shift_register #(.SIZE(MUSICA)) musica_sr(
@@ -106,7 +121,7 @@ shift_register #(.SIZE(MUSICA)) musica_sr(
     .dir        (right_arrow_pressed),
     .reset      (reset),
     .shift      (shift),
-    .value      (musicas)
+    .value      (musicas_decoded)
 ); 
 
 shift_register #(.SIZE(ERRO)) erro_sr(

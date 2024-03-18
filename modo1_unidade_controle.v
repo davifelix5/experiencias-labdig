@@ -10,28 +10,32 @@
 //------------------------------------------------------------------
 */
 
-module modo1_unidade_controle (
+module modo1_unidade_controle #(
+    parameter MODO       = 4
+) (
     input     clock,
     input     reset,
     input     iniciar,
     
     /* Sinais de condição */
-    input     fimTF,
-    input     fimCR,
-    input     meioCR,
+    input                fimTF,
+    input                fimCR,
+    input                meioCR,
 
-    input     nota_feita,
-    input     nota_correta,
-    input     tempo_correto,
-    input     tempo_correto_baixo,
-    input     tentar_dnv_rep,
-    input     tentar_dnv,
-    input     apresenta_ultima,
+    input                nota_feita,
+    input                nota_correta,
+    input                tempo_correto,
+    input                tempo_correto_baixo,
+    input                tentar_dnv_rep,
+    input                tentar_dnv,
+    input                apresenta_ultima,
     
-    input     enderecoIgualRodada,
+    input                enderecoIgualRodada,
     
-    input     fimTempo,
-    input     meioTempo,
+    input                fimTempo,
+    input                meioTempo,
+
+    input [MODO - 1:0]   modos,
 
     input fim_musica,
 
@@ -57,8 +61,14 @@ module modo1_unidade_controle (
     output    leds_mem,
     output    ativa_leds,
     output    toca,
-    output    metro_120BPM,
     output    gravaM,
+
+    output    registra_modo,
+    output    registra_bpm,
+    output    registra_tom,
+    output    registra_musicas,
+    output    [1:0] menu_sel,
+    output    inicia_menu,
 
     /* Saídas */
     output    ganhou,

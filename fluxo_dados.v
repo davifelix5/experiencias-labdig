@@ -11,47 +11,65 @@
 */
 
 
-module fluxo_dados #(parameter CLOCK_FREQ)
-(
+module fluxo_dados #(
+    parameter CLOCK_FREQ,
+              MODO       = 4,
+              BPM        = 2,
+              TOM        = 4,
+              MUSICA     = 16,
+              ERRO       = 2
+) (
     // Entradas
     input clock,
     input [3:0] botoes_encoded,
+    input right_arrow_pressed,
+    input left_arrow_pressed,
 
     // Sinais de controle
-    input zeraR,
-    input registraR,
-    input zeraC,
-    input contaC,
-    input contaTempo,
-    input zeraCR,
-    input zeraTempo,
-    input contaCR,
-    input zeraTF,
-    input contaTF,
-    input leds_mem,
-    input ativa_leds,
-    input toca,
-    input gravaM,
-    input metro_120BPM,
-    input zeraMetro,
-    input contaMetro,
+    input       zeraR,
+    input       registraR,
+    input       zeraC,
+    input       contaC,
+    input       contaTempo,
+    input       zeraCR,
+    input       zeraTempo,
+    input       contaCR,
+    input       zeraTF,
+    input       contaTF,
+    input       leds_mem,
+    input       ativa_leds,
+    input       toca,
+    input       gravaM,
+    input       zeraMetro,
+    input       contaMetro,
+    input [1:0] menu_sel,
+    input       inicia_menu,
+    input       registra_modo,
+    input       registra_bpm,
+    input       registra_tom,
+    input       registra_musicas,
     
     // Sinais de codição
-    output nota_correta,
-    output tempo_correto,
-    output tempo_correto_baixo,
-    output nota_feita,
-    output meioCR,
-    output fimTempo,
-    output meioTempo,
-    output enderecoIgualRodada,
-    output fimCR,
-    output fimTF,
-    output pulso_buzzer,
-    output fim_musica,
+    output                nota_correta,
+    output                tempo_correto,
+    output                tempo_correto_baixo,
+    output                nota_feita,
+    output                meioCR,
+    output                fimTempo,
+    output                meioTempo,
+    output                enderecoIgualRodada,
+    output                fimCR,
+    output                fimTF,
+    output                pulso_buzzer,
+    output                fim_musica,
+    output                tentar_dnv,
+    output                tentar_dnv_rep,
+    output                apresenta_ultima,
+    output [MODO - 1:0]   modos_reg,
 
     // Sinais de saída
     output [11:0] leds,
+    output [3:0]  arduino_out,
 
     // Sinais de depuração
     output       db_metro,
@@ -71,8 +89,18 @@ module fluxo_dados #(parameter CLOCK_FREQ)
                s_nota, tempo, leds_encoded;
     wire [4:0] s_endereco, s_rodada;
     wire metro120, metro60, meio_metro120, meio_metro60;
+    wire metro_120BPM;
 
 
+    // Seleções do menu
+    wire [BPM - 1:0]    bpms;
+    wire [MODO - 1:0]   modos;
+    wire [$clog2(TOM) - 1:0]    toms;
+    wire [$clog2(MUSICA) - 1:0] musicas; 
+
+    wire [$clog2(TOM) - 1:0]    tom_reg;
+    wire [$clog2(MUSICA) - 1:0] musica_reg; 
+    
     // OR dos botoes
     assign nota_feita    = |botoes_encoded;
 
@@ -83,6 +111,33 @@ module fluxo_dados #(parameter CLOCK_FREQ)
     assign db_memoria_nota    = s_memoria_nota;
     assign db_memoria_tempo   = s_memoria_tempo;
     assign db_rodada          = s_rodada[3:0];
+    
+    // Menu para interação com o display
+    menu #(
+        .MODO(MODO),
+        .TOM(TOM),
+        .BPM(BPM),
+        .MUSICA(MUSICA),
+        .ERRO(ERRO)
+    ) menu_display (
+        .clock               ( clock ),
+        .reset               ( reset ),
+        .right_arrow_pressed ( right_arrow_pressed ),
+        .left_arrow_pressed  ( left_arrow_pressed  ),
+        .load_initial        ( inicia_menu         ),
+        .menu_sel            ( menu_sel            ),
+
+        .tentar_dnv_rep      ( tentar_dnv_rep      ),
+        .tentar_dnv          ( tentar_dnv          ),
+        .apresenta_ultima    ( apresenta_ultima    ),
+
+        .modos               ( modos               ),
+        .bpms                ( bpms                ),
+        .toms                ( toms                ),
+        .musicas             ( musicas             ),
+
+        .arduino_out         ( arduino_out         )
+    );
 
     // Multiplexador para escolher se o valor dos leds será definido pela memória ou pelo valor
     mux_2x1 #(.SIZE(4)) mux_sinal_leds (
@@ -232,13 +287,49 @@ module fluxo_dados #(parameter CLOCK_FREQ)
         .ALBo (                     )
     );
 
-    //Registrador 4 bits
+    //Registrador do valor da nota
     registrador_n #(.SIZE(4)) RegChv (
         .D      ( botoes_encoded                    ),
         .clear  ( zeraR                             ),
         .clock  ( clock                             ),
         .enable ( registraR & nota_apertada_pulso   ),
         .Q      ( s_nota                            )
+    );
+
+    // Registrador do valor de tom selecionardo
+    registrador_n #(.SIZE($clog2(TOM))) RegTom (
+        .D      ( toms                              ),
+        .clear  ( zeraR                             ),
+        .clock  ( clock                             ),
+        .enable ( registra_tom                      ),
+        .Q      ( tom_reg                           )
+    );
+
+    // Registrador do valor de música selecionado
+    registrador_n #(.SIZE($clog2(MUSICA))) RegMusica (
+        .D      ( musicas          ),
+        .clear  ( zeraR            ),
+        .clock  ( clock            ),
+        .enable ( registra_musicas ),
+        .Q      ( musica_reg       )
+    );
+
+    // Registrador do valor de bpm selecionado
+    registrador_n #(.SIZE(1)) Reg120BPM (
+        .D      ( bpms[1]      ),
+        .clear  ( zeraR        ),
+        .clock  ( clock        ),
+        .enable ( registra_bpm ),
+        .Q      ( metro_120BPM )
+    );
+
+    // Registrador do valor de modo selecionado
+    registrador_n #(.SIZE(4)) RegModo (
+        .D      ( modos         ),
+        .clear  ( zeraR         ),
+        .clock  ( clock         ),
+        .enable ( registra_modo ),
+        .Q      ( modos_reg     )
     );
 
     

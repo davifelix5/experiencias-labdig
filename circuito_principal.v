@@ -1,20 +1,23 @@
-module circuito_principal #(parameter CLOCK_FREQ = 50000000) // 50MHz 
-(
+module circuito_principal #(
+    parameter CLOCK_FREQ = 50000000,
+              MODO       = 4,
+              BPM        = 2,
+              TOM        = 4,
+              MUSICA     = 16,
+              ERRO       = 2
+) (
     input         clock,
     input         reset,
     input         iniciar,
     input [3:0]   botoes_encoded,
-    input         apresenta_ultima,
-    input         tentar_dnv_rep,
-    input         tentar_dnv,
-    input         metronomo_120BPM,
-    input         apresenta_todas_as_notas,
+    input         right_arrow_pressed, left_arrow_pressed,
 
     output        ganhou,
     output        perdeu,
 	output        vez_jogador,
     output [11:0] leds,
     output        pulso_buzzer,
+    output [3:0]  arduino_out,
 
     output        db_nota_correta,
     output        db_tempo_correto,
@@ -33,9 +36,14 @@ module circuito_principal #(parameter CLOCK_FREQ = 50000000) // 50MHz
     // Sinais de controle
     wire contaC, contaTempo, contaTF, contaCR, registraR;
     wire zeraC, zeraR, zeraCR, zeraTF, zeraTempo, zeraMetro, contaMetro;
-    wire fim_musica, metro_120BPM, tempo_correto, tempo_correto_baixo;
+    wire fim_musica, tempo_correto, tempo_correto_baixo, inicia_menu;
     wire leds_mem, ativa_leds, toca;
     wire gravaM;
+    wire apresenta_ultima, tentar_dnv_rep, tentar_dnv;
+    wire registra_modo, registra_bpm, registra_tom, registra_musicas;
+    wire [1:0] menu_sel;
+
+    wire [MODO - 1:0] modos;
 
     // Sinais de condição
     wire fimCR, fimTF, fimTempo, meioCR, meioTempo; 
@@ -54,10 +62,19 @@ module circuito_principal #(parameter CLOCK_FREQ = 50000000) // 50MHz
     assign db_tempo_correto = tempo_correto;
 
     //Fluxo de Dados
-    fluxo_dados #(.CLOCK_FREQ(CLOCK_FREQ)) fluxo_dados (
+    fluxo_dados #(
+        .CLOCK_FREQ(CLOCK_FREQ),
+        .MODO(MODO),
+        .TOM(TOM),
+        .BPM(BPM),
+        .MUSICA(MUSICA),
+        .ERRO(ERRO)
+    ) fluxo_dados (
         // Sinais de entrada
         .clock               ( clock               ),
         .botoes_encoded      ( botoes_encoded      ),
+        .right_arrow_pressed ( right_arrow_pressed ),
+        .left_arrow_pressed  ( left_arrow_pressed_in ),
         // Sinais de controle 
         .zeraR               ( zeraR               ),
         .registraR           ( registraR           ),
@@ -73,9 +90,14 @@ module circuito_principal #(parameter CLOCK_FREQ = 50000000) // 50MHz
         .ativa_leds          ( ativa_leds          ),
         .toca                ( toca                ),
         .gravaM              ( gravaM              ),
-        .metro_120BPM        ( metro_120BPM        ),          
         .zeraMetro           ( zeraMetro           ),          
-        .contaMetro          ( contaMetro          ),          
+        .contaMetro          ( contaMetro          ),  
+        .menu_sel            ( menu_sel            ),
+        .inicia_menu         ( inicia_menu         ),
+        .registra_modo       ( registra_modo       ),
+        .registra_bpm        ( registra_bpm        ),
+        .registra_tom        ( registra_tom        ),
+        .registra_musicas    ( registra_musicas    ),           
         // Sinais de condição
         .nota_correta        ( nota_correta        ),
         .tempo_correto       ( tempo_correto       ),
@@ -88,9 +110,14 @@ module circuito_principal #(parameter CLOCK_FREQ = 50000000) // 50MHz
         .fimTF               ( fimTF               ),
         .enderecoIgualRodada ( enderecoIgualRodada ),
         .fim_musica          ( fim_musica          ),
+        .tentar_dnv_rep      ( tentar_dnv_rep      ),
+        .tentar_dnv          ( tentar_dnv          ),
+        .apresenta_ultima    ( apresenta_ultima    ),
+        .modos_reg           ( modos               ),
         // Sinais de saída
         .leds                ( leds                ),
         .pulso_buzzer        ( pulso_buzzer        ),
+        .arduino_out         ( arduino_out         ),
         // Sinais de depuração
         .db_metro            ( db_metro            ),
         .db_contagem         ( s_db_contagem       ),
@@ -101,7 +128,9 @@ module circuito_principal #(parameter CLOCK_FREQ = 50000000) // 50MHz
     );
 
     //Unidade de controle
-    modo1_unidade_controle unidade_controle (
+    modo1_unidade_controle #(
+        .MODO(MODO)
+    ) unidade_controle (
         // Sinais de entrada
         .clock               ( clock               ),
         .reset               ( reset               ),
@@ -133,11 +162,17 @@ module circuito_principal #(parameter CLOCK_FREQ = 50000000) // 50MHz
         .contaTempo          ( contaTempo          ),
         .zeraTempo           ( zeraTempo           ),
         .leds_mem            ( leds_mem            ),
-        .ativa_leds          ( ativa_leds         ),
+        .ativa_leds          ( ativa_leds          ),
         .toca                ( toca                ),
         .gravaM              ( gravaM              ),
-        .metro_120BPM        ( metro_120BPM        ),          
-        .zeraMetro           ( zeraMetro           ),          
+        .zeraMetro           ( zeraMetro           ),
+        .menu_sel            ( menu_sel            ),
+        .modos               ( modos               ),
+        .inicia_menu         ( inicia_menu         ),
+        .registra_modo       ( registra_modo       ),
+        .registra_bpm        ( registra_bpm        ),
+        .registra_tom        ( registra_tom        ),
+        .registra_musicas    ( registra_musicas    ),          
         .contaMetro          ( contaMetro          ),  
         // Sinais de saída
         .ganhou              ( ganhou              ),

@@ -1,7 +1,7 @@
 `timescale 100us/100us
 
 module menu_tb;
-parameter MODO = 3,
+parameter MODO = 4,
           BPM = 2,
           TOM = 4,
           MUSICA = 16,
@@ -16,8 +16,8 @@ wire tentar_dnv;
 wire apresenta_ultima;
 wire [MODO - 1:0] modos;
 wire [BPM - 1:0] bpms;
-wire [TOM - 1:0] toms;
-wire [MUSICA - 1:0] musicas;
+wire [$clog2(TOM) - 1:0] toms;
+wire [$clog2(MUSICA) - 1:0] musicas;
 wire [$clog2(MUSICA) - 1:0] arduino_out;
 
 integer errors, i;

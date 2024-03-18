@@ -18,11 +18,8 @@ module circuito_principal_tb;
     reg  clock_in,
           reset_in,
           iniciar_in,
-          apresenta_ultima_in,
-          tentar_dnv_rep_in,
-          tentar_dnv_in,
-          metronomo_120BPM_in,
-          apresenta_todas_as_notas_in;
+          right_arrow_pressed_in,
+          left_arrow_pressed_in;
 
     reg [3:0] botoes_encoded_in;
         
@@ -39,6 +36,8 @@ module circuito_principal_tb;
 
     wire [11:0] leds_out;
 
+    wire [3:0] arduino_out;
+
     wire [6:0] db_estado_lsb_out,
                db_memoria_tempo_out,
                db_memoria_nota_out,
@@ -53,17 +52,15 @@ module circuito_principal_tb;
         .reset(reset_in),
         .iniciar(iniciar_in),
         .botoes_encoded(botoes_encoded_in),
-        .apresenta_ultima(apresenta_ultima_in),
-        .tentar_dnv_rep(tentar_dnv_rep_in),
-        .tentar_dnv(tentar_dnv_in),
-        .metronomo_120BPM(metronomo_120BPM_in),
-        .apresenta_todas_as_notas(apresenta_todas_as_notas_in),
+        .right_arrow_pressed(right_arrow_pressed_in),
+        .left_arrow_pressed(left_arrow_pressed_in),
 
         .ganhou(ganhou_out),
         .perdeu(perdeu_out),
         .vez_jogador(vez_jogador_out),
         .leds(leds_out),
         .pulso_buzzer(pulso_buzzer_out),
+        .arduino_out(arduino_out),
 
         .db_tempo_correto(db_tempo_correto_out),
         .db_nota_correta(db_nota_correta_out),
@@ -117,6 +114,18 @@ module circuito_principal_tb;
   end
   endtask
 
+  task apresenta_rodada;
+  input [31:0] rodada;
+  begin: corpo_apresenta_rodada
+    integer k;
+    #(0.5*CLOCK_FREQ*CLOCK_PERIOD);
+    for (k = 0; k < rodada; k = k + 1) begin
+        $display("%d %d %d", rodada, tempos[k], wait_time(tempos[k]));
+        #(wait_time(tempos[k]) + 2*CLOCK_PERIOD*(rodada-1));
+      end
+  end
+  endtask
+
   /*
     Task para acertar rodadas consecutivamente.
     Recebe a quantidade de rodadas a serem acertadas.
@@ -128,11 +137,7 @@ module circuito_principal_tb;
     
     for (i = 1; i <= quantidade_rodadas; i = i + 1) begin
       // Espera o tempo de aprensetação da rodada
-      #(0.5*CLOCK_FREQ*CLOCK_PERIOD);
-      for (k = 0; k < i; k = k + 1) begin
-        $display("%d %d %d", i, tempos[k], wait_time(tempos[k]));
-        #(wait_time(tempos[k]) + 2*CLOCK_PERIOD*(i-1));
-      end
+      apresenta_rodada(i);
       // Acerta os valores
       acerta_valores(i);
     end
@@ -164,18 +169,30 @@ module circuito_principal_tb;
         reset_in            = 1'b0;
         iniciar_in          = 1'b0;
         botoes_encoded_in           = 4'd0;
-        apresenta_ultima_in = 1'b0;
-        tentar_dnv_rep_in   = 1'b0;
-        tentar_dnv_in       = 1'b0;
-        metronomo_120BPM_in = 1'b0;
-        apresenta_todas_as_notas_in = 1'b0;
+        right_arrow_pressed_in = 1'b0;
+        left_arrow_pressed_in = 1'b0;
 
         ///************************************************************************************************
-        //    Inicia o circuito e digita uma nota certa
+        //    Inicia o circuito e digita todas as 16 notas certas
         //*************************************************************************************************
+        cenario = 1;
         iniciar_circuito();
 
         acerta_rodadas(16);
+
+        #(5*CLOCK_PERIOD);
+        //*/
+
+        /*//************************************************************************************************
+        //    Inicia o circuito e digita 5 notas certas, errando a sexta
+        //*************************************************************************************************
+        cenario = 2;
+        iniciar_circuito();
+
+        acerta_rodadas(5); // Acerta 5 rodadas
+        apresenta_rodada(6); // Aprenseta os valores da sexta rodada
+        acerta_valores(5); // Acerta 5 notas
+        press_botoes(4'd5, 4'd4); // Erra a sexta nota
 
         #(5*CLOCK_PERIOD);
         //*/
