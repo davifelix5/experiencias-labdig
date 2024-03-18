@@ -80,11 +80,14 @@ module modo1_unidade_controle (
                 compara                 = 5'h09,
                 acertou                 = 5'h0A,
                 proxima_nota            = 5'h0B,
-                proxima_rodada          = 5'h13,
+                incrementa_nota         = 5'h13,
                 errou_nota              = 5'h14,
                 errou_tempo             = 5'h15,
                 toca_nota               = 5'h17,
-                espera_mostra2          = 5'h18;
+                mostra_ultima           = 5'h18,
+                proxima_rodada          = 5'h19,
+                verifica_fim            = 5'h1A,
+                registra                = 6'h1B;
 
     
 
@@ -127,7 +130,7 @@ module modo1_unidade_controle (
                     end // Nota e tempo estão corretos
                     else begin
                         if (enderecoIgualRodada) begin
-                            Eprox = (fimCR | fim_musica) ? acertou : proxima_rodada;
+                            Eprox = (fimCR) ? acertou : incrementa_nota;
                         end
                         else begin
                             Eprox = proxima_nota;
@@ -135,11 +138,14 @@ module modo1_unidade_controle (
                     end
                 end
             end
-            errou_tempo, errou_nota:  Eprox = tentar_dnv_rep ? inicio_rodada : (tentar_dnv ? inicio_nota : (apresenta_ultima ? espera_mostra2 : Eatual));
+            errou_tempo, errou_nota:  Eprox = tentar_dnv_rep ? inicio_rodada : (tentar_dnv ? inicio_nota : (apresenta_ultima ? mostra_ultima : Eatual));
             proxima_nota:             Eprox = espera_nota;
+            incrementa_nota:          Eprox = registra;
+            registra:                 Eprox = verifica_fim;
+            verifica_fim:             Eprox = fim_musica ? acertou : proxima_rodada;
             acertou:                  Eprox = iniciar ? inicializa_elementos : acertou;
             proxima_rodada:           Eprox = inicio_rodada;
-            espera_mostra2:           Eprox = tempo_correto_baixo ? espera_nota : espera_mostra2;
+            mostra_ultima:           Eprox = tempo_correto_baixo ? espera_nota : mostra_ultima;
             default:                  Eprox = inicial; 
         endcase
     end
@@ -148,20 +154,21 @@ module modo1_unidade_controle (
     assign zeraR          = (Eatual == inicial);
     assign zeraCR         = (Eatual == inicializa_elementos);
     assign zeraC          = (Eatual == inicio_nota || Eatual == inicio_rodada);
-    assign zeraTempo      = (Eatual == proxima_nota || Eatual == inicio_nota || Eatual == inicializa_elementos || Eatual == errou_tempo || Eatual == errou_nota);
+    assign zeraTempo      = (Eatual == proxima_nota || Eatual == inicio_nota || Eatual == inicializa_elementos || 
+                            Eatual == errou_tempo || Eatual == errou_nota || Eatual == proxima_rodada);
     assign zeraTF         = (Eatual == mostra || Eatual == inicializa_elementos || Eatual == inicio_nota);
     assign contaTF        = (Eatual == inicio_rodada);
-    assign contaC         = (Eatual == mostra_proximo || Eatual == proxima_nota);
+    assign contaC         = (Eatual == incrementa_nota || Eatual == mostra_proximo || Eatual == proxima_nota || Eatual == proxima_nota);
     assign contaTempo     = (Eatual == espera_nota);
     assign vez_jogador    = (Eatual == espera_nota);
     assign registraR      = (Eatual == toca_nota);
     assign contaCR        = (Eatual == proxima_rodada);
     assign ganhou         = (Eatual == acertou);
     assign perdeu         = (Eatual == errou_tempo || Eatual == errou_nota);
-    assign leds_mem       = (Eatual == espera_mostra || Eatual == espera_mostra2);
-    assign ativa_leds     = (Eatual == toca_nota || Eatual == espera_mostra || Eatual == espera_mostra2);
+    assign leds_mem       = (Eatual == espera_mostra || Eatual == mostra_ultima);
+    assign ativa_leds     = (Eatual == toca_nota || Eatual == espera_mostra || Eatual == mostra_ultima);
     assign toca           = (Eatual == toca_nota);
-    assign contaMetro     = (Eatual == espera_mostra2 || Eatual == espera_mostra || Eatual == toca_nota);
+    assign contaMetro     = (Eatual == mostra_ultima || Eatual == espera_mostra || Eatual == toca_nota);
     assign zeraMetro      = (Eatual == mostra || Eatual == errou_tempo || Eatual == espera_nota || 
                              Eatual == errou_nota || Eatual == inicializa_elementos);
     assign metro_120BPM   = 1'b0;

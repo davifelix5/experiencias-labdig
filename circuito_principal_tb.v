@@ -1,6 +1,6 @@
 `timescale 100us/100us
 
-module circuito_principal_modo1_memoria_tb;
+module circuito_principal_tb;
 
     parameter CLOCK_FREQ = 5000, // Hz
               CLOCK_PERIOD = 2;  //s
@@ -85,7 +85,7 @@ module circuito_principal_modo1_memoria_tb;
   task press_botoes;
     input [3:0] valor, tempo;
     begin
-      #(CLOCK_PERIOD);
+      #(2*CLOCK_PERIOD);
       botoes_encoded_in = valor;
       #(tempo*0.5*CLOCK_FREQ*CLOCK_PERIOD);
       botoes_encoded_in = 4'b0000;
@@ -155,7 +155,7 @@ module circuito_principal_modo1_memoria_tb;
 
     initial begin
         $dumpfile("./waveforms.vcd");
-        $dumpvars(0, circuito_principal_modo1_memoria_tb);
+        $dumpvars(0, circuito_principal_tb);
 
         /************************************************************************************************
             Condições iniciais 
@@ -170,14 +170,15 @@ module circuito_principal_modo1_memoria_tb;
         metronomo_120BPM_in = 1'b0;
         apresenta_todas_as_notas_in = 1'b0;
 
-        /************************************************************************************************
-            Inicia o circuito e digita uma nota certa
-        *************************************************************************************************/
+        ///************************************************************************************************
+        //    Inicia o circuito e digita uma nota certa
+        //*************************************************************************************************
         iniciar_circuito();
 
         acerta_rodadas(16);
 
         #(5*CLOCK_PERIOD);
+        //*/
         
         $finish;
        
