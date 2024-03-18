@@ -9,29 +9,23 @@ module menu #(
     input reset,
     input clock,
     input load_initial,
-    input [1:0] menu_sel,
-    output tentar_dnv_rep,
-    output tentar_dnv,
-    output apresenta_ultima,
+    input [2:0] menu_sel,
     output [MODO - 1:0] modos,
     output [BPM - 1:0] bpms,
     output [$clog2(TOM) - 1:0] toms,
     output [$clog2(MUSICA) - 1:0] musicas,
+    output [ERRO - 1:0] erros,
     output [$clog2(MUSICA) - 1:0] arduino_out
 );
 parameter SIZE = 2;
 
-wire [ERRO - 1:0] erros;
-wire [MUSICA - 1:0] arduino_signal;
+wire [MUSICA - 1:0] arduino_signal, menu_principal_o;
 wire [TOM-1:0] toms_decoded;
 wire [MUSICA-1:0] musicas_decoded;
 wire right_arrow_pulse, left_arrow_pulse;
 wire shift;
 
 assign shift = right_arrow_pulse | left_arrow_pulse;
-
-assign {tentar_dnv_rep, tentar_dnv, apresenta_ultima} = erros;
-
 
 //Edge Detector
     edge_detector EdgeDetectorRight (
@@ -66,14 +60,22 @@ encoder #(.SIZE(MUSICA)) musica_value (
 /////////////////////////////////////////////////////////////////////////
 //Seleciona qual dos One-Hot irá ser codificado e ir para o arduino
 /////////////////////////////////////////////////////////////////////////
-mux4_1 #(.SIZE(MUSICA)) mux_arduino (
-        .sel    (menu_sel),
+mux4_1 #(.SIZE(MUSICA)) mux_arduino_principal (
+        .sel    (menu_sel[1:0]),
         .i0     ({{(MUSICA - MODO){1'b0}} , modos}),
         .i1     ({{(MUSICA - BPM){1'b0}} , bpms}),
         .i2     ({{(MUSICA - TOM){1'b0}},toms_decoded}),
         .i3     (musicas_decoded),
-        .data_o (arduino_signal)
+        .data_o (menu_principal_o)
     );
+
+mux_2x1 #(.SIZE(MUSICA)) mux_arduino_erros (
+        .sel(menu_sel[2]),
+        .A(menu_principal_o),
+        .B({{(MUSICA - ERRO){1'b0}} , erros}),
+        .res(arduino_signal)
+        
+);
 
 encoder #(.SIZE(MUSICA)) arduino_value (
     .data_i (arduino_signal),

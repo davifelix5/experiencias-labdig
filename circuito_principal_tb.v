@@ -19,7 +19,8 @@ module circuito_principal_tb;
           reset_in,
           iniciar_in,
           right_arrow_pressed_in,
-          left_arrow_pressed_in;
+          left_arrow_pressed_in,
+          enter_pressed_in;
 
     reg [3:0] botoes_encoded_in;
         
@@ -54,6 +55,7 @@ module circuito_principal_tb;
         .botoes_encoded(botoes_encoded_in),
         .right_arrow_pressed(right_arrow_pressed_in),
         .left_arrow_pressed(left_arrow_pressed_in),
+        .enter_pressed(enter_pressed_in),
 
         .ganhou(ganhou_out),
         .perdeu(perdeu_out),
@@ -82,7 +84,7 @@ module circuito_principal_tb;
   task press_botoes;
     input [3:0] valor, tempo;
     begin
-      #(2*CLOCK_PERIOD);
+      #(CLOCK_PERIOD);
       botoes_encoded_in = valor;
       #(tempo*0.5*CLOCK_FREQ*CLOCK_PERIOD);
       botoes_encoded_in = 4'b0000;
@@ -171,8 +173,9 @@ module circuito_principal_tb;
         botoes_encoded_in           = 4'd0;
         right_arrow_pressed_in = 1'b0;
         left_arrow_pressed_in = 1'b0;
+        enter_pressed_in       = 1'b0;
 
-        ///************************************************************************************************
+        /*//************************************************************************************************
         //    Inicia o circuito e digita todas as 16 notas certas
         //*************************************************************************************************
         cenario = 1;
@@ -183,11 +186,46 @@ module circuito_principal_tb;
         #(5*CLOCK_PERIOD);
         //*/
 
-        /*//************************************************************************************************
+        ///************************************************************************************************
         //    Inicia o circuito e digita 5 notas certas, errando a sexta
         //*************************************************************************************************
         cenario = 2;
-        iniciar_circuito();
+
+        @(negedge clock_in);
+        reset_in = 1;
+        #(CLOCK_PERIOD);
+        reset_in = 0;
+        
+        #(CLOCK_PERIOD);
+        iniciar_in = 1;
+        #(CLOCK_PERIOD);
+        iniciar_in = 0;
+
+        enter_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        enter_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        enter_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        enter_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        enter_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        enter_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        right_arrow_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        right_arrow_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+
+        enter_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        enter_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
 
         acerta_rodadas(5); // Acerta 5 rodadas
         apresenta_rodada(6); // Aprenseta os valores da sexta rodada
@@ -195,6 +233,21 @@ module circuito_principal_tb;
         press_botoes(4'd5, 4'd4); // Erra a sexta nota
 
         #(5*CLOCK_PERIOD);
+
+        right_arrow_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        right_arrow_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        right_arrow_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        right_arrow_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        enter_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        enter_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
         //*/
         
         $finish;

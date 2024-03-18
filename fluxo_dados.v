@@ -17,13 +17,14 @@ module fluxo_dados #(
               BPM        = 2,
               TOM        = 4,
               MUSICA     = 16,
-              ERRO       = 2
+              ERRO       = 3
 ) (
     // Entradas
     input clock,
     input [3:0] botoes_encoded,
     input right_arrow_pressed,
     input left_arrow_pressed,
+    input enter_pressed,
 
     // Sinais de controle
     input       zeraR,
@@ -42,7 +43,7 @@ module fluxo_dados #(
     input       gravaM,
     input       zeraMetro,
     input       contaMetro,
-    input [1:0] menu_sel,
+    input [2:0] menu_sel,
     input       inicia_menu,
     input       registra_modo,
     input       registra_bpm,
@@ -62,10 +63,9 @@ module fluxo_dados #(
     output                fimTF,
     output                pulso_buzzer,
     output                fim_musica,
-    output                tentar_dnv,
-    output                tentar_dnv_rep,
-    output                apresenta_ultima,
+    output [ERRO - 1:0]   erros,
     output [MODO - 1:0]   modos_reg,
+    output                press_enter,
 
     // Sinais de saída
     output [11:0] leds,
@@ -127,9 +127,7 @@ module fluxo_dados #(
         .load_initial        ( inicia_menu         ),
         .menu_sel            ( menu_sel            ),
 
-        .tentar_dnv_rep      ( tentar_dnv_rep      ),
-        .tentar_dnv          ( tentar_dnv          ),
-        .apresenta_ultima    ( apresenta_ultima    ),
+        .erros               ( erros               ),
 
         .modos               ( modos               ),
         .bpms                ( bpms                ),
@@ -197,12 +195,20 @@ module fluxo_dados #(
         .tempo_correto       ( tempo_correto )
     );
 
-    //Edge Detector
-    edge_detector EdgeDetector (
+    //Edge Detector para a nota escolhida
+    edge_detector EdgeDetectorNota (
         .clock( clock               ),
         .reset( 1'b0                ), 
         .sinal( nota_feita          ), 
         .pulso( nota_apertada_pulso )
+    );
+
+    //Edge Detector para o enter
+    edge_detector EdgeDetector (
+        .clock( clock         ),
+        .reset( 1'b0          ), 
+        .sinal( enter_pressed ), 
+        .pulso( press_enter   )
     );
 
     // Contador para o endereço atual
@@ -253,7 +259,7 @@ module fluxo_dados #(
     sync_ram_musicas_32x4x16_file MemTempos (
         .clk        ( clock           ), 
         .addr       ( s_endereco      ), 
-        .musica     ( 4'd1            ),
+        .musica     ( musica_reg      ),
         .we         ( gravaM          ),
         .data_nota  (                 ),
         .data_tempo (                 ),

@@ -4,13 +4,13 @@ module circuito_principal #(
               BPM        = 2,
               TOM        = 4,
               MUSICA     = 16,
-              ERRO       = 2
+              ERRO       = 3
 ) (
     input         clock,
     input         reset,
     input         iniciar,
     input [3:0]   botoes_encoded,
-    input         right_arrow_pressed, left_arrow_pressed,
+    input         right_arrow_pressed, left_arrow_pressed, enter_pressed,
 
     output        ganhou,
     output        perdeu,
@@ -40,10 +40,12 @@ module circuito_principal #(
     wire leds_mem, ativa_leds, toca;
     wire gravaM;
     wire apresenta_ultima, tentar_dnv_rep, tentar_dnv;
+    wire press_enter;
     wire registra_modo, registra_bpm, registra_tom, registra_musicas;
-    wire [1:0] menu_sel;
+    wire [2:0] menu_sel;
 
     wire [MODO - 1:0] modos;
+    wire [ERRO - 1:0] erros;
 
     // Sinais de condição
     wire fimCR, fimTF, fimTempo, meioCR, meioTempo; 
@@ -74,7 +76,8 @@ module circuito_principal #(
         .clock               ( clock               ),
         .botoes_encoded      ( botoes_encoded      ),
         .right_arrow_pressed ( right_arrow_pressed ),
-        .left_arrow_pressed  ( left_arrow_pressed_in ),
+        .left_arrow_pressed  ( left_arrow_pressed ),
+        .enter_pressed       ( enter_pressed       ),
         // Sinais de controle 
         .zeraR               ( zeraR               ),
         .registraR           ( registraR           ),
@@ -110,10 +113,9 @@ module circuito_principal #(
         .fimTF               ( fimTF               ),
         .enderecoIgualRodada ( enderecoIgualRodada ),
         .fim_musica          ( fim_musica          ),
-        .tentar_dnv_rep      ( tentar_dnv_rep      ),
-        .tentar_dnv          ( tentar_dnv          ),
-        .apresenta_ultima    ( apresenta_ultima    ),
+        .erros               ( erros               ),
         .modos_reg           ( modos               ),
+        .press_enter         ( press_enter         ),
         // Sinais de saída
         .leds                ( leds                ),
         .pulso_buzzer        ( pulso_buzzer        ),
@@ -129,7 +131,8 @@ module circuito_principal #(
 
     //Unidade de controle
     modo1_unidade_controle #(
-        .MODO(MODO)
+        .MODO(MODO),
+        .ERRO(ERRO)
     ) unidade_controle (
         // Sinais de entrada
         .clock               ( clock               ),
@@ -146,10 +149,9 @@ module circuito_principal #(
         .tempo_correto       ( tempo_correto       ),
         .tempo_correto_baixo ( tempo_correto_baixo ),
         .enderecoIgualRodada ( enderecoIgualRodada ),
-        .apresenta_ultima    ( apresenta_ultima    ),
-        .tentar_dnv_rep      ( tentar_dnv_rep      ),
-        .tentar_dnv          ( tentar_dnv          ),
+        .erros               ( erros               ),
         .fim_musica          ( fim_musica          ),
+        .press_enter         ( press_enter         ),
         // Sinais de controle
         .zeraC               ( zeraC               ),
         .contaC              ( contaC              ),
