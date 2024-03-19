@@ -22,10 +22,16 @@ parameter SIZE = 2;
 wire [MUSICA - 1:0] arduino_signal, menu_principal_o;
 wire [TOM-1:0] toms_decoded;
 wire [MUSICA-1:0] musicas_decoded;
-wire right_arrow_pulse, left_arrow_pulse;
-wire shift;
+wire right_arrow_pulse, left_arrow_pulse, enable_shift;
+wire[3:0] shift;
 
-assign shift = right_arrow_pulse | left_arrow_pulse;
+assign enable_shift = right_arrow_pulse | left_arrow_pulse;
+
+decoder_2x4 decoder_shift (
+    .in(menu_sel[1:0]),
+    .enable(enable_shift),
+    .out(shift)
+);
 
 //Edge Detector
     edge_detector EdgeDetectorRight (
@@ -92,7 +98,7 @@ shift_register #(.SIZE(MODO)) modo_sr(
     .load       (load_initial),
     .dir        (right_arrow_pressed),
     .reset      (reset),
-    .shift      (shift),
+    .shift      (shift[0]),
     .value      (modos)
 ); 
 
@@ -102,7 +108,7 @@ shift_register #(.SIZE(BPM)) bpm_sr(
     .load       (load_initial),
     .dir        (right_arrow_pressed),
     .reset      (reset),
-    .shift      (shift),
+    .shift      (shift[1]),
     .value      (bpms)
 ); 
 
@@ -112,7 +118,7 @@ shift_register #(.SIZE(TOM)) tom_sr(
     .load       (load_initial),
     .dir        (right_arrow_pressed),
     .reset      (reset),
-    .shift      (shift),
+    .shift      (shift[2]),
     .value      (toms_decoded)
 ); 
 
@@ -122,7 +128,7 @@ shift_register #(.SIZE(MUSICA)) musica_sr(
     .load       (load_initial),
     .dir        (right_arrow_pressed),
     .reset      (reset),
-    .shift      (shift),
+    .shift      (shift[3]),
     .value      (musicas_decoded)
 ); 
 
@@ -132,7 +138,7 @@ shift_register #(.SIZE(ERRO)) erro_sr(
     .load       (load_initial),
     .dir        (right_arrow_pressed),
     .reset      (reset),
-    .shift      (shift),
+    .shift      (enable_shift & menu_sel[2]),
     .value      (erros)
 ); 
 

@@ -157,12 +157,13 @@ module fluxo_dados #(
     );
 
     //Buzzer para notas
-    buzzer #(.CLOCK_FREQ(CLOCK_FREQ)) BuzzerLeds (
+    buzzer #(.CLOCK_FREQ(CLOCK_FREQ), .TOM(TOM)) BuzzerLeds (
         .clock   ( clock ),
         .toca    ( toca ),
         .reset   ( zeraR ),
 
-        .seletor ( leds ),
+        .seletor ( leds_encoded ),
+        .tom     ( tom_reg      ),
 
         .pulso   ( pulso_buzzer )  // Frequência da nota a ser tocada
     );
