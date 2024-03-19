@@ -31,7 +31,8 @@ module circuito_principal_tb;
         db_nota_correta_out,
         db_clock_out,
         db_enderecoIgualRodada_out,
-        db_estado_msb_out,
+        db_estado5_out,
+        db_estado4_out,
         db_tempo_correto_out,
         db_metro;
 
@@ -42,8 +43,8 @@ module circuito_principal_tb;
     wire [6:0] db_estado_lsb_out,
                db_memoria_tempo_out,
                db_memoria_nota_out,
-               db_rodada_out,
-               db_contagem_out,
+               db_modo_out,
+               db_menu_out,
                db_nota_out;
 
     always #((CLOCK_PERIOD / 2)) clock_in = ~clock_in;
@@ -66,14 +67,15 @@ module circuito_principal_tb;
 
         .db_tempo_correto(db_tempo_correto_out),
         .db_nota_correta(db_nota_correta_out),
-        .db_contagem(db_contagem_out),
         .db_memoria_nota(db_memoria_nota_out),
         .db_memoria_tempo(db_memoria_tempo_out),
         .db_estado_lsb(db_estado_lsb_out),
-        .db_estado_msb(db_estado_msb_out),
+        .db_estado5(db_estado5_out),
+        .db_estado4(db_estado4_out),
         .db_nota(db_nota_out),
-        .db_rodada(db_rodada_out),
         .db_metro(db_metro_out),
+        .db_modo(db_modo_out),
+        .db_menu(db_menu_out),
         .db_clock(db_clock_out),
         .db_enderecoIgualRodada(db_enderecoIgualRodada_out)
     );
@@ -175,7 +177,7 @@ module circuito_principal_tb;
         left_arrow_pressed_in = 1'b0;
         enter_pressed_in       = 1'b0;
 
-        ///************************************************************************************************
+        /*//************************************************************************************************
         //    Inicia o circuito e digita todas as 16 notas certas
         //*************************************************************************************************
         cenario = 1;
@@ -224,7 +226,7 @@ module circuito_principal_tb;
         #(5*CLOCK_PERIOD);
         //*/
 
-        /*//************************************************************************************************
+        ///************************************************************************************************
         //    Inicia o circuito e digita 5 notas certas, errando a sexta
         //*************************************************************************************************
         cenario = 2;

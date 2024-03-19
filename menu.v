@@ -27,6 +27,7 @@ wire[3:0] shift;
 
 assign enable_shift = right_arrow_pulse | left_arrow_pulse;
 
+// Decodifcador para escolher qual dos registradores deve ser shiftado em uma interação com menu
 decoder_2x4 decoder_shift (
     .in(menu_sel[1:0]),
     .enable(enable_shift),

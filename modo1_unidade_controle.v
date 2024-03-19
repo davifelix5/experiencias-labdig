@@ -76,7 +76,7 @@ module modo1_unidade_controle #(
     output    perdeu,
     output    vez_jogador,
 
-    output [4:0] db_estado
+    output [5:0] db_estado
 );
 
     // Define estados

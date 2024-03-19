@@ -22,13 +22,14 @@ module circuito_principal #(
     output        db_nota_correta,
     output        db_tempo_correto,
     output        db_metro,
-    output [6:0]  db_contagem,
     output [6:0]  db_memoria_nota,
     output [6:0]  db_memoria_tempo,
     output [6:0]  db_estado_lsb,
-    output        db_estado_msb,
+    output        db_estado5,
+    output        db_estado4,
     output [6:0]  db_nota,
-    output [6:0]  db_rodada,
+    output [6:0]  db_menu,
+    output [6:0]  db_modo,
     output        db_clock,
     output        db_enderecoIgualRodada
 );
@@ -52,15 +53,16 @@ module circuito_principal #(
     wire enderecoIgualRodada, nota_feita, nota_correta;
     
     // Sinais de depuração
-    wire [3:0] s_db_contagem,  s_db_rodada, s_db_memoria_nota,
+    wire [3:0] s_db_memoria_nota,
                s_db_memoria_tempo, s_db_nota; // Valores que entram nos displays
-    wire [4:0] s_db_estado;
+    wire [5:0] s_db_estado;
 
     // Setando sinais de depuração
     assign db_clock               = clock;
 	assign db_nota_correta      = nota_correta;
     assign db_enderecoIgualRodada = enderecoIgualRodada;
-    assign db_estado_msb = s_db_estado[4];
+    assign db_estado5 = s_db_estado[5];
+    assign db_estado4 = s_db_estado[4];
     assign db_tempo_correto = tempo_correto;
 
     //Fluxo de Dados
@@ -122,11 +124,9 @@ module circuito_principal #(
         .arduino_out         ( arduino_out         ),
         // Sinais de depuração
         .db_metro            ( db_metro            ),
-        .db_contagem         ( s_db_contagem       ),
         .db_nota             ( s_db_nota           ),
         .db_memoria_nota     ( s_db_memoria_nota   ),
-        .db_memoria_tempo    ( s_db_memoria_tempo  ),
-        .db_rodada           ( s_db_rodada         )
+        .db_memoria_tempo    ( s_db_memoria_tempo  )
     );
 
     //Unidade de controle
@@ -186,12 +186,6 @@ module circuito_principal #(
 
     /* Displays */
 
-    //Contagem
-    hexa7seg display_contagem (
-        .hexa    ( s_db_contagem),
-        .display ( db_contagem  )
-    );
-
     //Memoria
     hexa7seg display_memoria_nota (
         .hexa    ( s_db_memoria_nota ),
@@ -210,18 +204,16 @@ module circuito_principal #(
         .display ( db_estado_lsb   )
     );
 
-    /* eu */
-
      //Jogada
-    hexa7seg display_nota (
-        .hexa    ( s_db_nota ),
-        .display ( db_nota   )
+    hexa7seg display_menu (
+        .hexa    ( arduino_out ),
+        .display ( db_menu   )
     );
 
-     //Rodada
-    hexa7seg display_rodada (
-        .hexa    ( s_db_rodada ),
-        .display ( db_rodada   )
+     //Modos
+    hexa7seg display_modo (
+        .hexa    ( modos   ),
+        .display ( db_modo )
     );
 
 	 

@@ -73,11 +73,9 @@ module fluxo_dados #(
 
     // Sinais de depuração
     output       db_metro,
-    output [3:0] db_contagem,
     output [3:0] db_nota  ,
     output [3:0] db_memoria_nota,
-    output [3:0] db_memoria_tempo,
-    output [3:0] db_rodada
+    output [3:0] db_memoria_tempo
 );
 
     parameter TEMPO_MOSTRA = 2, TIMEOUT=5, // s
