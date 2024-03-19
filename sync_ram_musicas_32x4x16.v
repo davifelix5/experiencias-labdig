@@ -49,7 +49,7 @@ module sync_ram_musicas_32x4x16_file #(
     );
 
     generate 
-        for (i=0; i<32; i = i + 1) begin: NOTAS_E_TEMPOS
+        for (i=0; i<16; i = i + 1) begin: NOTAS_E_TEMPOS
 
             sync_ram_32x4_file #(.HEXFILE({"ram_init/ram_init_notas_", convert_ascii(i), ".txt"}))
             mem_notas 
