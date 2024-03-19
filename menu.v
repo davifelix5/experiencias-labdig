@@ -78,8 +78,8 @@ mux4_1 #(.SIZE(MUSICA)) mux_arduino_principal (
 
 mux_2x1 #(.SIZE(MUSICA)) mux_arduino_erros (
         .sel(menu_sel[2]),
-        .A(menu_principal_o),
-        .B({{(MUSICA - ERRO){1'b0}} , erros}),
+        .A({{(MUSICA - ERRO){1'b0}} , erros}),
+        .B(menu_principal_o),
         .res(arduino_signal)
         
 );

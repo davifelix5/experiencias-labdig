@@ -304,7 +304,6 @@ module circuito_principal_tb;
         #(5*CLOCK_PERIOD);
         enter_pressed_in = 0;
         #(10*CLOCK_PERIOD);
-        //*/
         
         $finish;
        
