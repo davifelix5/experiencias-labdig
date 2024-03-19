@@ -115,6 +115,9 @@ module modo1_unidade_controle #(
     // Depuração do estado
     assign db_estado  = Eatual;
 
+    wire modo1, modo2, modo3, modo4;
+    wire tentar_dnv_rep, tentar_dnv, apresenta_ultima;
+
     assign { modo4, modo3, modo2, modo1 } = modos;
     
     assign {tentar_dnv_rep, tentar_dnv, apresenta_ultima} = erros;
@@ -213,10 +216,10 @@ module modo1_unidade_controle #(
     assign inicia_menu      = (Eatual == iniciar_menu || Eatual == iniciar_menu_erro);
     assign menu_sel[0]      = (Eatual == espera_bpm || Eatual == espera_musica);
     assign menu_sel[1]      = (Eatual == espera_tom || Eatual == espera_musica);
-    assign menu_sel[2]      = (Eatual == errou_nota || Eatual == errou_tempo);
+    assign menu_sel[2]      = (Eatual == menu_erro);
     assign registra_bpm     = (Eatual == espera_bpm);
-    assign registra_modo    = (Eatual == registra_modo);
-    assign registra_tom     = (Eatual == registra_tom);
+    assign registra_modo    = (Eatual == espera_modo);
+    assign registra_tom     = (Eatual == espera_tom);
     assign registra_musicas = (Eatual == espera_musica);
 
 
