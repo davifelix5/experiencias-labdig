@@ -21,6 +21,7 @@ module fluxo_dados #(
 ) (
     // Entradas
     input clock,
+    input reset,
     input [3:0] botoes_encoded,
     input right_arrow_pressed,
     input left_arrow_pressed,
@@ -104,11 +105,9 @@ module fluxo_dados #(
 
     // Sinais de depuração
     assign db_metro           = meio_metro;
-    assign db_contagem        = s_endereco[3:0];
     assign db_nota            = s_nota;
     assign db_memoria_nota    = s_memoria_nota;
     assign db_memoria_tempo   = s_memoria_tempo;
-    assign db_rodada          = s_rodada[3:0];
     
     // Menu para interação com o display
     menu #(

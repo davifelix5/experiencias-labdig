@@ -76,6 +76,7 @@ module circuito_principal #(
     ) fluxo_dados (
         // Sinais de entrada
         .clock               ( clock               ),
+        .reset               ( reset               ),
         .botoes_encoded      ( botoes_encoded      ),
         .right_arrow_pressed ( right_arrow_pressed ),
         .left_arrow_pressed  ( left_arrow_pressed ),
@@ -196,6 +197,12 @@ module circuito_principal #(
     hexa7seg display_memoria_tempo (
         .hexa    ( s_db_memoria_tempo ),
         .display ( db_memoria_tempo   )
+    );
+
+    // Display da nota
+    hexa7seg display_nota (
+        .hexa    ( s_db_nota ),
+        .display ( db_nota )
     );
 		
 	 //Estado primeiros bits
