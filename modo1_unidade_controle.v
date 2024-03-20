@@ -106,7 +106,8 @@ module modo1_unidade_controle #(
                 espera_musica           = 6'h20,
                 iniciar_menu_erro       = 6'h21,
                 menu_erro               = 6'h22,
-                espera_toca             = 6'h23;
+                espera_toca             = 6'h23,
+                prepara_nota            = 6'h24;
 
     
 
@@ -189,6 +190,26 @@ module modo1_unidade_controle #(
                 mostra_ultima:           Eprox = tempo_correto_baixo ? espera_nota : mostra_ultima;
                 default:                  Eprox = inicial; 
             endcase
+        end else if (modo2) begin
+            case(Eatual)
+                inicializa_elementos:     Eprox = inicio_rodada;
+                inicio_rodada:            Eprox = mostra;
+                mostra:                   Eprox = espera_mostra;
+                espera_mostra:            Eprox = tempo_correto_baixo ? prepara_nota : espera_mostra;
+                prepara_nota:             Eprox = espera_nota;
+                espera_nota:              Eprox = nota_feita ? toca_nota : espera_nota;
+                toca_nota:                Eprox = nota_feita ? toca_nota : compara;
+                compara:                  Eprox = !tempo_correto ? errou_tempo : (!nota_correta ? errou_nota : incrementa_nota);
+                errou_tempo, errou_nota:  Eprox = iniciar_menu_erro;
+                iniciar_menu_erro:         Eprox = menu_erro;
+                menu_erro:                Eprox = !press_enter ? menu_erro : 
+                                                    (tentar_dnv_rep ? inicio_rodada : (tentar_dnv ? prepara_nota : (apresenta_ultima ? mostra_ultima : menu_erro)));
+                incrementa_nota:          Eprox = registra;
+                registra:                 Eprox = verifica_fim;
+                verifica_fim:             Eprox = fim_musica ? acertou : espera_mostra;
+                mostra_proximo:           Eprox = espera_mostra;
+                default:                  Eprox = inicial;
+            endcase
         end else if (modo3) begin
             case(Eatual)
                 inicializa_elementos:     Eprox = inicio_rodada;
@@ -208,6 +229,9 @@ module modo1_unidade_controle #(
                 default:                  Eprox = inicial;
             endcase
         end
+        else begin
+            Eprox = inicial;
+        end
     end
 
     // Logica de saida (maquina Moore)
@@ -215,8 +239,10 @@ module modo1_unidade_controle #(
     assign zeraCR           = (Eatual == inicializa_elementos);
     assign zeraC            = (Eatual == inicio_nota || Eatual == inicio_rodada);
     assign zeraTempo        = (Eatual == proxima_nota || Eatual == inicio_nota || Eatual == inicializa_elementos || 
-                            Eatual == errou_tempo || Eatual == errou_nota || Eatual == proxima_rodada);
-    assign zeraTF           = (Eatual == mostra || Eatual == inicializa_elementos || Eatual == inicio_nota);
+                               Eatual == errou_tempo || Eatual == errou_nota || Eatual == verifica_fim ||
+                               Eatual == prepara_nota);
+    assign zeraTF           = (Eatual == mostra || Eatual == inicializa_elementos || Eatual == inicio_nota ||
+                               Eatual == prepara_nota);
     assign contaTF          = (Eatual == inicio_rodada);
     assign contaC           = (Eatual == incrementa_nota || Eatual == mostra_proximo || Eatual == proxima_nota || Eatual == proxima_nota);
     assign contaTempo       = (Eatual == espera_nota);

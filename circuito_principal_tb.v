@@ -382,7 +382,7 @@ module circuito_principal_tb;
         #(4*CLOCK_FREQ*CLOCK_PERIOD); // Passa 4 segundos
         //*/
 
-        ///************************************************************************************************
+        /*//************************************************************************************************
         //    Iniciar o circuito no modo 4 - freestyle
         //*************************************************************************************************
 
@@ -439,9 +439,84 @@ module circuito_principal_tb;
         press_botoes(4'hA, 4);
         press_botoes(4'hB, 2);
 
+        //*/
+
+        ///************************************************************************************************
+        //    Iniciar o circuito no modo 2 - nota a nota
+        //*************************************************************************************************
+        
+        cenario = 5;
+
+        @(negedge clock_in);
+        reset_in = 1;
+        #(CLOCK_PERIOD);
+        reset_in = 0;
+        
+        #(CLOCK_PERIOD);
+        iniciar_in = 1;
+        #(CLOCK_PERIOD);
+        iniciar_in = 0;
+
+        // muda modo para 2
+        right_arrow_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        right_arrow_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        // confirma modo
+        enter_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        enter_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+        #(100*CLOCK_PERIOD);
+
+        // confirma bpm
+        enter_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        enter_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        // confirma tom
+        enter_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        enter_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        // muda musica para 1
+        right_arrow_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        right_arrow_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        // confirma musica
+        enter_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        enter_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+        #(100*CLOCK_PERIOD);
+
+        #(5*CLOCK_PERIOD);
+        #(3*0.5*CLOCK_FREQ*CLOCK_PERIOD);
+        #(5*CLOCK_PERIOD);
+        
+        press_botoes(4'h2, 3);
+        
+        #(5*CLOCK_PERIOD);
+        #(4*0.5*CLOCK_FREQ*CLOCK_PERIOD);
+        #(5*CLOCK_PERIOD);
+        
+        press_botoes(4'h4, 4);
+
+        #(5*CLOCK_PERIOD);
+        #(1*0.5*CLOCK_FREQ*CLOCK_PERIOD);
+        #(5*CLOCK_PERIOD);
+
+        press_botoes(4'h6, 1);
+
+        #(10*CLOCK_PERIOD);
 
         //*/
-        
+
         $finish;
        
     end
