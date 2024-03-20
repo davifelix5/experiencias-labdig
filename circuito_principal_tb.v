@@ -252,18 +252,6 @@ module circuito_principal_tb;
         #(5*CLOCK_PERIOD);
         enter_pressed_in = 0;
         #(10*CLOCK_PERIOD);
-      
-        // muda tom para 1
-        right_arrow_pressed_in = 1;
-        #(5*CLOCK_PERIOD);
-        right_arrow_pressed_in = 0;
-        #(10*CLOCK_PERIOD);
-
-        // muda tom para 2
-        right_arrow_pressed_in = 1;
-        #(5*CLOCK_PERIOD);
-        right_arrow_pressed_in = 0;
-        #(10*CLOCK_PERIOD);
 
         // confirma tom
         enter_pressed_in = 1;
@@ -305,10 +293,12 @@ module circuito_principal_tb;
         enter_pressed_in = 0;
         #(10*CLOCK_PERIOD);
 
+        #(5*CLOCK_FREQ*CLOCK_PERIOD);
+
         //*/
 
-        /*//************************************************************************************************
-        //    Inicia o circuito no modo 1 e tocar a primeira música
+        ///************************************************************************************************
+        //    Inicia o circuito no modo 3 e tocar a primeira música
         //*************************************************************************************************
         
         cenario = 3;
@@ -345,18 +335,6 @@ module circuito_principal_tb;
         enter_pressed_in = 1;
         #(5*CLOCK_PERIOD);
         enter_pressed_in = 0;
-        #(10*CLOCK_PERIOD);
-      
-        // muda tom para 1
-        right_arrow_pressed_in = 1;
-        #(5*CLOCK_PERIOD);
-        right_arrow_pressed_in = 0;
-        #(10*CLOCK_PERIOD);
-
-        // muda tom para 2
-        right_arrow_pressed_in = 1;
-        #(5*CLOCK_PERIOD);
-        right_arrow_pressed_in = 0;
         #(10*CLOCK_PERIOD);
 
         // confirma tom
@@ -435,13 +413,14 @@ module circuito_principal_tb;
         enter_pressed_in = 0;
         #(10*CLOCK_PERIOD);
 
-        press_botoes(4'h6, 3);
+        press_botoes(4'h1, 3);
+        press_botoes(4'h0, 3);
         press_botoes(4'hA, 4);
         press_botoes(4'hB, 2);
 
         //*/
 
-        ///************************************************************************************************
+        /*//************************************************************************************************
         //    Iniciar o circuito no modo 2 - nota a nota
         //*************************************************************************************************
         
@@ -511,9 +490,18 @@ module circuito_principal_tb;
         #(1*0.5*CLOCK_FREQ*CLOCK_PERIOD);
         #(5*CLOCK_PERIOD);
 
-        press_botoes(4'h6, 1);
+        press_botoes(4'h8, 1);
 
+        #(5*CLOCK_PERIOD);
+
+         // apresenta a última
+        enter_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        enter_pressed_in = 0;
         #(10*CLOCK_PERIOD);
+        #(100*CLOCK_PERIOD);
+
+        #(5*CLOCK_FREQ*CLOCK_PERIOD);
 
         //*/
 

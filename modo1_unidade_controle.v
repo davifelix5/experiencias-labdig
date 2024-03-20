@@ -106,8 +106,9 @@ module modo1_unidade_controle #(
                 espera_musica           = 6'h20,
                 iniciar_menu_erro       = 6'h21,
                 menu_erro               = 6'h22,
-                espera_toca             = 6'h23,
-                prepara_nota            = 6'h24;
+                espera_livre             = 6'h23,
+                prepara_nota            = 6'h24,
+                espera_toca          = 6'h25;
 
     
 
@@ -207,6 +208,7 @@ module modo1_unidade_controle #(
                 incrementa_nota:          Eprox = registra;
                 registra:                 Eprox = verifica_fim;
                 verifica_fim:             Eprox = fim_musica ? acertou : espera_mostra;
+                mostra_ultima:            Eprox = tempo_correto_baixo ? espera_nota : mostra_ultima;
                 mostra_proximo:           Eprox = espera_mostra;
                 default:                  Eprox = inicial;
             endcase
@@ -214,18 +216,18 @@ module modo1_unidade_controle #(
             case(Eatual)
                 inicializa_elementos:     Eprox = inicio_rodada;
                 inicio_rodada:            Eprox = fimTF ? mostra : inicio_rodada;
-                mostra:                   Eprox = espera_mostra;
-                espera_mostra:            Eprox = tempo_correto_baixo ? mostra_proximo : espera_mostra;
+                mostra:                   Eprox = espera_toca;
+                espera_toca:           Eprox = tempo_correto_baixo ? mostra_proximo : espera_toca;
                 mostra_proximo:           Eprox = registra;
                 registra:                 Eprox = verifica_fim;
-                verifica_fim:              Eprox = fim_musica ? inicio_rodada : espera_mostra;
+                verifica_fim:              Eprox = fim_musica ? inicio_rodada : espera_toca;
                 default:                  Eprox = inicial;
             endcase
         end else if (modo4) begin
             case (Eatual) 
-                inicializa_elementos:     Eprox = espera_toca; 
-                espera_toca:              Eprox = nota_feita ? toca_nota : espera_toca;
-                toca_nota:                Eprox = nota_feita ? toca_nota : espera_toca;
+                inicializa_elementos:     Eprox = espera_livre; 
+                espera_livre:              Eprox = nota_feita ? toca_nota : espera_livre;
+                toca_nota:                Eprox = nota_feita ? toca_nota : espera_livre;
                 default:                  Eprox = inicial;
             endcase
         end
@@ -251,11 +253,11 @@ module modo1_unidade_controle #(
     assign contaCR          = (Eatual == proxima_rodada);
     assign ganhou           = (Eatual == acertou);
     assign perdeu           = (Eatual == errou_tempo || Eatual == errou_nota);
-    assign leds_mem         = (Eatual == espera_mostra || Eatual == mostra_ultima);
-    assign ativa_leds       = (Eatual == toca_nota || Eatual == espera_mostra || Eatual == mostra_ultima);
-    assign toca             = (Eatual == toca_nota);
+    assign leds_mem         = (Eatual == espera_mostra || Eatual == mostra_ultima || Eatual == espera_toca);
+    assign ativa_leds       = (Eatual == toca_nota || Eatual == espera_mostra || Eatual == mostra_ultima || Eatual == espera_toca);
+    assign toca             = (Eatual == toca_nota || Eatual == espera_toca);
     assign contaMetro       = (Eatual == mostra_ultima || Eatual == espera_mostra || Eatual == toca_nota ||
-                                Eatual == espera_toca);
+                                Eatual == espera_livre || Eatual == espera_toca);
     assign zeraMetro        = (Eatual == mostra || Eatual == errou_tempo || Eatual == espera_nota || 
                              Eatual == errou_nota || Eatual == inicializa_elementos || Eatual == verifica_fim);
     assign gravaM           = 1'b0;
