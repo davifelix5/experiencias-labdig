@@ -76,10 +76,10 @@ module circuito_principal #(
     ) fluxo_dados (
         // Sinais de entrada
         .clock               ( clock               ),
-        .botoes_encoded      ( botoes_final        ),
-        .right_arrow_pressed ( ~right_arrow_pressed ),
-        .left_arrow_pressed  ( ~left_arrow_pressed ),
-        .enter_pressed       ( ~enter_pressed       ),
+        .botoes_encoded      ( botoes_encoded      ),
+        .right_arrow_pressed ( right_arrow_pressed ),
+        .left_arrow_pressed  ( left_arrow_pressed ),
+        .enter_pressed       ( enter_pressed       ),
         // Sinais de controle 
         .zeraR               ( zeraR               ),
         .registraR           ( registraR           ),

@@ -226,7 +226,7 @@ module circuito_principal_tb;
         #(5*CLOCK_PERIOD);
         //*/
 
-        ///************************************************************************************************
+        /*//************************************************************************************************
         //    Inicia o circuito e digita 5 notas certas, errando a sexta
         //*************************************************************************************************
         cenario = 2;
@@ -304,7 +304,87 @@ module circuito_principal_tb;
         #(5*CLOCK_PERIOD);
         enter_pressed_in = 0;
         #(10*CLOCK_PERIOD);
+
+        //*/
+
+        ///************************************************************************************************
+        //    Inicia o circuito no modo 1 e tocar a primeira música
+        //*************************************************************************************************
         
+        cenario = 3;
+
+        @(negedge clock_in);
+        reset_in = 1;
+        #(CLOCK_PERIOD);
+        reset_in = 0;
+        
+        #(CLOCK_PERIOD);
+        iniciar_in = 1;
+        #(CLOCK_PERIOD);
+        iniciar_in = 0;
+
+        // muda modo para 2
+        right_arrow_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        right_arrow_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        // muda modo para 3
+        right_arrow_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        right_arrow_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        // confirma modo
+        enter_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        enter_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        // confirma bpm
+        enter_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        enter_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+      
+        // muda tom para 1
+        right_arrow_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        right_arrow_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        // muda tom para 2
+        right_arrow_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        right_arrow_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        // confirma tom
+        enter_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        enter_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        // muda musica para 1
+        right_arrow_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        right_arrow_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        // confirma musica
+        enter_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        enter_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+        #(100*CLOCK_PERIOD);
+
+        //*/
+
+        acerta_valores(16);
+        #(4*CLOCK_FREQ*CLOCK_PERIOD); // Passa 4 segundos
+
+        
+
         $finish;
        
     end

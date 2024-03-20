@@ -147,7 +147,7 @@ module modo1_unidade_controle #(
                 default:                  Eprox = inicializa_elementos;
             endcase
         end
-        else begin
+        else if (modo1) begin
             case (Eatual)
                 inicializa_elementos:     Eprox = inicio_rodada;
                 inicio_rodada:            Eprox = fimTF ? mostra : inicio_rodada;
@@ -188,6 +188,17 @@ module modo1_unidade_controle #(
                 mostra_ultima:           Eprox = tempo_correto_baixo ? espera_nota : mostra_ultima;
                 default:                  Eprox = inicial; 
             endcase
+        end else if (modo3) begin
+            case(Eatual)
+                inicializa_elementos:     Eprox = inicio_rodada;
+                inicio_rodada:            Eprox = fimTF ? mostra : inicio_rodada;
+                mostra:                   Eprox = espera_mostra;
+                espera_mostra:            Eprox = tempo_correto_baixo ? mostra_proximo : espera_mostra;
+                mostra_proximo:           Eprox = registra;
+                registra:                 Eprox = verifica_fim;
+                verifica_fim:              Eprox = fim_musica ? inicio_rodada : espera_mostra;
+                default:                  Eprox = inicial;
+            endcase
         end
     end
 
@@ -211,7 +222,7 @@ module modo1_unidade_controle #(
     assign toca             = (Eatual == toca_nota);
     assign contaMetro       = (Eatual == mostra_ultima || Eatual == espera_mostra || Eatual == toca_nota);
     assign zeraMetro        = (Eatual == mostra || Eatual == errou_tempo || Eatual == espera_nota || 
-                             Eatual == errou_nota || Eatual == inicializa_elementos);
+                             Eatual == errou_nota || Eatual == inicializa_elementos || Eatual == verifica_fim);
     assign gravaM           = 1'b0;
     assign inicia_menu      = (Eatual == iniciar_menu || Eatual == iniciar_menu_erro);
     assign menu_sel[0]      = (Eatual == espera_bpm || Eatual == espera_musica);
