@@ -307,7 +307,7 @@ module circuito_principal_tb;
 
         //*/
 
-        ///************************************************************************************************
+        /*//************************************************************************************************
         //    Inicia o circuito no modo 1 e tocar a primeira música
         //*************************************************************************************************
         
@@ -378,13 +378,70 @@ module circuito_principal_tb;
         #(10*CLOCK_PERIOD);
         #(100*CLOCK_PERIOD);
 
-        //*/
-
         acerta_valores(16);
         #(4*CLOCK_FREQ*CLOCK_PERIOD); // Passa 4 segundos
+        //*/
 
+        ///************************************************************************************************
+        //    Iniciar o circuito no modo 4 - freestyle
+        //*************************************************************************************************
+
+          cenario = 4;
+
+        @(negedge clock_in);
+        reset_in = 1;
+        #(CLOCK_PERIOD);
+        reset_in = 0;
         
+        #(CLOCK_PERIOD);
+        iniciar_in = 1;
+        #(CLOCK_PERIOD);
+        iniciar_in = 0;
 
+        // muda modo para 2
+        right_arrow_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        right_arrow_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+        
+        // muda modo para 3
+        right_arrow_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        right_arrow_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        // muda modo para 4
+        right_arrow_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        right_arrow_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        // confirma modo
+        enter_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        enter_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+        #(100*CLOCK_PERIOD);
+
+        // confirma bpm
+        enter_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        enter_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        // confirma tom
+        enter_pressed_in = 1;
+        #(5*CLOCK_PERIOD);
+        enter_pressed_in = 0;
+        #(10*CLOCK_PERIOD);
+
+        press_botoes(4'h6, 3);
+        press_botoes(4'hA, 4);
+        press_botoes(4'hB, 2);
+
+
+        //*/
+        
         $finish;
        
     end

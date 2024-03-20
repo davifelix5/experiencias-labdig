@@ -104,8 +104,9 @@ module modo1_unidade_controle #(
                 espera_bpm              = 6'h1E,
                 espera_tom              = 6'h1F,
                 espera_musica           = 6'h20,
-                iniciar_menu_erro        = 6'h21,
-                menu_erro               = 6'h22;
+                iniciar_menu_erro       = 6'h21,
+                menu_erro               = 6'h22,
+                espera_toca             = 6'h23;
 
     
 
@@ -142,7 +143,7 @@ module modo1_unidade_controle #(
                 iniciar_menu:             Eprox = espera_modo;
                 espera_modo:              Eprox = press_enter ? espera_bpm : espera_modo;
                 espera_bpm:               Eprox = press_enter ? espera_tom : espera_bpm;
-                espera_tom:               Eprox = press_enter ? espera_musica : espera_tom;
+                espera_tom:               Eprox = press_enter ? (modo4 ? inicializa_elementos : espera_musica) : espera_tom;
                 espera_musica:            Eprox = press_enter ? inicializa_elementos : espera_musica;
                 default:                  Eprox = inicializa_elementos;
             endcase
@@ -199,6 +200,13 @@ module modo1_unidade_controle #(
                 verifica_fim:              Eprox = fim_musica ? inicio_rodada : espera_mostra;
                 default:                  Eprox = inicial;
             endcase
+        end else if (modo4) begin
+            case (Eatual) 
+                inicializa_elementos:     Eprox = espera_toca; 
+                espera_toca:              Eprox = nota_feita ? toca_nota : espera_toca;
+                toca_nota:                Eprox = nota_feita ? toca_nota : espera_toca;
+                default:                  Eprox = inicial;
+            endcase
         end
     end
 
@@ -220,7 +228,8 @@ module modo1_unidade_controle #(
     assign leds_mem         = (Eatual == espera_mostra || Eatual == mostra_ultima);
     assign ativa_leds       = (Eatual == toca_nota || Eatual == espera_mostra || Eatual == mostra_ultima);
     assign toca             = (Eatual == toca_nota);
-    assign contaMetro       = (Eatual == mostra_ultima || Eatual == espera_mostra || Eatual == toca_nota);
+    assign contaMetro       = (Eatual == mostra_ultima || Eatual == espera_mostra || Eatual == toca_nota ||
+                                Eatual == espera_toca);
     assign zeraMetro        = (Eatual == mostra || Eatual == errou_tempo || Eatual == espera_nota || 
                              Eatual == errou_nota || Eatual == inicializa_elementos || Eatual == verifica_fim);
     assign gravaM           = 1'b0;
