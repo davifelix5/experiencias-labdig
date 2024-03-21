@@ -18,6 +18,7 @@ module circuito_principal #(
     output [11:0] leds,
     output        pulso_buzzer,
     output [3:0]  arduino_out,
+    output [2:0] menu_sel,
 
     output        db_nota_correta,
     output        db_tempo_correto,
@@ -43,7 +44,6 @@ module circuito_principal #(
     wire apresenta_ultima, tentar_dnv_rep, tentar_dnv;
     wire press_enter;
     wire registra_modo, registra_bpm, registra_tom, registra_musicas;
-    wire [2:0] menu_sel;
 
     wire [MODO - 1:0] modos;
     wire [ERRO - 1:0] erros;

@@ -106,9 +106,9 @@ module modo1_unidade_controle #(
                 espera_musica           = 6'h20,
                 iniciar_menu_erro       = 6'h21,
                 menu_erro               = 6'h22,
-                espera_livre             = 6'h23,
+                espera_livre            = 6'h23,
                 prepara_nota            = 6'h24,
-                espera_toca          = 6'h25;
+                espera_toca             = 6'h25;
 
     
 
@@ -179,7 +179,7 @@ module modo1_unidade_controle #(
                     end
                 end
                 errou_tempo, errou_nota:  Eprox = iniciar_menu_erro;
-                iniciar_menu_erro:         Eprox = menu_erro;
+                iniciar_menu_erro:        Eprox = menu_erro;
                 menu_erro:                Eprox = !press_enter ? menu_erro : 
                                                     (tentar_dnv_rep ? inicio_rodada : (tentar_dnv ? inicio_nota : (apresenta_ultima ? mostra_ultima : menu_erro)));
                 proxima_nota:             Eprox = espera_nota;
@@ -188,7 +188,7 @@ module modo1_unidade_controle #(
                 verifica_fim:             Eprox = fim_musica ? acertou : proxima_rodada;
                 acertou:                  Eprox = iniciar ? inicializa_elementos : acertou;
                 proxima_rodada:           Eprox = inicio_rodada;
-                mostra_ultima:           Eprox = tempo_correto_baixo ? espera_nota : mostra_ultima;
+                mostra_ultima:            Eprox = tempo_correto_baixo ? espera_nota : mostra_ultima;
                 default:                  Eprox = inicial; 
             endcase
         end else if (modo2) begin
@@ -202,7 +202,7 @@ module modo1_unidade_controle #(
                 toca_nota:                Eprox = nota_feita ? toca_nota : compara;
                 compara:                  Eprox = !tempo_correto ? errou_tempo : (!nota_correta ? errou_nota : incrementa_nota);
                 errou_tempo, errou_nota:  Eprox = iniciar_menu_erro;
-                iniciar_menu_erro:         Eprox = menu_erro;
+                iniciar_menu_erro:        Eprox = menu_erro;
                 menu_erro:                Eprox = !press_enter ? menu_erro : 
                                                     (tentar_dnv_rep ? inicio_rodada : (tentar_dnv ? prepara_nota : (apresenta_ultima ? mostra_ultima : menu_erro)));
                 incrementa_nota:          Eprox = registra;
@@ -217,18 +217,18 @@ module modo1_unidade_controle #(
                 inicializa_elementos:     Eprox = inicio_rodada;
                 inicio_rodada:            Eprox = fimTF ? mostra : inicio_rodada;
                 mostra:                   Eprox = espera_toca;
-                espera_toca:           Eprox = tempo_correto_baixo ? mostra_proximo : espera_toca;
+                espera_toca:              Eprox = tempo_correto_baixo ? mostra_proximo : espera_toca;
                 mostra_proximo:           Eprox = registra;
                 registra:                 Eprox = verifica_fim;
-                verifica_fim:              Eprox = fim_musica ? inicio_rodada : espera_toca;
+                verifica_fim:             Eprox = fim_musica ? inicio_rodada : espera_toca;
                 default:                  Eprox = inicial;
             endcase
         end else if (modo4) begin
             case (Eatual) 
                 inicializa_elementos:     Eprox = espera_livre; 
-                espera_livre:              Eprox = nota_feita ? toca_nota : espera_livre;
+                espera_livre:             Eprox = nota_feita ? toca_nota : espera_livre;
                 toca_nota:                Eprox = nota_feita ? toca_nota : espera_livre;
-                default:                  Eprox = inicial;
+                default:                  Eprox = espera_livre;
             endcase
         end
         else begin

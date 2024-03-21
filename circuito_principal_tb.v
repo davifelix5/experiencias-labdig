@@ -39,6 +39,7 @@ module circuito_principal_tb;
     wire [11:0] leds_out;
 
     wire [3:0] arduino_out;
+    wire [2:0] menu_sel_out;
 
     wire [6:0] db_estado_lsb_out,
                db_memoria_tempo_out,
@@ -64,6 +65,7 @@ module circuito_principal_tb;
         .leds(leds_out),
         .pulso_buzzer(pulso_buzzer_out),
         .arduino_out(arduino_out),
+        .menu_sel(menu_sel_out),
 
         .db_tempo_correto(db_tempo_correto_out),
         .db_nota_correta(db_nota_correta_out),
@@ -226,7 +228,7 @@ module circuito_principal_tb;
         #(5*CLOCK_PERIOD);
         //*/
 
-        /*//************************************************************************************************
+        ///************************************************************************************************
         //    Inicia o circuito e digita 5 notas certas, errando a sexta
         //*************************************************************************************************
         cenario = 2;
@@ -297,7 +299,7 @@ module circuito_principal_tb;
 
         //*/
 
-        ///************************************************************************************************
+        /*//************************************************************************************************
         //    Inicia o circuito no modo 3 e tocar a primeira música
         //*************************************************************************************************
         
