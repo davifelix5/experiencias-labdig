@@ -21,12 +21,12 @@ int menu_sel[3];
 int option_sel[4];
 
 char *modos[] = {"Modo 1", "Modo 2", "Modo 3", "Modo4"};
-char *bpms[] = {"120 BPM", "120 BPM" };
+char *bpms[] = {"60 BPM", "120 BPM" };
 char *musicas[] = {
   "Musica A", "Musica B", "Musica C", "Musica C", 
   "Musica A", "Musica B", "Musica C", "Musica C", 
   "Musica A", "Musica B", "Musica C", "Musica C", 
-  "Musica A", "Musica B", "Musica C", "Musica C"
+  "Musica A", "Musica B", "Musica C", "Musica ULITMA"
 }; 
 char *tons[] = { "Grave", "Meio grave", "Meio agudo", "Agudo" };
 char *erros[] = {"Apresenta a última", "Sem apresentar", "Apresenta tudo novamente"};
@@ -34,8 +34,16 @@ char *erros[] = {"Apresenta a última", "Sem apresentar", "Apresenta tudo novame
 int binToInt(int bin[], int tamanho) {
   int valor = 0;
   for(int i = 0; i < tamanho; i++) {
-    Serial.println( bin[i]);
-    if(bin[i]) valor += pow(2, i);
+    Serial.print(i);
+    Serial.print("  ");
+    Serial.print(bin[i]);
+    int inc = pow(2, i);
+    if(bin[i]) valor += inc;
+    Serial.print(" ");
+    Serial.print(inc);
+    Serial.print("  ");
+    Serial.println(valor);
+    Serial.println();
   }
   return valor;
 }
@@ -119,7 +127,7 @@ void loop()
 
    Serial.println();
    Serial.println();*/
-  delay(100);
+
 
   // Lendo o seletor de menu
   menu_sel[0] = digitalRead(50); 
@@ -133,23 +141,27 @@ void loop()
   option_sel[2] = digitalRead(25); 
   option_sel[3] = digitalRead(23); 
   int vetor = binToInt(option_sel, 4);
-  Serial.println(vetor);
+
+  Serial.print("Veotor: ");
+  Serial.print(vetor);
+  Serial.print("; Opção: ");
   Serial.println(menu);
-  lcd.clear();   
-
+  Serial.println();
+  delay(10);
   if (menu == 0 ){
-
+  lcd.clear();   
      lcd.setCursor(0, 0);
      lcd.print("Selecione o modo");
 
       lcd.setCursor(0, 1);
       
       lcd.print(modos[vetor]);
+        delay(10);
     
   }
 
   if (menu == 1 ){ //seleciona modo
-    lcd.clear();
+      lcd.clear();   
     lcd.setCursor(0, 0);
     lcd.print("Selecione o BPM");
 
@@ -157,10 +169,11 @@ void loop()
     lcd.setCursor(0, 1);
 
     lcd.print(bpms[vetor]);
+      delay(10);
   }
 
   if (menu == 2 ){ //seleciona modo
-     lcd.clear();
+      lcd.clear();   
      lcd.setCursor(0, 0);
      lcd.print("Selecione o TOM");
 
@@ -172,7 +185,7 @@ void loop()
 
 
   if (menu == 3 ){ //seleciona modo
-    lcd.clear();
+      lcd.clear();   
     lcd.setCursor(0, 0);
     lcd.print("Selecione a musica");
 
@@ -180,10 +193,10 @@ void loop()
     lcd.setCursor(0, 1);
 
     lcd.print(musicas[vetor]);
+      delay(10);
   }
 
   if (menu == 4 ){ //seleciona modo
-     lcd.clear();
      lcd.setCursor(0, 0);
      lcd.print("Errou!");
 
@@ -191,6 +204,7 @@ void loop()
     lcd.setCursor(0, 1);
 
     lcd.print(erros[vetor]);
+      delay(10);
   }
 
 }
