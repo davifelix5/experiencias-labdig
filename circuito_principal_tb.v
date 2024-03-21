@@ -36,7 +36,7 @@ module circuito_principal_tb;
         db_tempo_correto_out,
         db_metro;
 
-    wire [11:0] leds_out;
+    wire [12:0] leds_out;
 
     wire [3:0] arduino_out;
     wire [2:0] menu_sel_out;
@@ -359,7 +359,7 @@ module circuito_principal_tb;
         #(100*CLOCK_PERIOD);
 
         acerta_valores(16);
-        #(4*CLOCK_FREQ*CLOCK_PERIOD); // Passa 4 segundos
+        #(40*CLOCK_FREQ*CLOCK_PERIOD); // Passa 4 segundos
         //*/
 
         /*//************************************************************************************************
@@ -480,19 +480,19 @@ module circuito_principal_tb;
         #(3*0.5*CLOCK_FREQ*CLOCK_PERIOD);
         #(5*CLOCK_PERIOD);
         
-        press_botoes(4'h2, 3);
+        press_botoes(4'h3, 3);
         
         #(5*CLOCK_PERIOD);
         #(4*0.5*CLOCK_FREQ*CLOCK_PERIOD);
         #(5*CLOCK_PERIOD);
         
-        press_botoes(4'h4, 4);
+        press_botoes(4'h5, 4);
 
         #(5*CLOCK_PERIOD);
         #(1*0.5*CLOCK_FREQ*CLOCK_PERIOD);
         #(5*CLOCK_PERIOD);
 
-        press_botoes(4'h8, 1);
+        press_botoes(4'h9, 1);
 
         #(5*CLOCK_PERIOD);
 

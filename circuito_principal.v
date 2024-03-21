@@ -15,7 +15,7 @@ module circuito_principal #(
     output        ganhou,
     output        perdeu,
 	output        vez_jogador,
-    output [11:0] leds,
+    output [12:0] leds,
     output        pulso_buzzer,
     output [3:0]  arduino_out,
     output [2:0] menu_sel,

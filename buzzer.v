@@ -10,39 +10,39 @@ module buzzer #(parameter CLOCK_FREQ, TOM=4) (
 );
 
     genvar i;
-    wire [0:11] pulsos[0:3];
+    wire [1:13] pulsos[0:3];
     wire [3:0]  seletor_pulso;
     
-    parameter N = 12, SIZE = 13;
+    parameter N = 13, SIZE = 14;
     // Array de frequências
     parameter [(N*SIZE-1):0] frequencias1 = {
-        13'd523, 13'd554, 13'd587, 
-        13'd622, 13'd659, 13'd698, 
-        13'd734, 13'd783, 13'd830, 
-        13'd880, 13'd932, 13'd988
+        14'd523, 14'd554, 14'd587, 
+        14'd622, 14'd659, 14'd698, 
+        14'd734, 14'd783, 14'd830, 
+        14'd880, 14'd932, 14'd988, 14'd1046
     };
 
     parameter [(N*SIZE-1):0] frequencias2 = {
-        13'd1046, 13'd1108, 13'd1174, 
-        13'd1244, 13'd1318, 13'd1397, 
-        13'd1480, 13'd1568, 13'd1661, 
-        13'd1760, 13'd1864, 13'd1975
+        14'd1046, 14'd1108, 14'd1174, 
+        14'd1244, 14'd1318, 14'd1397, 
+        14'd1480, 14'd1568, 14'd1661, 
+        14'd1760, 14'd1864, 14'd1975, 14'd2093
     };
     parameter [(N*SIZE-1):0] frequencias3 = {
-        13'd2093, 13'd2217, 13'd2349, 
-        13'd2489, 13'd2637, 13'd2793, 
-        13'd2960, 13'd3136, 13'd3322, 
-        13'd3502, 13'd3729, 13'd3951
+        14'd2093, 14'd2217, 14'd2349, 
+        14'd2489, 14'd2637, 14'd2793, 
+        14'd2960, 14'd3136, 14'd3322, 
+        14'd3502, 14'd3729, 14'd3951, 14'd4186
     };
     parameter [(N*SIZE-1):0] frequencias4 = {
-        13'd4186, 13'd4435, 13'd4698, 
-        13'd4978, 13'd5274, 13'd5587, 
-        13'd5919, 13'd6271, 13'd6645, 
-        13'd7040, 13'd7438, 13'd7902
+        14'd4186, 14'd4435, 14'd4698, 
+        14'd4978, 14'd5274, 14'd5587, 
+        14'd5919, 14'd6271, 14'd6645, 
+        14'd7040, 14'd7438, 14'd7902, 14'd8273
     };
 
     generate
-        for (i=0; i <12; i = i + 1) begin: GENERATE_PULSES
+        for (i=1; i <= 13; i = i + 1) begin: GENERATE_PULSES
             gerador_pwm #( .M(CLOCK_FREQ/(frequencias1[i*SIZE+:SIZE])) ) cont_1 ( 
                 .clock   ( clock         ), 
                 .zera_s  ( reset         ), 

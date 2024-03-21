@@ -69,7 +69,7 @@ module fluxo_dados #(
     output                press_enter,
 
     // Sinais de saída
-    output [11:0] leds,
+    output [12:0] leds,
     output [3:0]  arduino_out,
 
     // Sinais de depuração
