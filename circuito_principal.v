@@ -9,7 +9,7 @@ module circuito_principal #(
     input         clock,
     input         reset,
     input         iniciar,
-    input [3:0]   botoes_encoded,
+    input [12:0]  botoes,
     input         right_arrow_pressed, left_arrow_pressed, enter_pressed,
 
     output        ganhou,
@@ -59,7 +59,7 @@ module circuito_principal #(
 
     // Setando sinais de depuração
     assign db_clock               = clock;
-	assign db_nota_correta      = nota_correta;
+	 assign db_nota_correta      = nota_correta;
     assign db_enderecoIgualRodada = enderecoIgualRodada;
     assign db_estado5 = s_db_estado[5];
     assign db_estado4 = s_db_estado[4];
@@ -77,7 +77,7 @@ module circuito_principal #(
         // Sinais de entrada
         .clock               ( clock               ),
         .reset               ( reset               ),
-        .botoes_encoded      ( botoes_encoded      ),
+        .botoes              ( botoes      ),
         .right_arrow_pressed ( right_arrow_pressed ),
         .left_arrow_pressed  ( left_arrow_pressed ),
         .enter_pressed       ( enter_pressed       ),

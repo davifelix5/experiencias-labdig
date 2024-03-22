@@ -22,7 +22,7 @@ module fluxo_dados #(
     // Entradas
     input clock,
     input reset,
-    input [3:0] botoes_encoded,
+    input [12:0] botoes,
     input right_arrow_pressed,
     input left_arrow_pressed,
     input enter_pressed,
@@ -86,6 +86,7 @@ module fluxo_dados #(
     wire tem_nota, metro, meio_metro, nota_apertada_pulso;
     wire [3:0] s_memoria_nota, s_memoria_tempo, 
                s_nota, tempo, leds_encoded;
+	 wire [3:0] botoes_encoded;
     wire [4:0] s_endereco, s_rodada;
     wire metro120, metro60, meio_metro120, meio_metro60;
     wire metro_120BPM;
@@ -101,13 +102,19 @@ module fluxo_dados #(
     wire [$clog2(MUSICA) - 1:0] musica_reg; 
     
     // OR dos botoes
-    assign nota_feita    = |botoes_encoded;
+    assign nota_feita    = |botoes;
 
     // Sinais de depuração
     assign db_metro           = meio_metro;
     assign db_nota            = s_nota;
     assign db_memoria_nota    = s_memoria_nota;
     assign db_memoria_tempo   = s_memoria_tempo;
+	 
+	 encoder_nota encoder_botoes (
+		.nota(botoes),
+		.enable(1'b1),
+		.valor(botoes_encoded)
+	 );
     
     // Menu para interação com o display
     menu #(

@@ -43,7 +43,7 @@ module buzzer #(parameter CLOCK_FREQ, TOM=4) (
 
     generate
         for (i=1; i <= 13; i = i + 1) begin: GENERATE_PULSES
-            gerador_pwm #( .M(CLOCK_FREQ/(frequencias1[i*SIZE+:SIZE])) ) cont_1 ( 
+            gerador_pwm #( .M(CLOCK_FREQ/(frequencias1[(i-1)*SIZE+:SIZE])) ) cont_1 ( 
                 .clock   ( clock         ), 
                 .zera_s  ( reset         ), 
                 .zera_as (               ), 
@@ -52,7 +52,7 @@ module buzzer #(parameter CLOCK_FREQ, TOM=4) (
                 .fim     (               ),
                 .meio    ( pulsos[0][i]  )
             );
-            gerador_pwm #( .M(CLOCK_FREQ/(frequencias2[i*SIZE+:SIZE])) ) cont_2 ( 
+            gerador_pwm #( .M(CLOCK_FREQ/(frequencias2[(i-1)*SIZE+:SIZE])) ) cont_2 ( 
                 .clock   ( clock         ), 
                 .zera_s  ( reset         ), 
                 .zera_as (               ), 
@@ -61,7 +61,7 @@ module buzzer #(parameter CLOCK_FREQ, TOM=4) (
                 .fim     (               ),
                 .meio    ( pulsos[1][i]  )
             );
-            gerador_pwm #( .M(CLOCK_FREQ/(frequencias3[i*SIZE+:SIZE])) ) cont_3 ( 
+            gerador_pwm #( .M(CLOCK_FREQ/(frequencias3[(i-1)*SIZE+:SIZE])) ) cont_3 ( 
                 .clock   ( clock         ), 
                 .zera_s  ( reset         ), 
                 .zera_as (               ), 
@@ -70,7 +70,7 @@ module buzzer #(parameter CLOCK_FREQ, TOM=4) (
                 .fim     (               ),
                 .meio    ( pulsos[2][i]  )
             );
-            gerador_pwm #( .M(CLOCK_FREQ/(frequencias4[i*SIZE+:SIZE])) ) cont_4 ( 
+            gerador_pwm #( .M(CLOCK_FREQ/(frequencias4[(i-1)*SIZE+:SIZE])) ) cont_4 ( 
                 .clock   ( clock         ), 
                 .zera_s  ( reset         ), 
                 .zera_as (               ), 
