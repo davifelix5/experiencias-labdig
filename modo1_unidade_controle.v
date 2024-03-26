@@ -45,7 +45,6 @@ module modo1_unidade_controle #(
     /* Sinais de controle */
     output    zeraC,
     output    contaC,
-    output    decrementaC,
 
     output    zeraTF,
     output    contaTF,

@@ -18,19 +18,19 @@
 //------------------------------------------------------------------
 //
 
-module sync_ram_32x4_file #(
-    parameter HEXFILE = "ram_init.txt"
+module sync_ram_nx4_file #(
+    parameter HEXFILE = "ram_init.txt", N =256
 )
 (
     input        clk,
     input        we,
     input  [3:0] data,
-    input  [4:0] addr,
+    input  [$clog2(N)-1:0] addr,
     output [3:0] q
 );
 
     // Variavel RAM (armazena dados)
-    reg [3:0] ram[32:0];
+    reg [3:0] ram[N-1:0];
 
     // Registra endereco de acesso
     reg [4:0] addr_reg;

@@ -48,6 +48,7 @@ module circuito_principal #(
     wire registra_modo, registra_bpm, registra_tom, registra_musicas;
 
     wire [MODO - 1:0] modos;
+    wire [$clog2(MODO)-1:0] modos_display;
     wire [ERRO - 1:0] erros;
     wire [GRAVA_OPS - 1:0] grava_ops;
 
@@ -225,9 +226,14 @@ module circuito_principal #(
         .display ( db_menu   )
     );
 
+    encoder #(.SIZE(MODO)) encoder_modo (
+        .data_i(modos),
+        .data_o(modos_display)
+    );
+
      //Modos
     hexa7seg display_modo (
-        .hexa    ( modos   ),
+        .hexa    ( {{(4-$clog2(MODO)){1'b0}}, modos_display}   ),
         .display ( db_modo )
     );
 

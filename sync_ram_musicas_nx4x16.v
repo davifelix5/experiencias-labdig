@@ -14,15 +14,15 @@
  * --------------------------------------------------------------------
 */
 
-module sync_ram_musicas_32x4x16_file #(
-    parameter HEXFILE = "ram_init.txt"
+module sync_ram_musicas_nx4x16_file #(
+    parameter HEXFILE = "ram_init.txt", N=256
 )
 (
     input        clk,
     input        we, // Habilitação geral de escrita
     input  [3:0] data_nota, // valor a ser salvo de nota
     input  [3:0] data_tempo, // valor a ser salvo de tempo
-    input  [4:0] addr,  // Endereço do qual recuperar ou salvar o dado
+    input  [$clog2(N)-1:0] addr,  // Endereço do qual recuperar ou salvar o dado
     input  [3:0] musica, // Seletor que indica qual música a memória deve informar
     output       fim_musica, // Sinal que improta se uma música já acabou
     output [3:0] nota, // valor da nota
@@ -51,7 +51,7 @@ module sync_ram_musicas_32x4x16_file #(
     generate 
         for (i=0; i<16; i = i + 1) begin: NOTAS_E_TEMPOS
 
-            sync_ram_32x4_file #(.HEXFILE({"ram_init/ram_init_notas_", convert_ascii(i), ".txt"}))
+            sync_ram_nx4_file #(.HEXFILE({"ram_init/ram_init_notas_", convert_ascii(i), ".txt"}), .N(N))
             mem_notas 
             (
                 .clk(clk),
@@ -61,7 +61,7 @@ module sync_ram_musicas_32x4x16_file #(
                 .q(notas[i])
             );
 
-            sync_ram_32x4_file #(.HEXFILE({"ram_init/ram_init_tempos_", convert_ascii(i), ".txt"})) 
+            sync_ram_nx4_file #(.HEXFILE({"ram_init/ram_init_tempos_", convert_ascii(i), ".txt"}), .N(N)) 
             mem_tempos 
             (
                 .clk(clk),

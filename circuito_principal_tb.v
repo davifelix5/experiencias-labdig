@@ -34,7 +34,8 @@ module circuito_principal_tb;
         db_estado5_out,
         db_estado4_out,
         db_tempo_correto_out,
-        db_metro;
+        db_metro,
+        mostra_menu_out;
 
     wire [12:0] leds_out;
 
@@ -62,6 +63,7 @@ module circuito_principal_tb;
         .ganhou(ganhou_out),
         .perdeu(perdeu_out),
         .vez_jogador(vez_jogador_out),
+        .mostra_menu(mostra_menu_out),
         .leds(leds_out),
         .pulso_buzzer(pulso_buzzer_out),
         .arduino_out(arduino_out),

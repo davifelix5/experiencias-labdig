@@ -33,7 +33,6 @@ module fluxo_dados #(
     input       registraR,
     input       zeraC,
     input       contaC,
-    input       decrementaC,
     input       contaTempo,
     input       zeraCR,
     input       zeraTempo,
@@ -85,12 +84,14 @@ module fluxo_dados #(
     parameter TEMPO_MOSTRA = 2, TIMEOUT=5, // s
               TEMPO_FEEDBACK = CLOCK_FREQ/2;
 
+    parameter NUM_NOTAS = 256;
+
     // Sinais internos
     wire tem_nota, metro, meio_metro, nota_apertada_pulso;
     wire [3:0] s_memoria_nota, s_memoria_tempo, 
                s_nota, tempo, leds_encoded;
 	 wire [3:0] botoes_encoded;
-    wire [4:0] s_endereco, s_rodada;
+    wire [$clog2(NUM_NOTAS) - 1:0] s_endereco, s_rodada;
     wire metro120, metro60, meio_metro120, meio_metro60;
     wire metro_120BPM;
 
@@ -106,8 +107,6 @@ module fluxo_dados #(
     
     // OR dos botoes
     assign nota_feita    = |botoes;
-
-    assign contaC = decrementaC ? contaC - 1 : contaC;
 
     // Sinais de depuração
     assign db_metro           = meio_metro;
@@ -224,7 +223,7 @@ module fluxo_dados #(
     );
 
     // Contador para o endereço atual
-    contador_m #(.M(32)) ContEnd (
+    contador_m #(.M(NUM_NOTAS)) ContEnd (
         .clock   ( clock      ), 
         .zera_s  ( zeraC      ), 
         .zera_as ( 1'b0       ), 
@@ -235,7 +234,7 @@ module fluxo_dados #(
     );
 
     // Contador para a rodada atual
-    contador_m #(.M(32)) ContRod (
+    contador_m #(.M(NUM_NOTAS)) ContRod (
         .clock   ( clock    ), 
         .zera_s  ( zeraCR   ), 
         .zera_as ( 1'b0     ), 
@@ -268,7 +267,7 @@ module fluxo_dados #(
     );
         
     //Memoria RAM para o tempo e notas
-    sync_ram_musicas_32x4x16_file MemTempos (
+    sync_ram_musicas_nx4x16_file #(.N(NUM_NOTAS)) MemTempos (
         .clk        ( clock           ), 
         .addr       ( s_endereco      ), 
         .musica     ( musica_reg      ),
@@ -294,7 +293,7 @@ module fluxo_dados #(
     );
 
     //Comparador para a rodada atual
-    comparador_85 #(.SIZE(5)) CompEnd (
+    comparador_85 #(.SIZE($clog2(NUM_NOTAS))) CompEnd (
         .AEBi ( 1'b1                ), 
         .AGBi ( 1'b0                ), 
         .ALBi ( 1'b0                ), 
@@ -342,7 +341,7 @@ module fluxo_dados #(
     );
 
     // Registrador do valor de modo selecionado
-    registrador_n #(.SIZE(4)) RegModo (
+    registrador_n #(.SIZE(MODO)) RegModo (
         .D      ( modos         ),
         .clear  ( zeraR         ),
         .clock  ( clock         ),
