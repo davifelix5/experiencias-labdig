@@ -51,6 +51,7 @@ module fluxo_dados #(
     input       registra_bpm,
     input       registra_tom,
     input       registra_musicas,
+    input       load_counter,
     
     // Sinais de codição
     output                nota_correta,
@@ -91,7 +92,7 @@ module fluxo_dados #(
     wire [3:0] s_memoria_nota, s_memoria_tempo, 
                s_nota, tempo, leds_encoded;
 	 wire [3:0] botoes_encoded;
-    wire [$clog2(NUM_NOTAS) - 1:0] s_endereco, s_rodada;
+    wire [$clog2(NUM_NOTAS) - 1:0] s_endereco, s_rodada, cont_end_data;
     wire metro120, metro60, meio_metro120, meio_metro60;
     wire metro_120BPM;
 
@@ -191,6 +192,8 @@ module fluxo_dados #(
         .zera_s  ( 1'b0          ),  
         .zera_as ( zeraMetro     ), 
         .conta   ( contaMetro    ),
+        .load    ( 1'b0          ),
+        .data    (               ),
         .Q       ( tempo         ),
         .fim     (               ),
         .meio    (               )
@@ -224,13 +227,15 @@ module fluxo_dados #(
 
     // Contador para o endereço atual
     contador_m #(.M(NUM_NOTAS)) ContEnd (
-        .clock   ( clock      ), 
-        .zera_s  ( zeraC      ), 
-        .zera_as ( 1'b0       ), 
-        .conta   ( contaC     ),
-        .Q       ( s_endereco ),
-        .fim     (            ),
-        .meio    (            )
+        .clock   ( clock         ), 
+        .zera_s  ( zeraC         ), 
+        .zera_as ( 1'b0          ), 
+        .conta   ( contaC        ),
+        .load    ( load_counter  ),
+        .data    ( s_endereco - { { ($clog2(NUM_NOTAS)-1){1'b0} }, 1'b1 } ),
+        .Q       ( s_endereco    ),
+        .fim     (               ),
+        .meio    (               )
     );
 
     // Contador para a rodada atual
@@ -239,6 +244,8 @@ module fluxo_dados #(
         .zera_s  ( zeraCR   ), 
         .zera_as ( 1'b0     ), 
         .conta   ( contaCR  ),
+        .load    ( 1'b0     ),
+        .data    (          ),
         .Q       ( s_rodada ),
         .fim     ( fimCR    ),
         .meio    ( meioCR   )
@@ -250,6 +257,8 @@ module fluxo_dados #(
         .zera_as ( 1'b0    ), 
         .zera_s  ( zeraTF  ), 
         .conta   ( contaTF ), 
+        .load    ( 1'b0    ),
+        .data    (         ),
         .fim     (  fimTF  ),
         .Q       (         ),
         .meio    (         )
@@ -261,6 +270,8 @@ module fluxo_dados #(
         .zera_as ( 1'b0         ),
         .zera_s  ( zeraTempo    ),
         .conta   ( contaTempo   ),
+        .load    ( 1'b0         ),
+        .data    (              ),
         .Q       (              ),
         .fim     ( fimTempo     ),
         .meio    ( meioTempo    )

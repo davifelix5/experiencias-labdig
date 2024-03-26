@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Wed Mar 20 11:29:39 2024
+[*] Tue Mar 26 13:51:31 2024
 [*]
 [dumpfile] "/home/davifelix/Documentos/usp/quadri/labdig/projeto/circuito/verilog/waveforms.vcd"
-[dumpfile_mtime] "Wed Mar 20 11:26:37 2024"
-[dumpfile_size] 71277926
+[dumpfile_mtime] "Tue Mar 26 13:49:13 2024"
+[dumpfile_size] 16775570
 [savefile] "/home/davifelix/Documentos/usp/quadri/labdig/projeto/circuito/verilog/default2.gtkw"
 [timestart] 0
 [size] 1366 740
 [pos] -1 -1
-*-22.735493 519300 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-20.735493 253000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] circuito_principal_tb.
 [treeopen] circuito_principal_tb.UUT.
 [treeopen] circuito_principal_tb.UUT.fluxo_dados.
@@ -82,14 +82,15 @@ circuito_principal_tb.UUT.fluxo_dados.leds[0]
 -group_end
 @22
 #{circuito_principal_tb.UUT.fluxo_dados.leds_encoded[3:0]} circuito_principal_tb.UUT.fluxo_dados.leds_encoded[3] circuito_principal_tb.UUT.fluxo_dados.leds_encoded[2] circuito_principal_tb.UUT.fluxo_dados.leds_encoded[1] circuito_principal_tb.UUT.fluxo_dados.leds_encoded[0]
-@29
-circuito_principal_tb.UUT.fluxo_dados.pulso_buzzer
 @28
+circuito_principal_tb.UUT.fluxo_dados.pulso_buzzer
 circuito_principal_tb.UUT.ganhou
 @1000200
 -saida
 @800200
 -depuração
+@29
+#{circuito_principal_tb.UUT.unidade_controle.modos[5:0]} circuito_principal_tb.UUT.unidade_controle.modos[5] circuito_principal_tb.UUT.unidade_controle.modos[4] circuito_principal_tb.UUT.unidade_controle.modos[3] circuito_principal_tb.UUT.unidade_controle.modos[2] circuito_principal_tb.UUT.unidade_controle.modos[1] circuito_principal_tb.UUT.unidade_controle.modos[0]
 @28
 circuito_principal_tb.UUT.fluxo_dados.fim_musica
 circuito_principal_tb.UUT.fluxo_dados.right_arrow_pressed

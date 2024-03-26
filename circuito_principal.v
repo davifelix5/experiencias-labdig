@@ -40,6 +40,7 @@ module circuito_principal #(
     // Sinais de controle
     wire contaC, contaTempo, contaTF, contaCR, registraR;
     wire zeraC, zeraR, zeraCR, zeraTF, zeraTempo, zeraMetro, contaMetro;
+    wire load_counter;
     wire fim_musica, tempo_correto, tempo_correto_baixo, inicia_menu;
     wire leds_mem, ativa_leds, toca;
     wire gravaM;
@@ -91,6 +92,7 @@ module circuito_principal #(
         .registraR           ( registraR           ),
         .zeraC               ( zeraC               ),
         .contaC              ( contaC              ),
+        .load_counter        ( load_counter        ),
         .zeraTempo           ( zeraTempo           ),
         .contaTempo          ( contaTempo          ),
         .contaCR             ( contaCR             ),
@@ -137,7 +139,7 @@ module circuito_principal #(
     );
 
     //Unidade de controle
-    modo1_unidade_controle #(
+    unidade_controle #(
         .MODO(MODO),
         .ERRO(ERRO),
         .GRAVA_OPS(GRAVA_OPS)
@@ -163,6 +165,7 @@ module circuito_principal #(
         // Sinais de controle
         .zeraC               ( zeraC               ),
         .contaC              ( contaC              ),
+        .load_counter        ( load_counter        ),
         .zeraTF              ( zeraTF              ),
         .contaTF             ( contaTF             ),
         .zeraCR              ( zeraCR              ),

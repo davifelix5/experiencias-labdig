@@ -22,6 +22,8 @@ module contador_m #(parameter M=100)
    input  wire          zera_as,
    input  wire          zera_s,
    input  wire          conta,
+   input  wire          load,
+   input  wire [$clog2(M)-1:0] data,
    output reg  [$clog2(M)-1:0]  Q,
    output reg           fim,
    output reg           meio
@@ -33,6 +35,8 @@ module contador_m #(parameter M=100)
     end else if (clock) begin
       if (zera_s) begin
         Q <= 0;
+      end else if (load) begin
+        Q <= data;
       end else if (conta) begin
         if (Q == M-1) begin
           Q <= 0;

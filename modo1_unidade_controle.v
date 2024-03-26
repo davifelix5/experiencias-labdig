@@ -10,7 +10,7 @@
 //------------------------------------------------------------------
 */
 
-module modo1_unidade_controle #(
+module unidade_controle #(
     parameter MODO       = 4,
               ERRO       = 3,
               GRAVA_OPS  = 3
@@ -45,6 +45,7 @@ module modo1_unidade_controle #(
     /* Sinais de controle */
     output    zeraC,
     output    contaC,
+    output    load_counter,
 
     output    zeraTF,
     output    contaTF,
@@ -129,7 +130,7 @@ module modo1_unidade_controle #(
 
     assign { rollback, tocar_preview, finaliza } = grava_ops;
 
-    assign { modo_grava, modo_sem_apresenta, modo_fresstyle, modo_reprodutor, 
+    assign { modo_grava, modo_fresstyle, modo_reprodutor, modo_sem_apresenta, 
                 modo_nota_a_nota, modo_genius } = modos;
 
     assign {tentar_dnv_rep, tentar_dnv, apresenta_ultima} = erros;
@@ -256,7 +257,7 @@ module modo1_unidade_controle #(
                 default:                  Eprox = inicial; 
             endcase
         end else if (modo_grava) begin
-            
+            // TODO
         end else if (modo_fresstyle) begin
             case (Eatual) 
                 inicializa_elementos:     Eprox = espera_livre; 
