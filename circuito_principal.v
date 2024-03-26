@@ -1,10 +1,11 @@
 module circuito_principal #(
     parameter CLOCK_FREQ = 50000000,
-              MODO       = 4,
+              MODO       = 6,
               BPM        = 2,
               TOM        = 4,
               MUSICA     = 16,
-              ERRO       = 3
+              ERRO       = 3,
+              GRAVA_OPS  = 3
 ) (
     input         clock,
     input         reset,
@@ -18,7 +19,8 @@ module circuito_principal #(
     output [12:0] leds,
     output        pulso_buzzer,
     output [3:0]  arduino_out,
-    output [2:0] menu_sel,
+    output [2:0]  menu_sel,
+    output        mostra_menu,
 
     output        db_nota_correta,
     output        db_tempo_correto,
@@ -47,6 +49,7 @@ module circuito_principal #(
 
     wire [MODO - 1:0] modos;
     wire [ERRO - 1:0] erros;
+    wire [GRAVA_OPS - 1:0] grava_ops;
 
     // Sinais de condição
     wire fimCR, fimTF, fimTempo, meioCR, meioTempo; 
@@ -72,7 +75,8 @@ module circuito_principal #(
         .TOM(TOM),
         .BPM(BPM),
         .MUSICA(MUSICA),
-        .ERRO(ERRO)
+        .ERRO(ERRO),
+        .GRAVA_OPS(GRAVA_OPS)
     ) fluxo_dados (
         // Sinais de entrada
         .clock               ( clock               ),
@@ -117,6 +121,7 @@ module circuito_principal #(
         .enderecoIgualRodada ( enderecoIgualRodada ),
         .fim_musica          ( fim_musica          ),
         .erros               ( erros               ),
+        .grava_ops           ( grava_ops           ),
         .modos_reg           ( modos               ),
         .press_enter         ( press_enter         ),
         // Sinais de saída
@@ -133,7 +138,8 @@ module circuito_principal #(
     //Unidade de controle
     modo1_unidade_controle #(
         .MODO(MODO),
-        .ERRO(ERRO)
+        .ERRO(ERRO),
+        .GRAVA_OPS(GRAVA_OPS)
     ) unidade_controle (
         // Sinais de entrada
         .clock               ( clock               ),
@@ -171,6 +177,7 @@ module circuito_principal #(
         .zeraMetro           ( zeraMetro           ),
         .menu_sel            ( menu_sel            ),
         .modos               ( modos               ),
+        .grava_ops           ( grava_ops           ),
         .inicia_menu         ( inicia_menu         ),
         .registra_modo       ( registra_modo       ),
         .registra_bpm        ( registra_bpm        ),
@@ -181,6 +188,7 @@ module circuito_principal #(
         .ganhou              ( ganhou              ),
         .perdeu              ( perdeu              ),
 		.vez_jogador         ( vez_jogador         ),
+        .mostra_menu         ( mostra_menu         ),
         // Sinais de depuração
         .db_estado           ( s_db_estado         )    
     );

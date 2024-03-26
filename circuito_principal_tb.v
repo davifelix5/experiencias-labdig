@@ -22,7 +22,7 @@ module circuito_principal_tb;
           left_arrow_pressed_in,
           enter_pressed_in;
 
-    reg [3:0] botoes_encoded_in;
+    reg [12:0] botoes_in;
         
     wire ganhou_out,
         perdeu_out,
@@ -54,7 +54,7 @@ module circuito_principal_tb;
         .clock(clock_in),
         .reset(reset_in),
         .iniciar(iniciar_in),
-        .botoes_encoded(botoes_encoded_in),
+        .botoes(botoes_in),
         .right_arrow_pressed(right_arrow_pressed_in),
         .left_arrow_pressed(left_arrow_pressed_in),
         .enter_pressed(enter_pressed_in),
@@ -87,11 +87,17 @@ module circuito_principal_tb;
   */
   task press_botoes;
     input [3:0] valor, tempo;
-    begin
+    begin: corpo
+      integer k;
+      reg [12:0] tmp_botoes;
       #(CLOCK_PERIOD);
-      botoes_encoded_in = valor;
+      for (k=0;k<13;k=k+1) begin
+        if (k + 1== valor) tmp_botoes[k] = 1'b1;
+        else tmp_botoes[k] = 1'b0;
+      end
+      botoes_in = tmp_botoes;
       #(tempo*0.5*CLOCK_FREQ*CLOCK_PERIOD);
-      botoes_encoded_in = 4'b0000;
+      botoes_in = 13'b0;
       #(2*CLOCK_PERIOD);
     end
   endtask 
@@ -174,7 +180,7 @@ module circuito_principal_tb;
         clock_in            = 1'b0;
         reset_in            = 1'b0;
         iniciar_in          = 1'b0;
-        botoes_encoded_in           = 4'd0;
+        botoes_in           = 12'd0;
         right_arrow_pressed_in = 1'b0;
         left_arrow_pressed_in = 1'b0;
         enter_pressed_in       = 1'b0;
@@ -229,7 +235,7 @@ module circuito_principal_tb;
         //*/
 
         ///************************************************************************************************
-        //    Inicia o circuito e digita 5 notas certas, errando a sexta
+        //    Inicia o circuito e digita 5 notas certas, errando a sexta. Apresenta notas novamente
         //*************************************************************************************************
         cenario = 2;
 

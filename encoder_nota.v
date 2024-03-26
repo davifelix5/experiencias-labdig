@@ -1,5 +1,5 @@
 module encoder_nota ( 
-    input [11:0]      nota,   
+    input [12:0]      nota,   
     input             enable, 
     output reg [3:0]  valor
 ); 

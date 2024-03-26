@@ -17,7 +17,8 @@ module fluxo_dados #(
               BPM        = 2,
               TOM        = 4,
               MUSICA     = 16,
-              ERRO       = 3
+              ERRO       = 3,
+              GRAVA_OPS  = 3
 ) (
     // Entradas
     input clock,
@@ -32,6 +33,7 @@ module fluxo_dados #(
     input       registraR,
     input       zeraC,
     input       contaC,
+    input       decrementaC,
     input       contaTempo,
     input       zeraCR,
     input       zeraTempo,
@@ -66,6 +68,7 @@ module fluxo_dados #(
     output                fim_musica,
     output [ERRO - 1:0]   erros,
     output [MODO - 1:0]   modos_reg,
+    output [GRAVA_OPS - 1:0]   grava_ops,
     output                press_enter,
 
     // Sinais de saída
@@ -104,6 +107,8 @@ module fluxo_dados #(
     // OR dos botoes
     assign nota_feita    = |botoes;
 
+    assign contaC = decrementaC ? contaC - 1 : contaC;
+
     // Sinais de depuração
     assign db_metro           = meio_metro;
     assign db_nota            = s_nota;
@@ -122,7 +127,8 @@ module fluxo_dados #(
         .TOM(TOM),
         .BPM(BPM),
         .MUSICA(MUSICA),
-        .ERRO(ERRO)
+        .ERRO(ERRO),
+        .GRAVA_OPS(GRAVA_OPS)
     ) menu_display (
         .clock               ( clock ),
         .reset               ( reset ),
@@ -137,6 +143,7 @@ module fluxo_dados #(
         .bpms                ( bpms                ),
         .toms                ( toms                ),
         .musicas             ( musicas             ),
+        .grava_ops           ( grava_ops           ),
 
         .arduino_out         ( arduino_out         )
     );

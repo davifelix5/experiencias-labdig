@@ -12,7 +12,8 @@
 
 module modo1_unidade_controle #(
     parameter MODO       = 4,
-              ERRO       = 3
+              ERRO       = 3,
+              GRAVA_OPS  = 3
 ) (
     input     clock,
     input     reset,
@@ -35,6 +36,7 @@ module modo1_unidade_controle #(
 
     input [MODO - 1:0]   modos,
     input [ERRO - 1:0]   erros,
+    input [GRAVA_OPS-1:0] grava_ops,
 
     input fim_musica,
 
@@ -43,6 +45,7 @@ module modo1_unidade_controle #(
     /* Sinais de controle */
     output    zeraC,
     output    contaC,
+    output    decrementaC,
 
     output    zeraTF,
     output    contaTF,
@@ -72,6 +75,7 @@ module modo1_unidade_controle #(
     output    inicia_menu,
 
     /* Saídas */
+    output    mostra_menu,
     output    ganhou,
     output    perdeu,
     output    vez_jogador,
@@ -108,7 +112,9 @@ module modo1_unidade_controle #(
                 menu_erro               = 6'h22,
                 espera_livre            = 6'h23,
                 prepara_nota            = 6'h24,
-                espera_toca             = 6'h25;
+                espera_toca             = 6'h25,
+                inicia_sem_mostra       = 6'h26,
+                proxima_nota_e_roda     = 6'h27;
 
     
 
@@ -118,11 +124,15 @@ module modo1_unidade_controle #(
     // Depuração do estado
     assign db_estado  = Eatual;
 
-    wire modo1, modo2, modo3, modo4;
+    wire modo_grava, modo_sem_apresenta, modo_fresstyle, modo_reprodutor, 
+                modo_nota_a_nota, modo_genius, rollback, tocar_preview, finaliza;
     wire tentar_dnv_rep, tentar_dnv, apresenta_ultima;
 
-    assign { modo4, modo3, modo2, modo1 } = modos;
-    
+    assign { rollback, tocar_preview, finaliza } = grava_ops;
+
+    assign { modo_grava, modo_sem_apresenta, modo_fresstyle, modo_reprodutor, 
+                modo_nota_a_nota, modo_genius } = modos;
+
     assign {tentar_dnv_rep, tentar_dnv, apresenta_ultima} = erros;
 
 
@@ -145,12 +155,12 @@ module modo1_unidade_controle #(
                 iniciar_menu:             Eprox = espera_modo;
                 espera_modo:              Eprox = press_enter ? espera_bpm : espera_modo;
                 espera_bpm:               Eprox = press_enter ? espera_tom : espera_bpm;
-                espera_tom:               Eprox = press_enter ? (modo4 ? inicializa_elementos : espera_musica) : espera_tom;
+                espera_tom:               Eprox = press_enter ? (modo_fresstyle ? inicializa_elementos : espera_musica) : espera_tom;
                 espera_musica:            Eprox = press_enter ? inicializa_elementos : espera_musica;
                 default:                  Eprox = inicializa_elementos;
             endcase
         end
-        else if (modo1) begin
+        else if (modo_genius) begin
             case (Eatual)
                 inicializa_elementos:     Eprox = inicio_rodada;
                 inicio_rodada:            Eprox = fimTF ? mostra : inicio_rodada;
@@ -191,7 +201,7 @@ module modo1_unidade_controle #(
                 mostra_ultima:            Eprox = tempo_correto_baixo ? espera_nota : mostra_ultima;
                 default:                  Eprox = inicial; 
             endcase
-        end else if (modo2) begin
+        end else if (modo_nota_a_nota) begin
             case(Eatual)
                 inicializa_elementos:     Eprox = inicio_rodada;
                 inicio_rodada:            Eprox = mostra;
@@ -212,7 +222,7 @@ module modo1_unidade_controle #(
                 mostra_proximo:           Eprox = espera_mostra;
                 default:                  Eprox = inicial;
             endcase
-        end else if (modo3) begin
+        end else if (modo_reprodutor) begin
             case(Eatual)
                 inicializa_elementos:     Eprox = inicio_rodada;
                 inicio_rodada:            Eprox = fimTF ? mostra : inicio_rodada;
@@ -223,7 +233,32 @@ module modo1_unidade_controle #(
                 verifica_fim:             Eprox = fim_musica ? inicio_rodada : espera_toca;
                 default:                  Eprox = inicial;
             endcase
-        end else if (modo4) begin
+        end else if (modo_sem_apresenta) begin
+            case (Eatual)
+                inicializa_elementos:     Eprox = inicia_sem_mostra;
+                inicia_sem_mostra:        Eprox = espera_nota;
+                inicio_rodada:            Eprox = fimTF ? mostra : inicio_rodada;
+                mostra:                   Eprox = espera_mostra;
+                espera_mostra:            Eprox = tempo_correto_baixo ? (enderecoIgualRodada ? inicio_nota : mostra_proximo) : espera_mostra;
+                mostra_proximo:           Eprox = mostra;
+                inicio_nota:              Eprox = espera_nota;
+                espera_nota:              Eprox = fimTempo ? errou_tempo : (nota_feita ? toca_nota : espera_nota);
+                toca_nota:                Eprox = nota_feita ? toca_nota : compara; 
+                compara:                  Eprox = !nota_correta ? errou_nota : (!tempo_correto ? errou_tempo : proxima_nota_e_roda);
+                errou_tempo, errou_nota:  Eprox = iniciar_menu_erro;
+                iniciar_menu_erro:        Eprox = menu_erro;
+                menu_erro:                Eprox = !press_enter ? menu_erro : 
+                                                    (tentar_dnv_rep ? inicio_rodada : (tentar_dnv ? inicio_nota : (apresenta_ultima ? mostra_ultima : menu_erro)));
+                proxima_nota_e_roda:      Eprox = registra;
+                registra:                 Eprox = verifica_fim;
+                verifica_fim:             Eprox = fim_musica ? acertou : espera_nota;
+                acertou:                  Eprox = iniciar ? inicializa_elementos : acertou;
+                mostra_ultima:            Eprox = tempo_correto_baixo ? espera_nota : mostra_ultima;
+                default:                  Eprox = inicial; 
+            endcase
+        end else if (modo_grava) begin
+            
+        end else if (modo_fresstyle) begin
             case (Eatual) 
                 inicializa_elementos:     Eprox = espera_livre; 
                 espera_livre:             Eprox = nota_feita ? toca_nota : espera_livre;
@@ -238,37 +273,99 @@ module modo1_unidade_controle #(
 
     // Logica de saida (maquina Moore)
     assign zeraR            = (Eatual == inicial);
+
     assign zeraCR           = (Eatual == inicializa_elementos);
-    assign zeraC            = (Eatual == inicio_nota || Eatual == inicio_rodada);
-    assign zeraTempo        = (Eatual == proxima_nota || Eatual == inicio_nota || Eatual == inicializa_elementos || 
-                               Eatual == errou_tempo || Eatual == errou_nota || Eatual == verifica_fim ||
+
+    assign zeraC            = (Eatual == inicio_nota ||
+                               Eatual == inicio_rodada ||
+                               Eatual == inicia_sem_mostra);
+
+    assign zeraTempo        = (Eatual == proxima_nota || 
+                               Eatual == inicio_nota || 
+                               Eatual == inicializa_elementos || 
+                               Eatual == errou_tempo || 
+                               Eatual == errou_nota || 
+                               Eatual == verifica_fim ||
                                Eatual == prepara_nota);
-    assign zeraTF           = (Eatual == mostra || Eatual == inicializa_elementos || Eatual == inicio_nota ||
+
+    assign zeraTF           = (Eatual == mostra || 
+                               Eatual == inicializa_elementos || 
+                               Eatual == inicio_nota ||
                                Eatual == prepara_nota);
+
     assign contaTF          = (Eatual == inicio_rodada);
-    assign contaC           = (Eatual == incrementa_nota || Eatual == mostra_proximo || Eatual == proxima_nota || Eatual == proxima_nota);
+
+    assign contaC           = (Eatual == incrementa_nota || 
+                               Eatual == mostra_proximo || 
+                               Eatual == proxima_nota || 
+                               Eatual == proxima_nota ||
+                               Eatual == proxima_nota_e_roda);
+
     assign contaTempo       = (Eatual == espera_nota);
+
     assign vez_jogador      = (Eatual == espera_nota);
+
     assign registraR        = (Eatual == toca_nota);
-    assign contaCR          = (Eatual == proxima_rodada);
+
+    assign contaCR          = (Eatual == proxima_rodada ||
+                               Eatual == proxima_nota_e_roda);
+
     assign ganhou           = (Eatual == acertou);
-    assign perdeu           = (Eatual == errou_tempo || Eatual == errou_nota);
-    assign leds_mem         = (Eatual == espera_mostra || Eatual == mostra_ultima || Eatual == espera_toca);
-    assign ativa_leds       = (Eatual == toca_nota || Eatual == espera_mostra || Eatual == mostra_ultima || Eatual == espera_toca);
-    assign toca             = (Eatual == toca_nota || Eatual == espera_toca);
-    assign contaMetro       = (Eatual == mostra_ultima || Eatual == espera_mostra || Eatual == toca_nota ||
-                                Eatual == espera_livre || Eatual == espera_toca);
-    assign zeraMetro        = (Eatual == mostra || Eatual == errou_tempo || Eatual == espera_nota || 
-                             Eatual == errou_nota || Eatual == inicializa_elementos || Eatual == verifica_fim);
+
+    assign perdeu           = (Eatual == errou_tempo || 
+                               Eatual == errou_nota);
+
+    assign leds_mem         = (Eatual == espera_mostra || 
+                               Eatual == mostra_ultima ||
+                               Eatual == espera_toca);
+
+    assign ativa_leds       = (Eatual == toca_nota || 
+                               Eatual == espera_mostra || 
+                               Eatual == mostra_ultima || 
+                               Eatual == espera_toca);
+
+    assign toca             = (Eatual == toca_nota || 
+                               Eatual == espera_toca);
+
+    assign contaMetro       = (Eatual == mostra_ultima || 
+                               Eatual == espera_mostra || 
+                               Eatual == toca_nota ||
+                               Eatual == espera_livre || 
+                               Eatual == espera_toca);
+
+    assign zeraMetro        = (Eatual == mostra || 
+                               Eatual == errou_tempo || 
+                               Eatual == espera_nota || 
+                               Eatual == errou_nota || 
+                               Eatual == inicializa_elementos || 
+                               Eatual == verifica_fim);
+
     assign gravaM           = 1'b0;
-    assign inicia_menu      = (Eatual == iniciar_menu || Eatual == iniciar_menu_erro);
-    assign menu_sel[0]      = (Eatual == espera_bpm || Eatual == espera_musica);
-    assign menu_sel[1]      = (Eatual == espera_tom || Eatual == espera_musica);
+
+    assign inicia_menu      = (Eatual == iniciar_menu || 
+                               Eatual == iniciar_menu_erro);
+
+    assign menu_sel[0]      = (Eatual == espera_bpm || 
+                               Eatual == espera_musica);
+
+    assign menu_sel[1]      = (Eatual == espera_tom || 
+                               Eatual == espera_musica);
+
     assign menu_sel[2]      = (Eatual == menu_erro);
+
     assign registra_bpm     = (Eatual == espera_bpm);
+
     assign registra_modo    = (Eatual == espera_modo);
+
     assign registra_tom     = (Eatual == espera_tom);
+
     assign registra_musicas = (Eatual == espera_musica);
+
+    assign mostra_menu      = (Eatual == espera_musica ||
+                               Eatual == espera_bpm ||
+                               Eatual == espera_tom ||
+                               Eatual == espera_modo ||
+                               Eatual == menu_erro);
 
 
 endmodule

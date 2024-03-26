@@ -98,6 +98,7 @@ void loop()
   menu_sel[1] = digitalRead(53); 
   menu_sel[2] = digitalRead(47);
   int menu = binToInt(menu_sel, 3);
+  int menuOld = -1;
 
   // Lendo as opções
   option_sel[0] = digitalRead(29); 
@@ -105,6 +106,7 @@ void loop()
   option_sel[2] = digitalRead(25); 
   option_sel[3] = digitalRead(23); 
   int vetor = binToInt(option_sel, 4);
+  int vetorOld = -1;
 
   Serial.print("Veotor: ");
   Serial.print(vetor);
@@ -112,6 +114,7 @@ void loop()
   Serial.println(menu);
   Serial.println();
   delay(10);
+
   if (menu == 0 ){
   lcd.clear();   
      lcd.setCursor(0, 0);
@@ -124,51 +127,58 @@ void loop()
     
   }
 
-  if (menu == 1 ){ //seleciona modo
-      lcd.clear();   
-    lcd.setCursor(0, 0);
-    lcd.print("Selecione o BPM");
+  if (menuOld != menu || vetorOld != vetor) {
+    menuOld = menu;
+    vetorOld = vetor;
+    
 
-
-    lcd.setCursor(0, 1);
-
-    lcd.print(bpms[vetor]);
-      delay(10);
-  }
-
-  if (menu == 2 ){ //seleciona modo
-      lcd.clear();   
-     lcd.setCursor(0, 0);
-     lcd.print("Selecione o TOM");
+    if (menu == 1 ){ //seleciona modo
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Selecione o BPM");
 
 
       lcd.setCursor(0, 1);
 
-      lcd.print(tons[vetor]);
-  }
+      lcd.print(bpms[vetor]);
+        delay(10);
+    }
 
-
-  if (menu == 3 ){ //seleciona modo
+    if (menu == 2 ){ //seleciona modo
       lcd.clear();   
-    lcd.setCursor(0, 0);
-    lcd.print("Selecione a musica");
+      lcd.setCursor(0, 0);
+      lcd.print("Selecione o TOM");
 
 
-    lcd.setCursor(0, 1);
+        lcd.setCursor(0, 1);
 
-    lcd.print(musicas[vetor]);
-      delay(10);
-  }
-
-  if (menu == 4 ){ //seleciona modo
-     lcd.setCursor(0, 0);
-     lcd.print("Errou!");
+        lcd.print(tons[vetor]);
+    }
 
 
-    lcd.setCursor(0, 1);
+    if (menu == 3 ){ //seleciona modo
+        lcd.clear();   
+      lcd.setCursor(0, 0);
+      lcd.print("Selecione a musica");
 
-    lcd.print(erros[vetor]);
-      delay(10);
+
+      lcd.setCursor(0, 1);
+
+      lcd.print(musicas[vetor]);
+        delay(10);
+    }
+
+    if (menu == 4 ){ //seleciona modo
+      lcd.setCursor(0, 0);
+      lcd.print("Errou!");
+
+
+      lcd.setCursor(0, 1);
+
+      lcd.print(erros[vetor]);
+        delay(10);
+    }
+
   }
 
 }

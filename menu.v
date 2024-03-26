@@ -3,7 +3,8 @@ module menu #(
               BPM = 2,
               TOM = 4,
               MUSICA = 16,
-              ERRO = 3
+              ERRO = 3,
+              GRAVA_OPS = 3
 ) (
     input right_arrow_pressed, left_arrow_pressed,
     input reset,
@@ -12,6 +13,7 @@ module menu #(
     input [2:0] menu_sel,
     output [MODO - 1:0] modos,
     output [BPM - 1:0] bpms,
+    output [GRAVA_OPS-1:0] grava_ops,
     output [$clog2(TOM) - 1:0] toms,
     output [$clog2(MUSICA) - 1:0] musicas,
     output [ERRO - 1:0] erros,
@@ -67,22 +69,18 @@ encoder #(.SIZE(MUSICA)) musica_value (
 /////////////////////////////////////////////////////////////////////////
 //Seleciona qual dos One-Hot irá ser codificado e ir para o arduino
 /////////////////////////////////////////////////////////////////////////
-mux4_1 #(.SIZE(MUSICA)) mux_arduino_principal (
-        .sel    (menu_sel[1:0]),
+mux8_1 #(.SIZE(MUSICA)) mux_arduino_principal (
+        .sel    (menu_sel[2:0]),
         .i0     ({{(MUSICA - MODO){1'b0}} , modos}),
         .i1     ({{(MUSICA - BPM){1'b0}} , bpms}),
         .i2     ({{(MUSICA - TOM){1'b0}},toms_decoded}),
-        .i3     (musicas_decoded),
-        .data_o (menu_principal_o)
+        .i3     ({{(MUSICA - ERRO){1'b0}} , erros}),
+        .i4     ({{(MUSICA - GRAVA_OPS){1'b0}} , grava_ops}),
+        .i5     ( ),
+        .i6     ( ),
+        .i7     ( ),
+        .data_o (arduino_signal)
     );
-
-mux_2x1 #(.SIZE(MUSICA)) mux_arduino_erros (
-        .sel(menu_sel[2]),
-        .A({{(MUSICA - ERRO){1'b0}} , erros}),
-        .B(menu_principal_o),
-        .res(arduino_signal)
-        
-);
 
 encoder #(.SIZE(MUSICA)) arduino_value (
     .data_i (arduino_signal),
@@ -141,6 +139,16 @@ shift_register #(.SIZE(ERRO)) erro_sr(
     .reset      (reset),
     .shift      (enable_shift & menu_sel[2]),
     .value      (erros)
+); 
+
+shift_register #(.SIZE(GRAVA_OPS)) grava_sr(
+    .clock      (clock),
+    .load_value ({{(GRAVA_OPS - 1){1'b0}}, 1'b1}),
+    .load       (load_initial),
+    .dir        (right_arrow_pressed),
+    .reset      (reset),
+    .shift      (enable_shift),
+    .value      (grava_ops)
 ); 
 
 endmodule
