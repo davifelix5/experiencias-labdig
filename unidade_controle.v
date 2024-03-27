@@ -114,7 +114,12 @@ module unidade_controle #(
                 prepara_nota            = 6'h24,
                 espera_toca             = 6'h25,
                 inicia_sem_mostra       = 6'h26,
-                proxima_nota_e_roda     = 6'h27;
+                proxima_nota_e_roda     = 6'h27,
+                prepara_finaliza        = 6'h28,
+                menu_grava              = 6'h29,
+                fim_grava               = 6'h2A,
+                decrementa              = 6'h2B,
+                grava                   = 6'h2C;
 
     
 
@@ -257,7 +262,23 @@ module unidade_controle #(
                 default:                  Eprox = inicial; 
             endcase
         end else if (modo_grava) begin
-            // TODO
+            case (Eatual) 
+                inicializa_elementos: Eprox = inicio_rodada;
+                inicio_rodada:        Eprox = espera_nota;
+                espera_nota:          Eprox = fimTempo ? errou_tempo : (nota_feita ? toca_nota : press_enter ? menu_grava : espera_nota);
+                toca_nota:            Eprox = nota_feita ? toca_nota : grava;
+                grava:                Eprox = proxima_nota_e_roda;
+                proxima_nota_e_roda:  Eprox = espera_nota;
+                menu_grava:           Eprox = finaliza ? prepara_finaliza : 
+                                                (tocar_preview ? mostra : 
+                                                (rollback ? decrementa : menu_grava));
+                prepara_finaliza:     Eprox = fim_grava;
+                fim_grava:            Eprox = inicial;
+                decrementa:           Eprox = espera_nota;
+                mostra:               Eprox = espera_mostra;
+                espera_mostra:        Eprox = tempo_correto_baixo ? (enderecoIgualRodada ? menu_grava : mostra_proximo) : espera_mostra;
+                mostra_proximo:       Eprox = mostra;
+            endcase
         end else if (modo_fresstyle) begin
             case (Eatual) 
                 inicializa_elementos:     Eprox = espera_livre; 
@@ -272,7 +293,8 @@ module unidade_controle #(
     end
 
     // Logica de saida (maquina Moore)
-    assign zeraR            = (Eatual == inicial);
+    assign zeraR            = (Eatual == inicial || 
+                               Eatual == prepara_finaliza);
 
     assign zeraCR           = (Eatual == inicializa_elementos);
 
@@ -299,7 +321,8 @@ module unidade_controle #(
                                Eatual == mostra_proximo || 
                                Eatual == proxima_nota || 
                                Eatual == proxima_nota ||
-                               Eatual == proxima_nota_e_roda);
+                               Eatual == proxima_nota_e_roda ||
+                               Eatual == prepara_finaliza);
 
     assign contaTempo       = (Eatual == espera_nota);
 
@@ -338,9 +361,11 @@ module unidade_controle #(
                                Eatual == espera_nota || 
                                Eatual == errou_nota || 
                                Eatual == inicializa_elementos || 
-                               Eatual == verifica_fim);
+                               Eatual == verifica_fim ||
+                               Eatual == prepara_finaliza);
 
-    assign gravaM           = 1'b0;
+    assign gravaM           = (Eatual == fim_grava ||
+                               Eatual == grava);
 
     assign inicia_menu      = (Eatual == iniciar_menu || 
                                Eatual == iniciar_menu_erro);
@@ -366,6 +391,5 @@ module unidade_controle #(
                                Eatual == espera_tom ||
                                Eatual == espera_modo ||
                                Eatual == menu_erro);
-
 
 endmodule

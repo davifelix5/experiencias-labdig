@@ -488,19 +488,19 @@ module circuito_principal_tb;
         #(3*0.5*CLOCK_FREQ*CLOCK_PERIOD);
         #(5*CLOCK_PERIOD);
         
-        press_botoes(4'h3, 3);
+        press_botoes(4'hC, 2);
         
         #(5*CLOCK_PERIOD);
         #(4*0.5*CLOCK_FREQ*CLOCK_PERIOD);
         #(5*CLOCK_PERIOD);
         
-        press_botoes(4'h5, 4);
+        press_botoes(4'h7, 1);
 
         #(5*CLOCK_PERIOD);
         #(1*0.5*CLOCK_FREQ*CLOCK_PERIOD);
         #(5*CLOCK_PERIOD);
 
-        press_botoes(4'h9, 1);
+        press_botoes(4'h8, 1);
 
         #(5*CLOCK_PERIOD);
 
@@ -665,7 +665,7 @@ module circuito_principal_tb;
 
         //*/
 
-        ///************************************************************************************************
+        /*//************************************************************************************************
         //    Inicia o circuito no modo de sem apresentação e digita 5 notas, errando na sexta e 
         //    tentando novamente, acertando mais 3 e errando na nona
         //*************************************************************************************************
@@ -714,6 +714,59 @@ module circuito_principal_tb;
         acerta_valores(8);
 
         press_botoes(4'hC, 3);
+
+        #(5*CLOCK_FREQ*CLOCK_PERIOD);
+
+        //*/
+
+        ///************************************************************************************************
+        //    Inicia o circuito no modo de sem apresentação e digita 5 notas, errando na sexta e 
+        //    tentando novamente, acertando mais 3 e errando na nona
+        //*************************************************************************************************
+        cenario = 10;
+
+        @(negedge clock_in);
+        reset_in = 1;
+        #(CLOCK_PERIOD);
+        reset_in = 0;
+        
+        #(CLOCK_PERIOD);
+        iniciar_in = 1;
+        #(CLOCK_PERIOD);
+        iniciar_in = 0;
+
+        // muda modo para 2
+        right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
+
+        // muda modo para 3
+        right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
+
+        // muda modo para 4
+        right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
+
+        // muda modo para 5
+        right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
+
+        // muda modo para 6
+        right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
+
+        // confirma modo
+        enter_pressed_in = 1; #(5*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
+
+        // confirma bpm
+        enter_pressed_in = 1; #(5*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
+
+        // confirma tom
+        enter_pressed_in = 1; #(5*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
+
+        // muda musica para 2
+        right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
+        right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
+
+        // confirma musica
+        enter_pressed_in = 1; #(5*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
+
+        acerta_valores(5);
 
         #(5*CLOCK_FREQ*CLOCK_PERIOD);
 
