@@ -70,13 +70,13 @@ encoder #(.SIZE(MUSICA)) musica_value (
 //Seleciona qual dos One-Hot irá ser codificado e ir para o arduino
 /////////////////////////////////////////////////////////////////////////
 mux8_1 #(.SIZE(MUSICA)) mux_arduino_principal (
-        .sel    (menu_sel[2:0]),
+        .sel    (menu_sel),
         .i0     ({{(MUSICA - MODO){1'b0}} , modos}),
         .i1     ({{(MUSICA - BPM){1'b0}} , bpms}),
         .i2     ({{(MUSICA - TOM){1'b0}},toms_decoded}),
-        .i3     ({{(MUSICA - ERRO){1'b0}} , erros}),
-        .i4     ({{(MUSICA - GRAVA_OPS){1'b0}} , grava_ops}),
-        .i5     ( musicas ),
+        .i3     (musicas_decoded ),
+        .i4     ({{(MUSICA - ERRO){1'b0}} , erros}),
+        .i5     ( {{(MUSICA - GRAVA_OPS){1'b0}} , grava_ops}),
         .i6     ( ),
         .i7     ( ),
         .data_o (arduino_signal)
