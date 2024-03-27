@@ -76,7 +76,7 @@ mux8_1 #(.SIZE(MUSICA)) mux_arduino_principal (
         .i2     ({{(MUSICA - TOM){1'b0}},toms_decoded}),
         .i3     ({{(MUSICA - ERRO){1'b0}} , erros}),
         .i4     ({{(MUSICA - GRAVA_OPS){1'b0}} , grava_ops}),
-        .i5     ( ),
+        .i5     ( musicas ),
         .i6     ( ),
         .i7     ( ),
         .data_o (arduino_signal)
