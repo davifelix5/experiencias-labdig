@@ -1,7 +1,7 @@
 
 #include <LiquidCrystal.h>
 #define LIMIAR 500
-#define MODOS 4
+#define MODOS 6
 #define BPM 2
 #define TOM 4
 #define MUSICA 16
@@ -15,10 +15,10 @@ int i, j, k, w, tocando, errou;
 int menu_sel[3];
 int option_sel[4];
 
-char *modos[] = {"Modo 1", "Modo 2", "Modo 3", "Modo4"};
+char *modos[] = {"Modo Genius", "Modo Nota a Nota", "Modo Sem apresentar", "Modo Reprodutor", "Modo Freestyle", "Modo Gravacao"};
 char *bpms[] = {"60 BPM", "120 BPM" };
 char *musicas[] = {
-  "Musica A", "Musica B", "Musica C", "Musica C", 
+  "Musica A", "Hino Nacional", "Musica C", "Musica C", 
   "Musica A", "Musica B", "Musica C", "Musica C", 
   "Musica A", "Musica B", "Musica C", "Musica C", 
   "Musica A", "Musica B", "Musica C", "Musica ULITMA"
@@ -26,19 +26,36 @@ char *musicas[] = {
 char *tons[] = { "Grave", "Meio grave", "Meio agudo", "Agudo" };
 char *erros[] = {"Apresenta a última", "Sem apresentar", "Apresenta tudo novamente"};
 
+int Li          = 16;
+int Lii         = 0; 
+int Ri          = -1;
+int Rii         = -1;
+//----------------------------------
+String Scroll_LCD_Left(String StrDisplay){
+  String result;
+  String StrProcess = "                " + StrDisplay + "                ";
+  result = StrProcess.substring(Li,Lii);
+  Li++;
+  Lii++;
+  if (Li>StrProcess.length()){
+    Li=16;
+    Lii=0;
+  }
+  return result;
+}
+
+
+void Clear_Scroll_LCD_Left(){
+  Li=16;
+  Lii=0;
+}
 int binToInt(int bin[], int tamanho) {
   int valor = 0;
   for(int i = 0; i < tamanho; i++) {
-    Serial.print(i);
-    Serial.print("  ");
-    Serial.print(bin[i]);
+
     int inc = pow(2, i);
     if(bin[i]) valor += inc;
-    Serial.print(" ");
-    Serial.print(inc);
-    Serial.print("  ");
-    Serial.println(valor);
-    Serial.println();
+
   }
   return valor;
 }
@@ -60,6 +77,7 @@ void setup()
   pinMode(27, INPUT); //option_sel1
   pinMode(25, INPUT); //option_sel2
   pinMode(23, INPUT); //option_sel3
+  pinMode(45, INPUT); //mostraMenu
   
 }
  
@@ -107,6 +125,8 @@ void loop()
   option_sel[3] = digitalRead(23); 
   int vetor = binToInt(option_sel, 4);
   int vetorOld = -1;
+  int mostraMenu = digitalRead(45);
+  int mostraMenuOld = -1;
 
   Serial.print("Veotor: ");
   Serial.print(vetor);
@@ -115,22 +135,37 @@ void loop()
   Serial.println();
   delay(10);
 
-  if (menu == 0 ){
-  lcd.clear();   
-     lcd.setCursor(0, 0);
-     lcd.print("Selecione o modo");
+
+
+
+  if (menuOld != menu || vetorOld != vetor || mostraMenuOld != mostraMenu) {
+    menuOld = menu;
+    vetorOld = vetor;
+    mostraMenuOld = mostraMenu;
+      if (!mostraMenu) {  
+        
+    lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("FPGAudio");
+
+      lcd.setCursor(0, 1);
+       lcd.print(Scroll_LCD_Left("Integrantes: Caio, Davi e Vinicius"));
+       
+        delay(10);
+      }
+   else{
+      if (menu == 0 ){
+      lcd.clear();   
+      lcd.setCursor(0, 0);
+      lcd.print("Selecione o modo");
 
       lcd.setCursor(0, 1);
       
       lcd.print(modos[vetor]);
         delay(10);
+
     
   }
-
-  if (menuOld != menu || vetorOld != vetor) {
-    menuOld = menu;
-    vetorOld = vetor;
-    
 
     if (menu == 1 ){ //seleciona modo
       lcd.clear();
@@ -141,7 +176,7 @@ void loop()
       lcd.setCursor(0, 1);
 
       lcd.print(bpms[vetor]);
-      delay(10);
+        delay(10);
     }
 
     if (menu == 2 ){ //seleciona modo
@@ -159,12 +194,11 @@ void loop()
     if (menu == 3 ){ //seleciona modo
         lcd.clear();   
       lcd.setCursor(0, 0);
-      lcd.print("Selecione a musica");
+      lcd.print("Musica");
 
 
       lcd.setCursor(0, 1);
-
-      lcd.print(musicas[vetor]);
+      lcd.print(Scroll_LCD_Left(musicas[vetor]));
         delay(10);
     }
 
@@ -174,11 +208,11 @@ void loop()
 
 
       lcd.setCursor(0, 1);
-
-      lcd.print(erros[vetor]);
+      lcd.print(Scroll_LCD_Left(erros[vetor]));
         delay(10);
     }
 
+  }
   }
 
 }
