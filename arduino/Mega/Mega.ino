@@ -141,7 +141,7 @@ void loop()
       lcd.setCursor(0, 1);
 
       lcd.print(bpms[vetor]);
-        delay(10);
+      delay(10);
     }
 
     if (menu == 2 ){ //seleciona modo

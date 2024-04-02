@@ -93,7 +93,6 @@ module fluxo_dados #(
                s_nota, tempo, leds_encoded;
 	 wire [3:0] botoes_encoded;
     wire [$clog2(NUM_NOTAS) - 1:0] s_endereco, s_rodada, cont_end_data;
-    wire metro120, metro60, meio_metro120, meio_metro60;
     wire metro_120BPM;
 
 
@@ -188,7 +187,7 @@ module fluxo_dados #(
 
     // Contador que indica o tempo a partir do metrônomo
     contador_m #(.M(16)) ContadorTempo (
-        .clock   ( metro         ), 
+        .clock   ( meio_metro    ), 
         .zera_s  ( 1'b0          ),  
         .zera_as ( zeraMetro     ), 
         .conta   ( contaMetro    ),
@@ -283,8 +282,8 @@ module fluxo_dados #(
         .addr       ( s_endereco      ), 
         .musica     ( musica_reg      ),
         .we         ( gravaM          ),
-        .data_nota  (                 ),
-        .data_tempo (                 ),
+        .data_nota  ( s_nota          ),
+        .data_tempo ( tempo           ),
         .tempo      ( s_memoria_tempo ),
         .nota       ( s_memoria_nota  ),
         .fim_musica ( fim_musica      )

@@ -307,7 +307,7 @@ module circuito_principal_tb;
 
         //*/
 
-        ///************************************************************************************************
+        /*//************************************************************************************************
         //    Inicia o circuito no modo 3 e tocar a primeira música
         //*************************************************************************************************
         
@@ -366,7 +366,7 @@ module circuito_principal_tb;
         #(10*CLOCK_PERIOD);
         #(100*CLOCK_PERIOD);
 
-        acerta_valores(16);
+        acerta_valores(31);
         #(40*CLOCK_FREQ*CLOCK_PERIOD); // Passa 4 segundos
         //*/
 
@@ -667,65 +667,13 @@ module circuito_principal_tb;
         right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
         enter_pressed_in = 1; #(5*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
 
-        #(5*CLOCK_FREQ*CLOCK_PERIOD);
-
-        //*/
-
-        /*//************************************************************************************************
-        //    Inicia o circuito no modo de sem apresentação e digita 5 notas, errando na sexta e 
-        //    tentando novamente, acertando mais 3 e errando na nona
-        //*************************************************************************************************
-        cenario = 9;
-
-        @(negedge clock_in);
-        reset_in = 1;
-        #(CLOCK_PERIOD);
-        reset_in = 0;
-        
-        #(CLOCK_PERIOD);
-        iniciar_in = 1;
-        #(CLOCK_PERIOD);
-        iniciar_in = 0;
-
-        // muda modo para 2
-        right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
-
-        // muda modo para 3
-        right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
-
-        // confirma modo
-        enter_pressed_in = 1; #(5*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
-
-        // confirma bpm
-        enter_pressed_in = 1; #(5*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
-
-        // confirma tom
-        enter_pressed_in = 1; #(5*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
-
-        // muda musica para 1
-        right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
-
-        // confirma musica
-        enter_pressed_in = 1; #(5*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
-
-        acerta_valores(5);
-
-        press_botoes(4'hC, 3);
-
-        #(5*CLOCK_PERIOD);
-
-        right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
-        enter_pressed_in = 1; #(5*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
-
-        acerta_valores(8);
-
-        press_botoes(4'hC, 3);
+        acerta_valores(31);
 
         #(5*CLOCK_FREQ*CLOCK_PERIOD);
 
         //*/
 
-        /*//************************************************************************************************
+        ///************************************************************************************************
         //    Inicia o circuito no modo de sem apresentação e digita 5 notas, errando na sexta e 
         //    tentando novamente, acertando mais 3 e errando na nona
         //*************************************************************************************************
@@ -779,11 +727,12 @@ module circuito_principal_tb;
 
         // */
 
+
         /*//************************************************************************************************
-        //    Inicia o circuito no modo de sem apresentação e digita 5 notas, errando na sexta e 
-        //    tentando novamente, acertando mais 3 e errando na nona
+        //    Inicia o circuito no modo gravação klklkçasdçlk
         //*************************************************************************************************
-        cenario = 10;
+        
+        cenario = 11;
 
         @(negedge clock_in);
         reset_in = 1;
@@ -819,7 +768,8 @@ module circuito_principal_tb;
         // confirma tom
         enter_pressed_in = 1; #(5*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
 
-        // muda musica para 2
+        // muda musica para 3
+        right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
         right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
         right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
 
