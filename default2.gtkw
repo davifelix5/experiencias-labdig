@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Wed Apr  3 02:22:54 2024
+[*] Wed Apr  3 03:10:31 2024
 [*]
 [dumpfile] "/home/davifelix/Documentos/usp/quadri/labdig/projeto/circuito/verilog/waveforms.vcd"
-[dumpfile_mtime] "Wed Apr  3 02:22:31 2024"
+[dumpfile_mtime] "Wed Apr  3 03:09:23 2024"
 [dumpfile_size] 23059556
 [savefile] "/home/davifelix/Documentos/usp/quadri/labdig/projeto/circuito/verilog/default2.gtkw"
 [timestart] 0
 [size] 1366 740
 [pos] -1 -1
-*-13.717944 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-23.837097 11530000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] circuito_principal_tb.
 [treeopen] circuito_principal_tb.UUT.
 [treeopen] circuito_principal_tb.UUT.fluxo_dados.
@@ -61,9 +61,7 @@ circuito_principal_tb.UUT.reset
 circuito_principal_tb.iniciar_in
 @22
 #{circuito_principal_tb.UUT.fluxo_dados.botoes[12:0]} circuito_principal_tb.UUT.fluxo_dados.botoes[12] circuito_principal_tb.UUT.fluxo_dados.botoes[11] circuito_principal_tb.UUT.fluxo_dados.botoes[10] circuito_principal_tb.UUT.fluxo_dados.botoes[9] circuito_principal_tb.UUT.fluxo_dados.botoes[8] circuito_principal_tb.UUT.fluxo_dados.botoes[7] circuito_principal_tb.UUT.fluxo_dados.botoes[6] circuito_principal_tb.UUT.fluxo_dados.botoes[5] circuito_principal_tb.UUT.fluxo_dados.botoes[4] circuito_principal_tb.UUT.fluxo_dados.botoes[3] circuito_principal_tb.UUT.fluxo_dados.botoes[2] circuito_principal_tb.UUT.fluxo_dados.botoes[1] circuito_principal_tb.UUT.fluxo_dados.botoes[0]
-@23
 #{circuito_principal_tb.UUT.fluxo_dados.botoes_debounced[12:0]} circuito_principal_tb.UUT.fluxo_dados.botoes_debounced[12] circuito_principal_tb.UUT.fluxo_dados.botoes_debounced[11] circuito_principal_tb.UUT.fluxo_dados.botoes_debounced[10] circuito_principal_tb.UUT.fluxo_dados.botoes_debounced[9] circuito_principal_tb.UUT.fluxo_dados.botoes_debounced[8] circuito_principal_tb.UUT.fluxo_dados.botoes_debounced[7] circuito_principal_tb.UUT.fluxo_dados.botoes_debounced[6] circuito_principal_tb.UUT.fluxo_dados.botoes_debounced[5] circuito_principal_tb.UUT.fluxo_dados.botoes_debounced[4] circuito_principal_tb.UUT.fluxo_dados.botoes_debounced[3] circuito_principal_tb.UUT.fluxo_dados.botoes_debounced[2] circuito_principal_tb.UUT.fluxo_dados.botoes_debounced[1] circuito_principal_tb.UUT.fluxo_dados.botoes_debounced[0]
-@22
 #{circuito_principal_tb.UUT.fluxo_dados.botoes_encoded[3:0]} circuito_principal_tb.UUT.fluxo_dados.botoes_encoded[3] circuito_principal_tb.UUT.fluxo_dados.botoes_encoded[2] circuito_principal_tb.UUT.fluxo_dados.botoes_encoded[1] circuito_principal_tb.UUT.fluxo_dados.botoes_encoded[0]
 circuito_principal_tb.UUT.unidade_controle.Eatual[5:0]
 @800200
@@ -104,6 +102,8 @@ circuito_principal_tb.UUT.ganhou
 #{circuito_principal_tb.UUT.fluxo_dados.s_endereco[4:0]} circuito_principal_tb.UUT.fluxo_dados.s_endereco[4] circuito_principal_tb.UUT.fluxo_dados.s_endereco[3] circuito_principal_tb.UUT.fluxo_dados.s_endereco[2] circuito_principal_tb.UUT.fluxo_dados.s_endereco[1] circuito_principal_tb.UUT.fluxo_dados.s_endereco[0]
 @28
 #{circuito_principal_tb.UUT.fluxo_dados.menu_sel[2:0]} circuito_principal_tb.UUT.fluxo_dados.menu_sel[2] circuito_principal_tb.UUT.fluxo_dados.menu_sel[1] circuito_principal_tb.UUT.fluxo_dados.menu_sel[0]
+@29
+circuito_principal_tb.UUT.mostra_menu
 @c00022
 #{circuito_principal_tb.UUT.fluxo_dados.tempo[3:0]} circuito_principal_tb.UUT.fluxo_dados.tempo[3] circuito_principal_tb.UUT.fluxo_dados.tempo[2] circuito_principal_tb.UUT.fluxo_dados.tempo[1] circuito_principal_tb.UUT.fluxo_dados.tempo[0]
 @28

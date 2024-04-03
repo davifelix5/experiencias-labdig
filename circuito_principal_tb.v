@@ -51,7 +51,7 @@ module circuito_principal_tb;
 
     always #((CLOCK_PERIOD / 2)) clock_in = ~clock_in;
 
-    circuito_principal #(.CLOCK_FREQ(CLOCK_FREQ)) UUT (
+    circuito_principal #(.CLOCK_FREQ(CLOCK_FREQ), .DEBOUNCE_TIME(5)) UUT (
         .clock(clock_in),
         .reset(reset_in),
         .iniciar(iniciar_in),

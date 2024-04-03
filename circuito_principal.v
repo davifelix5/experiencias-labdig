@@ -7,7 +7,7 @@ module circuito_principal #(
               ERRO       = 3,
               GRAVA_OPS  = 3,
 
-              DEBOUNCE_TIME = 5
+              DEBOUNCE_TIME = 1_000_000
 ) (
     input         clock,
     input         reset,
