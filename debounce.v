@@ -31,7 +31,8 @@ module debounce #(parameter DEBOUNCE_TIME) (
             WAIT_PRESS:    Eprox = real_button ? COUNT_PRESSED : WAIT_PRESS;
             COUNT_PRESSED: Eprox = real_button ? ( timer_done ? WAIT_UNPRESS : COUNT_PRESSED) : WAIT_PRESS;
             WAIT_UNPRESS:  Eprox = real_button ? WAIT_UNPRESS : COUNT_UNPRESS;
-            COUNT_UNPRESS: Eprox = real_button ? WAIT_UNPRESS : ( timer_done ? WAIT_PRESS : COUNT_UNPRESS ); 
+            COUNT_UNPRESS: Eprox = real_button ? WAIT_UNPRESS : ( timer_done ? WAIT_PRESS : COUNT_UNPRESS );
+            default:       Eprox = WAIT_PRESS; 
         endcase
     end
 

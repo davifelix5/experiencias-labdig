@@ -1,5 +1,5 @@
 module circuito_principal #(
-    parameter CLOCK_FREQ = 50000000,
+    parameter CLOCK_FREQ = 50_000_000,
               MODO       = 6,
               BPM        = 2,
               TOM        = 4,
