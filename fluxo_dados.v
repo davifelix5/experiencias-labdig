@@ -82,7 +82,9 @@ module fluxo_dados #(
     output       db_metro,
     output [3:0] db_nota  ,
     output [3:0] db_memoria_nota,
-    output [3:0] db_memoria_tempo
+    output [3:0] db_memoria_tempo,
+    output [3:0] db_tempo
+
 );
 
     localparam TEMPO_MOSTRA = 2, TIMEOUT=5, // s
@@ -114,6 +116,7 @@ module fluxo_dados #(
     assign db_nota            = s_nota;
     assign db_memoria_nota    = s_memoria_nota;
     assign db_memoria_tempo   = s_memoria_tempo;
+    assign db_tempo   = tempo;
 
     // OR dos botoes
     wire [12:0] botoes_debounced;

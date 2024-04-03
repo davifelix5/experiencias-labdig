@@ -8,7 +8,8 @@ module comparador_tempo (
     output tempo_correto
 );
 
-    // assign tempo_correto = tempo_correto_baixo | (tempo_correto_cima & meio_metro);
+    wire tempo_correto_cima;
+    assign tempo_correto = tempo_correto_baixo | (tempo_correto_cima & meio_metro);
 
     // Comparador para o tempo atual (tolerância de errar para cima)
     comparador_85 CompTempoBaixo (
@@ -26,9 +27,9 @@ module comparador_tempo (
         .AEBi ( 1'b1                  ), 
         .AGBi ( 1'b0                  ), 
         .ALBi ( 1'b0                  ), 
-        .A    ( s_memoria_tempo       ), 
-        .B    ( tempo                 ), 
-        .AEBo ( tempo_correto         ),
+        .A    ( s_memoria_tempo-4'b1     ), 
+        .B    ( tempo_baixo           ), 
+        .AEBo ( tempo_correto_cima    ),
         .AGBo (                       ),
         .ALBo (                       )
     );
