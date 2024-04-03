@@ -23,6 +23,7 @@ module circuito_principal #(
     output [3:0]  arduino_out,
     output [2:0]  menu_sel,
     output        mostra_menu,
+    output        errou_nota,
 
     output        db_nota_correta,
     output        db_tempo_correto,
@@ -45,6 +46,7 @@ module circuito_principal #(
     wire fim_musica, tempo_correto, tempo_correto_baixo, inicia_menu;
     wire leds_mem, ativa_leds, toca;
     wire gravaM;
+    wire registra_erro;
     wire apresenta_ultima, tentar_dnv_rep, tentar_dnv;
     wire press_enter;
     wire registra_modo, registra_bpm, registra_tom, registra_musicas;
@@ -112,7 +114,8 @@ module circuito_principal #(
         .registra_modo       ( registra_modo       ),
         .registra_bpm        ( registra_bpm        ),
         .registra_tom        ( registra_tom        ),
-        .registra_musicas    ( registra_musicas    ),           
+        .registra_musicas    ( registra_musicas    ),    
+        .registra_erro       ( registra_erro       ),       
         // Sinais de condição
         .nota_correta        ( nota_correta        ),
         .tempo_correto       ( tempo_correto       ),
@@ -133,6 +136,7 @@ module circuito_principal #(
         .leds                ( leds                ),
         .pulso_buzzer        ( pulso_buzzer        ),
         .arduino_out         ( arduino_out         ),
+        .errou_nota          ( errou_nota          ),
         // Sinais de depuração
         .db_metro            ( db_metro            ),
         .db_nota             ( s_db_nota           ),
@@ -189,6 +193,7 @@ module circuito_principal #(
         .registra_tom        ( registra_tom        ),
         .registra_musicas    ( registra_musicas    ),          
         .contaMetro          ( contaMetro          ),  
+        .registra_erro       ( registra_erro       ),       
         // Sinais de saída
         .ganhou              ( ganhou              ),
         .perdeu              ( perdeu              ),

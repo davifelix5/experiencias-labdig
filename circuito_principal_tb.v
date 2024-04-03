@@ -35,7 +35,8 @@ module circuito_principal_tb;
         db_estado4_out,
         db_tempo_correto_out,
         db_metro,
-        mostra_menu_out;
+        mostra_menu_out,
+        errou_nota_out;
 
     wire [12:0] leds_out;
 
@@ -68,6 +69,7 @@ module circuito_principal_tb;
         .pulso_buzzer(pulso_buzzer_out),
         .arduino_out(arduino_out),
         .menu_sel(menu_sel_out),
+        .errou_nota(errou_nota_out),
 
         .db_tempo_correto(db_tempo_correto_out),
         .db_nota_correta(db_nota_correta_out),

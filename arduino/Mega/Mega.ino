@@ -78,6 +78,7 @@ void setup()
   pinMode(25, INPUT); //option_sel2
   pinMode(23, INPUT); //option_sel3
   pinMode(45, INPUT); //mostraMenu
+  pinMode(43, INPUT); //errou_nota
   
 }
  
@@ -126,6 +127,7 @@ void loop()
   int vetor = binToInt(option_sel, 4);
   int vetorOld = -1;
   int mostraMenu = digitalRead(45);
+  int errou_nota = digitalRead(43);
   int mostraMenuOld = -1;
 
   Serial.print("Veotor: ");
@@ -204,8 +206,12 @@ void loop()
 
     if (menu == 4 ){ //seleciona modo
       lcd.setCursor(0, 0);
-      lcd.print("Errou!");
-
+      if (errou_nota) {
+        lcd.print("Errou uma nota!");
+      }
+      else {
+        lcd.print(Scroll_LCD_Left("Errou apenas o tempo da nota!"));
+      }
 
       lcd.setCursor(0, 1);
       lcd.print(Scroll_LCD_Left(erros[vetor]));

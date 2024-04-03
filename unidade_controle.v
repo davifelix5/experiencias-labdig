@@ -72,6 +72,7 @@ module unidade_controle #(
     output    registra_musicas,
     output    [2:0] menu_sel,
     output    inicia_menu,
+    output    registra_erro,
 
     /* Saídas */
     output    mostra_menu,
@@ -393,5 +394,7 @@ module unidade_controle #(
                                Eatual == espera_tom ||
                                Eatual == espera_modo ||
                                Eatual == menu_erro);
+
+    assign registra_erro    = ( Eatual == compara );
 
 endmodule

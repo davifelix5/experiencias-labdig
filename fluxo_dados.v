@@ -53,6 +53,7 @@ module fluxo_dados #(
     input       registra_bpm,
     input       registra_tom,
     input       registra_musicas,
+    input       registra_erro,
     
     // Sinais de codição
     output                nota_correta,
@@ -75,6 +76,7 @@ module fluxo_dados #(
     // Sinais de saída
     output [12:0] leds,
     output [3:0]  arduino_out,
+    output        errou_nota,
 
     // Sinais de depuração
     output       db_metro,
@@ -370,5 +372,11 @@ module fluxo_dados #(
         .Q      ( modos_reg     )
     );
 
-    
+   registrador_n #(.SIZE(1)) RegErrouNota (
+        .D      ( ~nota_correta ),
+        .clear  ( zeraR         ),
+        .clock  ( clock         ),
+        .enable ( registra_erro ),
+        .Q      ( errou_nota    )
+   );
 endmodule
