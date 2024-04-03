@@ -24,7 +24,7 @@ char *musicas[] = {
   "Musica A", "Musica B", "Musica C", "Musica ULITMA"
 }; 
 char *tons[] = { "Grave", "Meio grave", "Meio agudo", "Agudo" };
-char *erros[] = {"Apresenta a última", "Sem apresentar", "Apresenta tudo novamente"};
+char *erros[] = {"Apresenta a ultima", "Sem apresentar", "Apresenta tudo novamente"};
 
 int Li          = 16;
 int Lii         = 0; 
@@ -53,7 +53,8 @@ int binToInt(int bin[], int tamanho) {
   int valor = 0;
   for(int i = 0; i < tamanho; i++) {
 
-    int inc = pow(2, i);
+    int inc = 1;
+    for (int j = 0; j<i; j++) inc *= 2;
     if(bin[i]) valor += inc;
 
   }
@@ -120,10 +121,10 @@ void loop()
   int menuOld = -1;
 
   // Lendo as opções
-  option_sel[0] = digitalRead(29); 
-  option_sel[1] = digitalRead(27); 
-  option_sel[2] = digitalRead(25); 
-  option_sel[3] = digitalRead(23); 
+  option_sel[0] = digitalRead(31); 
+  option_sel[1] = digitalRead(40); 
+  option_sel[2] = digitalRead(35); 
+  option_sel[3] = digitalRead(37); 
   int vetor = binToInt(option_sel, 4);
   int vetorOld = -1;
   int mostraMenu = digitalRead(45);
@@ -153,7 +154,7 @@ void loop()
       lcd.setCursor(0, 1);
        lcd.print(Scroll_LCD_Left("Integrantes: Caio, Davi e Vinicius"));
        
-        delay(10);
+        delay(300);
       }
    else{
       if (menu == 0 ){
@@ -164,7 +165,7 @@ void loop()
       lcd.setCursor(0, 1);
       
       lcd.print(modos[vetor]);
-        delay(10);
+        delay(300);
 
     
   }
@@ -178,7 +179,7 @@ void loop()
       lcd.setCursor(0, 1);
 
       lcd.print(bpms[vetor]);
-        delay(10);
+        delay(300);
     }
 
     if (menu == 2 ){ //seleciona modo
@@ -190,6 +191,7 @@ void loop()
         lcd.setCursor(0, 1);
 
         lcd.print(tons[vetor]);
+        delay(300);
     }
 
 
@@ -201,7 +203,7 @@ void loop()
 
       lcd.setCursor(0, 1);
       lcd.print(Scroll_LCD_Left(musicas[vetor]));
-        delay(10);
+        delay(300);
     }
 
     if (menu == 4 ){ //seleciona modo
@@ -210,12 +212,12 @@ void loop()
         lcd.print("Errou uma nota!");
       }
       else {
-        lcd.print(Scroll_LCD_Left("Errou apenas o tempo da nota!"));
+        lcd.print("Errou o tempo!");
       }
 
       lcd.setCursor(0, 1);
       lcd.print(Scroll_LCD_Left(erros[vetor]));
-        delay(10);
+        delay(300);
     }
 
   }

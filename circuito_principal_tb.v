@@ -692,25 +692,25 @@ module circuito_principal_tb;
         iniciar_in = 0;
 
         // muda modo para 2
-        right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
+        right_arrow_pressed_in = 1; #(15*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
 
         // muda modo para 3
-        right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
+        right_arrow_pressed_in = 1; #(15*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
 
         // confirma modo
-        enter_pressed_in = 1; #(5*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
+        enter_pressed_in = 1; #(15*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
 
         // confirma bpm
-        enter_pressed_in = 1; #(5*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
+        enter_pressed_in = 1; #(15*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
 
         // confirma tom
-        enter_pressed_in = 1; #(5*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
+        enter_pressed_in = 1; #(15*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
 
         // muda musica para 1
-        right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
+        right_arrow_pressed_in = 1; #(15*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
 
         // confirma musica
-        enter_pressed_in = 1; #(5*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
+        enter_pressed_in = 1; #(15*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
 
         acerta_valores(5);
 
@@ -718,8 +718,8 @@ module circuito_principal_tb;
 
         #(5*CLOCK_PERIOD);
 
-        right_arrow_pressed_in = 1; #(5*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
-        enter_pressed_in = 1; #(5*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
+        right_arrow_pressed_in = 1; #(15*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
+        enter_pressed_in = 1; #(15*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
 
         acerta_valores(8);
 

@@ -93,7 +93,7 @@ module fluxo_dados #(
     // Sinais internos
     wire tem_nota, metro, meio_metro, nota_apertada_pulso;
     wire [3:0] s_memoria_nota, s_memoria_tempo, 
-               s_nota, tempo, leds_encoded;
+               s_nota, tempo, leds_encoded, tempo_baixo;
 	 wire [3:0] botoes_encoded;
     wire [$clog2(NUM_NOTAS) - 1:0] s_endereco, s_rodada, cont_end_data;
     wire metro_120BPM;
@@ -232,10 +232,23 @@ module fluxo_dados #(
         .meio    (               )
     );
 
+    contador_m #(.M(16)) ContadorTempoAlto (
+        .clock   ( metro         ), 
+        .zera_s  ( 1'b0          ),  
+        .zera_as ( zeraMetro     ), 
+        .conta   ( contaMetro    ),
+        .load    ( 1'b0          ),
+        .data    (               ),
+        .Q       ( tempo_baixo   ),
+        .fim     (               ),
+        .meio    (               )
+    );
+
     // Comparador para identificar se o tempo de música está correto
     comparador_tempo CompTempo (
         .s_memoria_tempo     ( s_memoria_tempo ),
         .tempo               ( tempo ),
+        .tempo_baixo         ( tempo_baixo ),
         .meio_metro          ( meio_metro ),
         
         .tempo_correto_baixo ( tempo_correto_baixo ),
