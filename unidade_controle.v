@@ -278,6 +278,7 @@ module unidade_controle #(
                 mostra:               Eprox = espera_mostra;
                 espera_mostra:        Eprox = tempo_correto_baixo ? (enderecoIgualRodada ? menu_grava : mostra_proximo) : espera_mostra;
                 mostra_proximo:       Eprox = mostra;
+                default:              Eprox = inicial;
             endcase
         end else if (modo_fresstyle) begin
             case (Eatual) 
