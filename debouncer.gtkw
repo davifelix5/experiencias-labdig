@@ -1,0 +1,24 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Wed Apr  3 01:59:45 2024
+[*]
+[dumpfile] "/home/davifelix/Documentos/usp/quadri/labdig/projeto/circuito/verilog/waveforms_debounce.vcd"
+[dumpfile_mtime] "Wed Apr  3 01:50:13 2024"
+[dumpfile_size] 4263
+[savefile] "/home/davifelix/Documentos/usp/quadri/labdig/projeto/circuito/verilog/debouncer.gtkw"
+[timestart] 0
+[size] 1000 600
+[pos] -1 -1
+*-13.000000 22600 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] debounce_tb.
+[treeopen] debounce_tb.UUT.
+[sst_width] 212
+[signals_width] 158
+[sst_expanded] 1
+[sst_vpaned_height] 148
+@28
+debounce_tb.UUT.debounced_button
+@29
+debounce_tb.UUT.real_button
+[pattern_trace] 1
+[pattern_trace] 0

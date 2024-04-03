@@ -5,7 +5,9 @@ module circuito_principal #(
               TOM        = 4,
               MUSICA     = 16,
               ERRO       = 3,
-              GRAVA_OPS  = 3
+              GRAVA_OPS  = 3,
+
+              DEBOUNCE_TIME = 5
 ) (
     input         clock,
     input         reset,
@@ -40,7 +42,6 @@ module circuito_principal #(
     // Sinais de controle
     wire contaC, contaTempo, contaTF, contaCR, registraR;
     wire zeraC, zeraR, zeraCR, zeraTF, zeraTempo, zeraMetro, contaMetro;
-    wire load_counter;
     wire fim_musica, tempo_correto, tempo_correto_baixo, inicia_menu;
     wire leds_mem, ativa_leds, toca;
     wire gravaM;
@@ -78,7 +79,9 @@ module circuito_principal #(
         .BPM(BPM),
         .MUSICA(MUSICA),
         .ERRO(ERRO),
-        .GRAVA_OPS(GRAVA_OPS)
+        .GRAVA_OPS(GRAVA_OPS),
+
+        .DEBOUNCE_TIME(DEBOUNCE_TIME)
     ) fluxo_dados (
         // Sinais de entrada
         .clock               ( clock               ),
@@ -92,7 +95,6 @@ module circuito_principal #(
         .registraR           ( registraR           ),
         .zeraC               ( zeraC               ),
         .contaC              ( contaC              ),
-        .load_counter        ( load_counter        ),
         .zeraTempo           ( zeraTempo           ),
         .contaTempo          ( contaTempo          ),
         .contaCR             ( contaCR             ),
@@ -165,7 +167,6 @@ module circuito_principal #(
         // Sinais de controle
         .zeraC               ( zeraC               ),
         .contaC              ( contaC              ),
-        .load_counter        ( load_counter        ),
         .zeraTF              ( zeraTF              ),
         .contaTF             ( contaTF             ),
         .zeraCR              ( zeraCR              ),

@@ -9,7 +9,7 @@ module metronomo #(parameter CLOCK_FREQ)
     output meio_metro
 );
 
-    parameter METRO_60BPM = CLOCK_FREQ/2, METRO_120BPM = CLOCK_FREQ/4;
+    localparam METRO_60BPM = CLOCK_FREQ/2, METRO_120BPM = CLOCK_FREQ/4;
 
     wire metro60, metro120, meio_metro60, meio_metro120;
 

@@ -673,7 +673,7 @@ module circuito_principal_tb;
 
         //*/
 
-        /*//************************************************************************************************
+        ///************************************************************************************************
         //    Inicia o circuito no modo de sem apresentação e digita 5 notas, errando na sexta e 
         //    tentando novamente, acertando mais 3 e errando na nona ao apertar 2 botões ao mesmo tempo
         //*************************************************************************************************

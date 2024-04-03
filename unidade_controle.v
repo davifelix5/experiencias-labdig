@@ -45,7 +45,6 @@ module unidade_controle #(
     /* Sinais de controle */
     output    zeraC,
     output    contaC,
-    output    load_counter,
 
     output    zeraTF,
     output    contaTF,
@@ -84,7 +83,7 @@ module unidade_controle #(
 );
 
     // Define estados
-    parameter   inicial                 = 6'h00,
+    localparam   inicial                 = 6'h00,
                 inicializa_elementos    = 6'h01,
                 inicio_rodada           = 6'h02,
                 mostra                  = 6'h03,
@@ -165,7 +164,8 @@ module unidade_controle #(
                 default:                  Eprox = inicializa_elementos;
             endcase
         end
-        else if (modo_genius) begin
+        else begin 
+        if (modo_genius) begin
             case (Eatual)
                 inicializa_elementos:     Eprox = inicio_rodada;
                 inicio_rodada:            Eprox = fimTF ? mostra : inicio_rodada;
@@ -290,6 +290,7 @@ module unidade_controle #(
         else begin
             Eprox = inicial;
         end
+    end
     end
 
     // Logica de saida (maquina Moore)

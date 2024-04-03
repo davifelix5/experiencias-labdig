@@ -18,7 +18,9 @@ module fluxo_dados #(
               TOM        = 4,
               MUSICA     = 16,
               ERRO       = 3,
-              GRAVA_OPS  = 3
+              GRAVA_OPS  = 3,
+
+              DEBOUNCE_TIME
 ) (
     // Entradas
     input clock,
@@ -51,7 +53,6 @@ module fluxo_dados #(
     input       registra_bpm,
     input       registra_tom,
     input       registra_musicas,
-    input       load_counter,
     
     // Sinais de codição
     output                nota_correta,
@@ -82,10 +83,10 @@ module fluxo_dados #(
     output [3:0] db_memoria_tempo
 );
 
-    parameter TEMPO_MOSTRA = 2, TIMEOUT=5, // s
+    localparam TEMPO_MOSTRA = 2, TIMEOUT=5, // s
               TEMPO_FEEDBACK = CLOCK_FREQ/2;
 
-    parameter NUM_NOTAS = 256;
+    localparam NUM_NOTAS = 256;
 
     // Sinais internos
     wire tem_nota, metro, meio_metro, nota_apertada_pulso;
@@ -105,17 +106,27 @@ module fluxo_dados #(
     wire [$clog2(TOM) - 1:0]    tom_reg;
     wire [$clog2(MUSICA) - 1:0] musica_reg; 
     
-    // OR dos botoes
-    assign nota_feita    = |botoes;
 
     // Sinais de depuração
     assign db_metro           = meio_metro;
     assign db_nota            = s_nota;
     assign db_memoria_nota    = s_memoria_nota;
     assign db_memoria_tempo   = s_memoria_tempo;
-	 
-	 encoder_nota encoder_botoes (
-		.nota(botoes),
+
+    // OR dos botoes
+    wire [12:0] botoes_debounced;
+    assign nota_feita    = |botoes_debounced;
+
+    botoes_debouncer #(.DEBOUNCE_TIME(DEBOUNCE_TIME)) debouncer (
+        .clock(clock),
+        .reset(reset),
+        .botoes(botoes),
+        .botoes_debounced(botoes_debounced)
+    );
+
+    // Codificador dos botões
+	encoder_nota encoder_botoes (
+		.nota(botoes_debounced),
 		.enable(1'b1),
 		.valor(botoes_encoded)
 	 );
@@ -230,8 +241,8 @@ module fluxo_dados #(
         .zera_s  ( zeraC         ), 
         .zera_as ( 1'b0          ), 
         .conta   ( contaC        ),
-        .load    ( load_counter  ),
-        .data    ( s_endereco - { { ($clog2(NUM_NOTAS)-1){1'b0} }, 1'b1 } ),
+        .load    (   ),
+        .data    (   ),
         .Q       ( s_endereco    ),
         .fim     (               ),
         .meio    (               )

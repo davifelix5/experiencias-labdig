@@ -19,7 +19,7 @@ module menu #(
     output [ERRO - 1:0] erros,
     output [$clog2(MUSICA) - 1:0] arduino_out
 );
-parameter SIZE = 2;
+localparam SIZE = 2;
 
 wire [MUSICA - 1:0] arduino_signal, menu_principal_o;
 wire [TOM-1:0] toms_decoded;
