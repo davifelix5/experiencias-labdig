@@ -126,6 +126,27 @@ module fluxo_dados #(
         .botoes_debounced(botoes_debounced)
     );
 
+    debounce #(.DEBOUNCE_TIME(DEBOUNCE_TIME)) enter_debounce (
+        .clk(clock),
+        .rst(reset),
+        .real_button(enter_pressed),
+        .debounced_button(enter_pressed_deb)
+    );
+
+    debounce #(.DEBOUNCE_TIME(DEBOUNCE_TIME)) right_arrow_debounce (
+        .clk(clock),
+        .rst(reset),
+        .real_button(right_arrow_pressed),
+        .debounced_button(right_arrow_press_deb)
+    );
+
+    debounce #(.DEBOUNCE_TIME(DEBOUNCE_TIME)) left_arrow_debounce (
+        .clk(clock),
+        .rst(reset),
+        .real_button(left_arrow_pressed),
+        .debounced_button(left_arrow_press_deb)
+    );
+
     // Codificador dos botões
 	encoder_nota encoder_botoes (
 		.nota(botoes_debounced),
@@ -144,8 +165,8 @@ module fluxo_dados #(
     ) menu_display (
         .clock               ( clock ),
         .reset               ( reset ),
-        .right_arrow_pressed ( right_arrow_pressed ),
-        .left_arrow_pressed  ( left_arrow_pressed  ),
+        .right_arrow_pressed ( right_arrow_press_deb ),
+        .left_arrow_pressed  ( left_arrow_press_deb  ),
         .load_initial        ( inicia_menu         ),
         .menu_sel            ( menu_sel            ),
 
@@ -233,7 +254,7 @@ module fluxo_dados #(
     edge_detector EdgeDetector (
         .clock( clock         ),
         .reset( 1'b0          ), 
-        .sinal( enter_pressed ), 
+        .sinal( enter_pressed_deb ), 
         .pulso( press_enter   )
     );
 
