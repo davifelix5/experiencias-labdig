@@ -673,9 +673,9 @@ module circuito_principal_tb;
 
         //*/
 
-        ///************************************************************************************************
+        /*//************************************************************************************************
         //    Inicia o circuito no modo de sem apresentação e digita 5 notas, errando na sexta e 
-        //    tentando novamente, acertando mais 3 e errando na nona
+        //    tentando novamente, acertando mais 3 e errando na nona ao apertar 2 botões ao mesmo tempo
         //*************************************************************************************************
         cenario = 9;
 
@@ -721,7 +721,14 @@ module circuito_principal_tb;
 
         acerta_valores(8);
 
-        press_botoes(4'hC, 3);
+        #(CLOCK_PERIOD);
+        botoes_in = 12'b000100010001;
+        #(2*0.5*CLOCK_FREQ*CLOCK_PERIOD);
+        botoes_in = 13'b0;
+        #(4*CLOCK_PERIOD);
+
+        // press_botoes(4'hC, 3);
+
 
         #(5*CLOCK_FREQ*CLOCK_PERIOD);
 
