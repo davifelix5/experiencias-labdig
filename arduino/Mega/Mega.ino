@@ -23,7 +23,7 @@ char *musicas[] = {
   "Musica A", "Musica B", "Musica C", "Musica C", 
   "Musica A", "Musica B", "Musica C", "Musica ULITMA"
 }; 
-char *grava[] = {"Finaliza", "Toca Preview", "Rollback"};
+char *grava[] = {"Finaliza", "Continua", "Toca Preview", "Rollback"};
 char *tons[] = { "Grave", "Meio grave", "Meio agudo", "Agudo" };
 char *erros[] = {"Apresenta a ultima", "Sem apresentar", "Apresenta tudo novamente"};
 
@@ -211,6 +211,13 @@ void loop()
 
       lcd.setCursor(0, 1);
       lcd.print(grava[vetor]);
+      delay(300);
+    }
+
+    if (menu == 6) {
+       lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Acertou, parabens!");
       delay(300);
     }
 
