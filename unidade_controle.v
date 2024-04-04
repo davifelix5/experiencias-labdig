@@ -266,10 +266,11 @@ module unidade_controle #(
             case (Eatual) 
                 inicializa_elementos: Eprox = inicio_rodada;
                 inicio_rodada:        Eprox = espera_nota;
-                espera_nota:          Eprox = nota_feita ? toca_nota : (press_enter ? menu_grava : espera_nota);
+                espera_nota:          Eprox = nota_feita ? toca_nota : (press_enter ? iniciar_menu_erro : espera_nota);
                 toca_nota:            Eprox = nota_feita ? toca_nota : grava;
                 grava:                Eprox = proxima_nota_e_roda;
                 proxima_nota_e_roda:  Eprox = espera_nota;
+					 iniciar_menu_erro:         Eprox = menu_grava;
                 menu_grava:           Eprox = !press_enter ? menu_grava : (finaliza ? prepara_finaliza : 
                                                 (tocar_preview ? mostra : 
                                                 (rollback ? decrementa : menu_grava)));
@@ -374,12 +375,13 @@ module unidade_controle #(
                                Eatual == iniciar_menu_erro);
 
     assign menu_sel[0]      = (Eatual == espera_bpm || 
-                               Eatual == espera_musica);
+                               Eatual == espera_musica ||
+										 Eatual == menu_grava);
 
     assign menu_sel[1]      = (Eatual == espera_tom || 
                                Eatual == espera_musica);
 
-    assign menu_sel[2]      = (Eatual == menu_erro);
+    assign menu_sel[2]      = (Eatual == menu_erro || Eatual == menu_grava);
 
     assign registra_bpm     = (Eatual == espera_bpm);
 

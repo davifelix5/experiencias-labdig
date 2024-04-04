@@ -63,7 +63,7 @@ module circuito_principal #(
     // Sinais de depuração
     wire [3:0] s_db_memoria_nota,
                s_db_memoria_tempo, s_db_nota,
-               s_db_tempo; // Valores que entram nos displays
+               s_db_tempo, s_db_endereco; // Valores que entram nos displays
     wire [5:0] s_db_estado;
 
     // Setando sinais de depuração
@@ -143,7 +143,8 @@ module circuito_principal #(
         .db_nota             ( s_db_nota           ),
         .db_memoria_nota     ( s_db_memoria_nota   ),
         .db_memoria_tempo    ( s_db_memoria_tempo  ),
-        .db_tempo            ( s_db_tempo  )
+        .db_tempo            ( s_db_tempo  ),
+		  .db_endereco         ( s_db_endereco)
     );
 
     //Unidade de controle
@@ -244,7 +245,7 @@ module circuito_principal #(
 
      //Modos
     hexa7seg display_modo (
-        .hexa    ( s_db_tempo   ),
+        .hexa    ( s_db_endereco   ),
         .display ( db_modo )
     );
 

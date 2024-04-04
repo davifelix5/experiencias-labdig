@@ -83,7 +83,8 @@ module fluxo_dados #(
     output [3:0] db_nota  ,
     output [3:0] db_memoria_nota,
     output [3:0] db_memoria_tempo,
-    output [3:0] db_tempo
+    output [3:0] db_tempo,
+	 output [3:0] db_endereco
 
 );
 
@@ -117,6 +118,7 @@ module fluxo_dados #(
     assign db_memoria_nota    = s_memoria_nota;
     assign db_memoria_tempo   = s_memoria_tempo;
     assign db_tempo   = tempo;
+	 assign db_endereco = s_endereco;
 
     // OR dos botoes
     wire [12:0] botoes_debounced;
@@ -333,7 +335,7 @@ module fluxo_dados #(
         .musica     ( musica_reg      ),
         .we         ( gravaM          ),
         .data_nota  ( s_nota          ),
-        .data_tempo ( tempo           ),
+        .data_tempo ( tempo_baixo     ),
         .tempo      ( s_memoria_tempo ),
         .nota       ( s_memoria_nota  ),
         .fim_musica ( fim_musica      )
