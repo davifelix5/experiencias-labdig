@@ -206,7 +206,7 @@ module unidade_controle #(
                 incrementa_nota:          Eprox = registra;
                 registra:                 Eprox = verifica_fim;
                 verifica_fim:             Eprox = fim_musica ? acertou : proxima_rodada;
-                acertou:                  Eprox = iniciar ? inicializa_elementos : acertou;
+                acertou:                  Eprox = iniciar ? inicia_menu : acertou;
                 proxima_rodada:           Eprox = inicio_rodada;
                 mostra_ultima:            Eprox = tempo_correto_baixo ? espera_nota : mostra_ultima;
                 default:                  Eprox = inicial; 
