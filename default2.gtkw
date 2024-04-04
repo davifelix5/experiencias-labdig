@@ -1,19 +1,18 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Wed Apr  3 17:15:33 2024
+[*] Thu Apr  4 17:17:30 2024
 [*]
 [dumpfile] "/home/davifelix/Documentos/usp/quadri/labdig/projeto/circuito/verilog/waveforms.vcd"
-[dumpfile_mtime] "Wed Apr  3 14:44:54 2024"
-[dumpfile_size] 39374658
+[dumpfile_mtime] "Thu Apr  4 17:13:44 2024"
+[dumpfile_size] 8074266
 [savefile] "/home/davifelix/Documentos/usp/quadri/labdig/projeto/circuito/verilog/default2.gtkw"
-[timestart] 0
+[timestart] 3081678
 [size] 1366 740
 [pos] -1 -1
-*-23.923334 772500 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-8.962350 3082500 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] circuito_principal_tb.
 [treeopen] circuito_principal_tb.UUT.
 [treeopen] circuito_principal_tb.UUT.fluxo_dados.
-[treeopen] circuito_principal_tb.UUT.fluxo_dados.menu_display.
 [sst_width] 330
 [signals_width] 232
 [sst_expanded] 1
@@ -65,8 +64,12 @@ circuito_principal_tb.iniciar_in
 #{circuito_principal_tb.UUT.fluxo_dados.botoes_encoded[3:0]} circuito_principal_tb.UUT.fluxo_dados.botoes_encoded[3] circuito_principal_tb.UUT.fluxo_dados.botoes_encoded[2] circuito_principal_tb.UUT.fluxo_dados.botoes_encoded[1] circuito_principal_tb.UUT.fluxo_dados.botoes_encoded[0]
 circuito_principal_tb.UUT.unidade_controle.Eatual[5:0]
 @28
+#{circuito_principal_tb.UUT.unidade_controle.grava_ops[2:0]} circuito_principal_tb.UUT.unidade_controle.grava_ops[2] circuito_principal_tb.UUT.unidade_controle.grava_ops[1] circuito_principal_tb.UUT.unidade_controle.grava_ops[0]
+circuito_principal_tb.UUT.unidade_controle.tocar_preview
 circuito_principal_tb.UUT.fluxo_dados.enter_pressed
 circuito_principal_tb.UUT.fluxo_dados.enter_pressed_deb
+circuito_principal_tb.UUT.unidade_controle.enderecoIgualRodada
+circuito_principal_tb.UUT.unidade_controle.tempo_correto_baixo
 @800200
 -saida
 @c00028
@@ -124,9 +127,8 @@ circuito_principal_tb.UUT.fluxo_dados.meio_metro
 @22
 #{circuito_principal_tb.UUT.fluxo_dados.tempo_baixo[3:0]} circuito_principal_tb.UUT.fluxo_dados.tempo_baixo[3] circuito_principal_tb.UUT.fluxo_dados.tempo_baixo[2] circuito_principal_tb.UUT.fluxo_dados.tempo_baixo[1] circuito_principal_tb.UUT.fluxo_dados.tempo_baixo[0]
 #{circuito_principal_tb.UUT.fluxo_dados.tempo[3:0]} circuito_principal_tb.UUT.fluxo_dados.tempo[3] circuito_principal_tb.UUT.fluxo_dados.tempo[2] circuito_principal_tb.UUT.fluxo_dados.tempo[1] circuito_principal_tb.UUT.fluxo_dados.tempo[0]
-@29
-#{circuito_principal_tb.UUT.db_modo[6:0]} circuito_principal_tb.UUT.db_modo[6] circuito_principal_tb.UUT.db_modo[5] circuito_principal_tb.UUT.db_modo[4] circuito_principal_tb.UUT.db_modo[3] circuito_principal_tb.UUT.db_modo[2] circuito_principal_tb.UUT.db_modo[1] circuito_principal_tb.UUT.db_modo[0]
 @28
+#{circuito_principal_tb.UUT.db_modo[6:0]} circuito_principal_tb.UUT.db_modo[6] circuito_principal_tb.UUT.db_modo[5] circuito_principal_tb.UUT.db_modo[4] circuito_principal_tb.UUT.db_modo[3] circuito_principal_tb.UUT.db_modo[2] circuito_principal_tb.UUT.db_modo[1] circuito_principal_tb.UUT.db_modo[0]
 circuito_principal_tb.UUT.fluxo_dados.metro
 circuito_principal_tb.UUT.fluxo_dados.MemTempos.we
 #{circuito_principal_tb.UUT.fluxo_dados.menu_sel[2:0]} circuito_principal_tb.UUT.fluxo_dados.menu_sel[2] circuito_principal_tb.UUT.fluxo_dados.menu_sel[1] circuito_principal_tb.UUT.fluxo_dados.menu_sel[0]

@@ -243,8 +243,8 @@ module fluxo_dados #(
         .zera_s  ( 1'b0          ),  
         .zera_as ( zeraMetro     ), 
         .conta   ( contaMetro    ),
-        .load    ( volta_contador),
-        .data    ( tempo_baixo-4'b1 ),
+        .load    ( 1'b0          ),
+        .data    (               ),
         .Q       ( tempo_baixo   ),
         .fim     (               ),
         .meio    (               )
@@ -283,8 +283,8 @@ module fluxo_dados #(
         .zera_s  ( zeraC         ), 
         .zera_as ( 1'b0          ), 
         .conta   ( contaC        ),
-        .load    (   ),
-        .data    (   ),
+        .load    (  volta_contador ),
+        .data    ( s_endereco - {{7{1'b0}}, 1'b1}   ),
         .Q       ( s_endereco    ),
         .fim     (               ),
         .meio    (               )

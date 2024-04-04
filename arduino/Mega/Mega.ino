@@ -111,7 +111,7 @@ void loop()
   Serial.println(menu);
   Serial.println();
   delay(10);
-
+/*
     Serial.print("Mostra Menu: ");
     Serial.print(mostraMenu);
     Serial.print(mostraMenuOld);
@@ -123,6 +123,7 @@ void loop()
     Serial.print("Vetor: ");
     Serial.print(vetor);
     Serial.print(vetorOld);
+    */
   if (menuOld != menu || vetorOld != vetor || mostraMenuOld != mostraMenu) {
     menuOld = menu;
     Clear_Scroll_LCD_Left();
@@ -204,6 +205,7 @@ void loop()
     }
 
     if (menu == 5 ){ //seleciona modo
+      lcd.clear();
       lcd.setCursor(0, 0);
       lcd.print("Pausa na gravação");
 

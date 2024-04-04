@@ -788,7 +788,12 @@ module circuito_principal_tb;
         acerta_valores(5);
         
         enter_pressed_in = 1; #(15*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
+        
+        right_arrow_pressed_in = 1; #(15*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
+        right_arrow_pressed_in = 1; #(15*CLOCK_PERIOD); right_arrow_pressed_in = 0; #(10*CLOCK_PERIOD);
 
+        enter_pressed_in = 1; #(15*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
+        
         #(5*CLOCK_FREQ*CLOCK_PERIOD);
 
         //*/
