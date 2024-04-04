@@ -230,6 +230,7 @@ module unidade_controle #(
                 verifica_fim:             Eprox = fim_musica ? acertou : espera_mostra;
                 mostra_ultima:            Eprox = tempo_correto_baixo ? espera_nota : mostra_ultima;
                 mostra_proximo:           Eprox = espera_mostra;
+                acertou:                  Eprox = iniciar ? inicia_menu : acertou;
                 default:                  Eprox = inicial;
             endcase
         end else if (modo_reprodutor) begin
@@ -262,7 +263,7 @@ module unidade_controle #(
                 proxima_nota_e_roda:      Eprox = registra;
                 registra:                 Eprox = verifica_fim;
                 verifica_fim:             Eprox = fim_musica ? acertou : espera_nota;
-                acertou:                  Eprox = iniciar ? inicializa_elementos : acertou;
+                acertou:                  Eprox = iniciar ? inicia_menu : acertou;
                 mostra_ultima:            Eprox = tempo_correto_baixo ? espera_nota : mostra_ultima;
                 default:                  Eprox = inicial; 
             endcase
@@ -283,7 +284,7 @@ module unidade_controle #(
                 decrementa:           Eprox = espera_nota;
                 inicio_grava:         Eprox = fimTF ? mostra : inicio_grava;
                 mostra:               Eprox = espera_mostra_toca;
-                espera_mostra_toca:        Eprox = tempo_correto_baixo ? (fim_musica ? menu_grava : mostra_proximo) : espera_mostra_toca;
+                espera_mostra_toca:   Eprox = tempo_correto_baixo ? (fim_musica ? menu_grava : mostra_proximo) : espera_mostra_toca;
                 mostra_proximo:       Eprox = mostra;
                 default:              Eprox = inicial;
             endcase
