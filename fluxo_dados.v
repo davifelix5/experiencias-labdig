@@ -339,7 +339,7 @@ module fluxo_dados #(
         .musica     ( musica_reg      ),
         .we         ( gravaM          ),
         .data_nota  ( s_nota          ),
-        .data_tempo ( tempo_baixo     ),
+        .data_tempo ( |tempo_baixo ? tempo_baixo : 4'b1 ),
         .tempo      ( s_memoria_tempo ),
         .nota       ( s_memoria_nota  ),
         .fim_musica ( fim_musica      )
