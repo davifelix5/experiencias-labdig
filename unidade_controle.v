@@ -60,6 +60,7 @@ module unidade_controle #(
 
     output    registraR,
     output    zeraR,
+    output    zeraOP,
 
     output    leds_mem,
     output    ativa_leds,
@@ -302,6 +303,8 @@ module unidade_controle #(
     // Logica de saida (maquina Moore)
     assign zeraR            = (Eatual == inicial || 
                                Eatual == prepara_finaliza);
+
+    assign zeraOP           = (Eatual == inicial);
 
     assign zeraCR           = (Eatual == inicializa_elementos);
 

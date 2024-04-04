@@ -39,6 +39,7 @@ module fluxo_dados #(
     input       contaTempo,
     input       zeraCR,
     input       zeraTempo,
+    input       zeraOP,
     input       contaCR,
     input       zeraTF,
     input       contaTF,
@@ -380,7 +381,7 @@ module fluxo_dados #(
     // Registrador do valor de tom selecionardo
     registrador_n #(.SIZE($clog2(TOM))) RegTom (
         .D      ( toms                              ),
-        .clear  ( zeraR                             ),
+        .clear  ( zeraOP                             ),
         .clock  ( clock                             ),
         .enable ( registra_tom                      ),
         .Q      ( tom_reg                           )
@@ -389,7 +390,7 @@ module fluxo_dados #(
     // Registrador do valor de música selecionado
     registrador_n #(.SIZE($clog2(MUSICA))) RegMusica (
         .D      ( musicas          ),
-        .clear  ( zeraR            ),
+        .clear  ( zeraOP            ),
         .clock  ( clock            ),
         .enable ( registra_musicas ),
         .Q      ( musica_reg       )
@@ -398,7 +399,7 @@ module fluxo_dados #(
     // Registrador do valor de bpm selecionado
     registrador_n #(.SIZE(1)) Reg120BPM (
         .D      ( bpms[1]      ),
-        .clear  ( zeraR        ),
+        .clear  ( zeraOP        ),
         .clock  ( clock        ),
         .enable ( registra_bpm ),
         .Q      ( metro_120BPM )
@@ -407,7 +408,7 @@ module fluxo_dados #(
     // Registrador do valor de modo selecionado
     registrador_n #(.SIZE(MODO)) RegModo (
         .D      ( modos         ),
-        .clear  ( zeraR         ),
+        .clear  ( zeraOP         ),
         .clock  ( clock         ),
         .enable ( registra_modo ),
         .Q      ( modos_reg     )

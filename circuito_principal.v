@@ -53,6 +53,7 @@ module circuito_principal #(
     wire registra_modo, registra_bpm, registra_tom, registra_musicas;
     wire volta_contador;
 	 wire clk;
+     wire zeraOP;
 
     wire [MODO - 1:0] modos;
     wire [$clog2(MODO)-1:0] modos_display;
@@ -104,8 +105,9 @@ module circuito_principal #(
         .DEBOUNCE_TIME(DEBOUNCE_TIME)
     ) fluxo_dados (
         // Sinais de entrada
-        .clock               ( clk               ),
-		  .clock_50M           ( clock_50M           ),
+        .clock               ( clk             ),
+		.clock_50M           ( clock_50M           ),
+        .zeraOP              ( zeraOP              ),
         .reset               ( reset               ),
         .botoes              ( botoes      ),
         .right_arrow_pressed ( right_arrow_pressed ),
@@ -173,7 +175,7 @@ module circuito_principal #(
         .GRAVA_OPS(GRAVA_OPS)
     ) unidade_controle (
         // Sinais de entrada
-        .clock               ( clk                 ),
+        .clock               ( clk               ),
         .reset               ( reset               ),
         .iniciar             ( iniciar             ),
         // Sinais de condição
@@ -198,6 +200,7 @@ module circuito_principal #(
         .zeraCR              ( zeraCR              ),
         .contaCR             ( contaCR             ),
         .zeraR               ( zeraR               ),
+        .zeraOP              ( zeraOP              ),
         .registraR           ( registraR           ),
         .contaTempo          ( contaTempo          ),
         .zeraTempo           ( zeraTempo           ),
