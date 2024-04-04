@@ -73,6 +73,7 @@ module unidade_controle #(
     output    [2:0] menu_sel,
     output    inicia_menu,
     output    registra_erro,
+    output    volta_contador,
 
     /* Saídas */
     output    mostra_menu,
@@ -399,5 +400,7 @@ module unidade_controle #(
                                Eatual == menu_grava);
 
     assign registra_erro    = ( Eatual == compara );
+
+    assign volta_contador   = ( Eatual == decrementa );
 
 endmodule

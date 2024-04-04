@@ -50,6 +50,7 @@ module circuito_principal #(
     wire apresenta_ultima, tentar_dnv_rep, tentar_dnv;
     wire press_enter;
     wire registra_modo, registra_bpm, registra_tom, registra_musicas;
+    wire volta_contador;
 
     wire [MODO - 1:0] modos;
     wire [$clog2(MODO)-1:0] modos_display;
@@ -116,7 +117,8 @@ module circuito_principal #(
         .registra_bpm        ( registra_bpm        ),
         .registra_tom        ( registra_tom        ),
         .registra_musicas    ( registra_musicas    ),    
-        .registra_erro       ( registra_erro       ),       
+        .registra_erro       ( registra_erro       ),
+        .volta_contador      ( volta_contador      ),       
         // Sinais de condição
         .nota_correta        ( nota_correta        ),
         .tempo_correto       ( tempo_correto       ),
@@ -197,6 +199,7 @@ module circuito_principal #(
         .registra_musicas    ( registra_musicas    ),          
         .contaMetro          ( contaMetro          ),  
         .registra_erro       ( registra_erro       ),       
+        .volta_contador      ( volta_contador      ),
         // Sinais de saída
         .ganhou              ( ganhou              ),
         .perdeu              ( perdeu              ),

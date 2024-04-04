@@ -54,6 +54,7 @@ module fluxo_dados #(
     input       registra_tom,
     input       registra_musicas,
     input       registra_erro,
+    input       volta_contador,
     
     // Sinais de codição
     output                nota_correta,
@@ -231,7 +232,7 @@ module fluxo_dados #(
         .zera_as ( zeraMetro     ), 
         .conta   ( contaMetro    ),
         .load    ( 1'b0          ),
-        .data    (               ),
+        .data    ( tempo         ),
         .Q       ( tempo         ),
         .fim     (               ),
         .meio    (               )
@@ -242,8 +243,8 @@ module fluxo_dados #(
         .zera_s  ( 1'b0          ),  
         .zera_as ( zeraMetro     ), 
         .conta   ( contaMetro    ),
-        .load    ( 1'b0          ),
-        .data    (               ),
+        .load    ( volta_contador),
+        .data    ( tempo_baixo-4'b1 ),
         .Q       ( tempo_baixo   ),
         .fim     (               ),
         .meio    (               )
