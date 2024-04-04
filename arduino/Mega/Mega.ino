@@ -23,7 +23,7 @@ char *musicas[] = {
   "Musica A", "Musica B", "Musica C", "Musica C", 
   "Musica A", "Musica B", "Musica C", "Musica ULITMA"
 }; 
-char *grava[] = {"Finaliza", "Toca Preview", "Grava"};
+char *grava[] = {"Finaliza", "Toca Preview", "Rollback"};
 char *tons[] = { "Grave", "Meio grave", "Meio agudo", "Agudo" };
 char *erros[] = {"Apresenta a ultima", "Sem apresentar", "Apresenta tudo novamente"};
 
