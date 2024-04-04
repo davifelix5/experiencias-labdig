@@ -270,9 +270,9 @@ module unidade_controle #(
                 toca_nota:            Eprox = nota_feita ? toca_nota : grava;
                 grava:                Eprox = proxima_nota_e_roda;
                 proxima_nota_e_roda:  Eprox = espera_nota;
-                menu_grava:           Eprox = finaliza ? prepara_finaliza : 
+                menu_grava:           Eprox = !press_enter ? menu_grava : (finaliza ? prepara_finaliza : 
                                                 (tocar_preview ? mostra : 
-                                                (rollback ? decrementa : menu_grava));
+                                                (rollback ? decrementa : menu_grava)));
                 prepara_finaliza:     Eprox = fim_grava;
                 fim_grava:            Eprox = inicial;
                 decrementa:           Eprox = espera_nota;

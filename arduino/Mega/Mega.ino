@@ -23,6 +23,7 @@ char *musicas[] = {
   "Musica A", "Musica B", "Musica C", "Musica C", 
   "Musica A", "Musica B", "Musica C", "Musica ULITMA"
 }; 
+char *grava[] = {"Finaliza", "Toca Preview", "Grava"};
 char *tons[] = { "Grave", "Meio grave", "Meio agudo", "Agudo" };
 char *erros[] = {"Apresenta a ultima", "Sem apresentar", "Apresenta tudo novamente"};
 
@@ -111,13 +112,25 @@ void loop()
   Serial.println();
   delay(10);
 
+    Serial.print("Mostra Menu: ");
+    Serial.print(mostraMenu);
+    Serial.print(mostraMenuOld);
+    Serial.print("\n");
+    Serial.print("Menu: ");
+    Serial.print(menu);
+    Serial.print(menuOld);
+    Serial.print("\n");
+    Serial.print("Vetor: ");
+    Serial.print(vetor);
+    Serial.print(vetorOld);
   if (menuOld != menu || vetorOld != vetor || mostraMenuOld != mostraMenu) {
     menuOld = menu;
+    Clear_Scroll_LCD_Left();
     vetorOld = vetor;
     mostraMenuOld = mostraMenu;
-      if (!mostraMenu) {  
+    if (!mostraMenu) {  
         
-    lcd.clear();
+      lcd.clear();
       lcd.setCursor(0, 0);
       lcd.print("FPGAudio");
 
@@ -188,6 +201,15 @@ void loop()
       lcd.setCursor(0, 1);
       lcd.print(Scroll_LCD_Left(erros[vetor]));
         delay(300);
+    }
+
+    if (menu == 5 ){ //seleciona modo
+      lcd.setCursor(0, 0);
+      lcd.print("Pausa na gravação");
+
+      lcd.setCursor(0, 1);
+      lcd.print(grava[vetor]);
+      delay(300);
     }
 
   }

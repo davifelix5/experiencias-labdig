@@ -238,7 +238,7 @@ module circuito_principal_tb;
         #(15*CLOCK_PERIOD);
         //*/
 
-        ///************************************************************************************************
+        /*//************************************************************************************************
         //    Inicia o circuito e digita 5 notas certas, errando a sexta. Apresenta notas novamente
         //*************************************************************************************************
         cenario = 2;
@@ -737,7 +737,7 @@ module circuito_principal_tb;
         // */
 
 
-        /*//************************************************************************************************
+        ///************************************************************************************************
         //    Inicia o circuito no modo gravação klklkçasdçlk
         //*************************************************************************************************
         
@@ -786,6 +786,8 @@ module circuito_principal_tb;
         enter_pressed_in = 1; #(15*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
 
         acerta_valores(5);
+        
+        enter_pressed_in = 1; #(15*CLOCK_PERIOD); enter_pressed_in = 0; #(10*CLOCK_PERIOD);
 
         #(5*CLOCK_FREQ*CLOCK_PERIOD);
 
