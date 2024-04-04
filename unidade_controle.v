@@ -206,7 +206,7 @@ module unidade_controle #(
                 incrementa_nota:          Eprox = registra;
                 registra:                 Eprox = verifica_fim;
                 verifica_fim:             Eprox = fim_musica ? acertou : proxima_rodada;
-                acertou:                  Eprox = iniciar ? inicia_menu : acertou;
+                acertou:                  Eprox = iniciar ? iniciar_menu : acertou;
                 proxima_rodada:           Eprox = inicio_rodada;
                 mostra_ultima:            Eprox = tempo_correto_baixo ? espera_nota : mostra_ultima;
                 default:                  Eprox = inicial; 
@@ -230,7 +230,7 @@ module unidade_controle #(
                 verifica_fim:             Eprox = fim_musica ? acertou : espera_mostra;
                 mostra_ultima:            Eprox = tempo_correto_baixo ? espera_nota : mostra_ultima;
                 mostra_proximo:           Eprox = espera_mostra;
-                acertou:                  Eprox = iniciar ? inicia_menu : acertou;
+                acertou:                  Eprox = iniciar ? iniciar_menu : acertou;
                 default:                  Eprox = inicial;
             endcase
         end else if (modo_reprodutor) begin
@@ -263,7 +263,7 @@ module unidade_controle #(
                 proxima_nota_e_roda:      Eprox = registra;
                 registra:                 Eprox = verifica_fim;
                 verifica_fim:             Eprox = fim_musica ? acertou : espera_nota;
-                acertou:                  Eprox = iniciar ? inicia_menu : acertou;
+                acertou:                  Eprox = iniciar ? iniciar_menu : acertou;
                 mostra_ultima:            Eprox = tempo_correto_baixo ? espera_nota : mostra_ultima;
                 default:                  Eprox = inicial; 
             endcase
@@ -276,7 +276,7 @@ module unidade_controle #(
                 grava:                Eprox = proxima_nota_e_roda;
                 proxima_nota_e_roda:  Eprox = espera_nota;
 				iniciar_menu_erro:    Eprox = menu_grava;
-                menu_grava:           Eprox = !press_enter ? menu_grava : (finaliza ? inicia_menu : 
+                menu_grava:           Eprox = !press_enter ? menu_grava : (finaliza ? iniciar_menu : 
                                                 (tocar_preview ? inicio_grava : 
                                                 (rollback ? decrementa : menu_grava)));
                 prepara_finaliza:     Eprox = fim_grava;

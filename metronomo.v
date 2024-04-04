@@ -22,7 +22,7 @@ module metronomo #(parameter CLOCK_FREQ)
     gerador_pwm #(.M(METRO_60BPM)) Metro60 (
         .clock   ( clock        ), 
         .zera_s  ( zeraMetro    ), 
-        .zera_as ( reset        ),
+        .zera_as ( 1'b0        ),
         .conta   ( contaMetro   ),
         .Q       (              ),
         .fim     ( metro60      ),
@@ -33,7 +33,7 @@ module metronomo #(parameter CLOCK_FREQ)
     gerador_pwm #(.M(METRO_120BPM)) Metro120 (
         .clock   ( clock         ), 
         .zera_s  ( zeraMetro     ),  
-        .zera_as ( reset         ), 
+        .zera_as ( 1'b0          ), 
         .conta   ( contaMetro    ),
         .Q       (               ),
         .fim     ( metro120      ),
