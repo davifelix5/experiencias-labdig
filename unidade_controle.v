@@ -122,7 +122,8 @@ module unidade_controle #(
                 fim_grava               = 6'h2A,
                 decrementa              = 6'h2B,
                 grava                   = 6'h2C,
-                inicio_grava            = 6'h2D;
+                inicio_grava            = 6'h2D,
+                espera_mostra_toca      = 6'h2E;
 
     
 
@@ -281,8 +282,8 @@ module unidade_controle #(
                 fim_grava:            Eprox = iniciar_menu_erro;
                 decrementa:           Eprox = espera_nota;
                 inicio_grava:         Eprox = fimTF ? mostra : inicio_grava;
-                mostra:               Eprox = espera_mostra;
-                espera_mostra:        Eprox = tempo_correto_baixo ? (fim_musica ? menu_grava : mostra_proximo) : espera_mostra;
+                mostra:               Eprox = espera_mostra_toca;
+                espera_mostra_toca:        Eprox = tempo_correto_baixo ? (fim_musica ? menu_grava : mostra_proximo) : espera_mostra_toca;
                 mostra_proximo:       Eprox = mostra;
                 default:              Eprox = inicial;
             endcase
@@ -333,8 +334,7 @@ module unidade_controle #(
                                Eatual == mostra_proximo || 
                                Eatual == proxima_nota || 
                                Eatual == proxima_nota ||
-                               Eatual == proxima_nota_e_roda ||
-                               Eatual == prepara_finaliza);
+                               Eatual == proxima_nota_e_roda);
 
     assign contaTempo       = (Eatual == espera_nota);
 
@@ -357,16 +357,19 @@ module unidade_controle #(
     assign ativa_leds       = (Eatual == toca_nota || 
                                Eatual == espera_mostra || 
                                Eatual == mostra_ultima || 
-                               Eatual == espera_toca);
+                               Eatual == espera_toca ||
+                               Eatual == espera_mostra_toca);
 
     assign toca             = (Eatual == toca_nota || 
-                               Eatual == espera_toca);
+                               Eatual == espera_toca ||
+                               Eatual == espera_mostra_toca);
 
     assign contaMetro       = (Eatual == mostra_ultima || 
                                Eatual == espera_mostra || 
                                Eatual == toca_nota ||
                                Eatual == espera_livre || 
-                               Eatual == espera_toca);
+                               Eatual == espera_toca ||
+                               Eatual == espera_mostra_toca);
 
     assign zeraMetro        = (Eatual == mostra || 
                                Eatual == errou_tempo || 
