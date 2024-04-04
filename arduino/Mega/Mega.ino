@@ -69,9 +69,9 @@ void setup()
 
   //pinMode(52, INPUT); //ENTER
   // Seletores do menu
-  pinMode(50, INPUT); //menu_sel0
-  pinMode(53, INPUT); //menu_sel1
-  pinMode(47, INPUT); //menu_sel2
+  pinMode(47, INPUT); //menu_sel0
+  pinMode(49, INPUT); //menu_sel1
+  pinMode(51, INPUT); //menu_sel2
   
   // Seletores da opção
   pinMode(29, INPUT); //option_sel0
@@ -81,50 +81,23 @@ void setup()
   pinMode(45, INPUT); //mostraMenu
   pinMode(43, INPUT); //errou_nota
   
+  
 }
  
 void loop()
 {
-
-/*
-  int enter = digitalRead(52);
-  Serial.println(T9);
-  Serial.println(T10);
-  Serial.println(T11);
-  Serial.println(T12);
-   Serial.println(T13);
-   Serial.println();
-   Serial.println();
-   Serial.println();
-   Serial.println();
-   Serial.println();
-   Serial.println();
-   Serial.println();
-   Serial.println();
-   Serial.println();
-   Serial.println();
-   Serial.println();
-   Serial.println();
-   Serial.println();
-   Serial.println();
-   Serial.println();
-
-   Serial.println();
-   Serial.println();*/
-
-
   // Lendo o seletor de menu
-  menu_sel[0] = digitalRead(50); 
-  menu_sel[1] = digitalRead(53); 
-  menu_sel[2] = digitalRead(47);
+  menu_sel[0] = digitalRead(47); 
+  menu_sel[1] = digitalRead(49); 
+  menu_sel[2] = digitalRead(51);
   int menu = binToInt(menu_sel, 3);
   int menuOld = -1;
 
   // Lendo as opções
-  option_sel[0] = digitalRead(31); 
-  option_sel[1] = digitalRead(40); 
-  option_sel[2] = digitalRead(35); 
-  option_sel[3] = digitalRead(37); 
+  option_sel[0] = digitalRead(29); 
+  option_sel[1] = digitalRead(27); 
+  option_sel[2] = digitalRead(25); 
+  option_sel[3] = digitalRead(23); 
   int vetor = binToInt(option_sel, 4);
   int vetorOld = -1;
   int mostraMenu = digitalRead(45);
@@ -137,9 +110,6 @@ void loop()
   Serial.println(menu);
   Serial.println();
   delay(10);
-
-
-
 
   if (menuOld != menu || vetorOld != vetor || mostraMenuOld != mostraMenu) {
     menuOld = menu;

@@ -41,9 +41,9 @@ module debounce #(parameter DEBOUNCE_TIME) (
     
     // Timer
     contador_m  #(.M(DEBOUNCE_TIME)) timer (
-        .clock   ( clk       ),
-        .zera_as ( 1'b0        ),
-        .zera_s  ( timer_reset ),
+        .clock   ( clk         ),
+        .zera_as ( timer_reset ),
+        .zera_s  ( 1'b0        ),
         .conta   ( 1'b1        ),
         .load    ( 1'b0        ),
         .data    (             ),

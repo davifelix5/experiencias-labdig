@@ -266,7 +266,7 @@ module unidade_controle #(
             case (Eatual) 
                 inicializa_elementos: Eprox = inicio_rodada;
                 inicio_rodada:        Eprox = espera_nota;
-                espera_nota:          Eprox = fimTempo ? errou_tempo : (nota_feita ? toca_nota : press_enter ? menu_grava : espera_nota);
+                espera_nota:          Eprox = nota_feita ? toca_nota : (press_enter ? menu_grava : espera_nota);
                 toca_nota:            Eprox = nota_feita ? toca_nota : grava;
                 grava:                Eprox = proxima_nota_e_roda;
                 proxima_nota_e_roda:  Eprox = espera_nota;
@@ -393,7 +393,8 @@ module unidade_controle #(
                                Eatual == espera_bpm ||
                                Eatual == espera_tom ||
                                Eatual == espera_modo ||
-                               Eatual == menu_erro);
+                               Eatual == menu_erro || 
+                               Eatual == menu_grava);
 
     assign registra_erro    = ( Eatual == compara );
 
