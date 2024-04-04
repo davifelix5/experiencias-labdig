@@ -120,7 +120,8 @@ module unidade_controle #(
                 menu_grava              = 6'h29,
                 fim_grava               = 6'h2A,
                 decrementa              = 6'h2B,
-                grava                   = 6'h2C;
+                grava                   = 6'h2C,
+                inicio_grava            = 6'h2D;
 
     
 
@@ -273,13 +274,14 @@ module unidade_controle #(
                 proxima_nota_e_roda:  Eprox = espera_nota;
 					 iniciar_menu_erro:         Eprox = menu_grava;
                 menu_grava:           Eprox = !press_enter ? menu_grava : (finaliza ? prepara_finaliza : 
-                                                (tocar_preview ? mostra : 
+                                                (tocar_preview ? inicio_grava : 
                                                 (rollback ? decrementa : menu_grava)));
                 prepara_finaliza:     Eprox = fim_grava;
                 fim_grava:            Eprox = inicial;
                 decrementa:           Eprox = espera_nota;
+                inicio_grava:         Eprox = fimTF ? mostra : inicio_grava;
                 mostra:               Eprox = espera_mostra;
-                espera_mostra:        Eprox = tempo_correto_baixo ? (enderecoIgualRodada ? menu_grava : mostra_proximo) : espera_mostra;
+                espera_mostra:        Eprox = tempo_correto_baixo ? (fim_musica ? menu_grava : mostra_proximo) : espera_mostra;
                 mostra_proximo:       Eprox = mostra;
                 default:              Eprox = inicial;
             endcase
@@ -305,6 +307,7 @@ module unidade_controle #(
 
     assign zeraC            = (Eatual == inicio_nota ||
                                Eatual == inicio_rodada ||
+                               Eatual == inicio_grava ||
                                Eatual == inicia_sem_mostra);
 
     assign zeraTempo        = (Eatual == proxima_nota || 
@@ -320,7 +323,8 @@ module unidade_controle #(
                                Eatual == inicio_nota ||
                                Eatual == prepara_nota);
 
-    assign contaTF          = (Eatual == inicio_rodada);
+    assign contaTF          = (Eatual == inicio_rodada ||
+                               Eatual == inicio_grava);
 
     assign contaC           = (Eatual == incrementa_nota || 
                                Eatual == mostra_proximo || 
