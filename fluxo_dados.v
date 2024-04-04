@@ -201,6 +201,7 @@ module fluxo_dados #(
     metronomo #(.CLOCK_FREQ(CLOCK_FREQ)) conta_metronomo (
         .clock        ( clock        ),
         .zeraMetro    ( zeraMetro    ),
+        .reset        ( reset        ),
         .contaMetro   ( contaMetro   ),
         .metro_120BPM ( metro_120BPM ),
     
