@@ -173,7 +173,7 @@ module circuito_principal #(
         .GRAVA_OPS(GRAVA_OPS)
     ) unidade_controle (
         // Sinais de entrada
-        .clock               ( clock               ),
+        .clock               ( clk                 ),
         .reset               ( reset               ),
         .iniciar             ( iniciar             ),
         // Sinais de condição
