@@ -24,6 +24,7 @@ module fluxo_dados #(
 ) (
     // Entradas
     input clock,
+	 input clock_50M,
     input reset,
     input [12:0] botoes,
     input right_arrow_pressed,
@@ -207,8 +208,8 @@ module fluxo_dados #(
     );
 
     //Buzzer para notas
-    buzzer #(.CLOCK_FREQ(CLOCK_FREQ), .TOM(TOM)) BuzzerLeds (
-        .clock   ( clock ),
+    buzzer #(.CLOCK_FREQ(50_000_000), .TOM(TOM)) BuzzerLeds (
+        .clock   ( clock_50M ),
         .toca    ( toca ),
         .reset   ( zeraR ),
 

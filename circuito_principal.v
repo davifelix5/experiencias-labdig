@@ -1,5 +1,5 @@
 module circuito_principal #(
-    parameter CLOCK_FREQ = 50_000_000,
+    parameter CLOCK_FREQ = 5_000,
               MODO       = 6,
               BPM        = 2,
               TOM        = 4,
@@ -7,9 +7,10 @@ module circuito_principal #(
               ERRO       = 3,
               GRAVA_OPS  = 3,
 
-              DEBOUNCE_TIME = 1_000_000
+              DEBOUNCE_TIME = 100
 ) (
     input         clock,
+	 input         clock_50M,
     input         reset,
     input         iniciar,
     input [12:0]  botoes,
@@ -51,6 +52,7 @@ module circuito_principal #(
     wire press_enter;
     wire registra_modo, registra_bpm, registra_tom, registra_musicas;
     wire volta_contador;
+	 wire clk;
 
     wire [MODO - 1:0] modos;
     wire [$clog2(MODO)-1:0] modos_display;
@@ -68,12 +70,26 @@ module circuito_principal #(
     wire [5:0] s_db_estado;
 
     // Setando sinais de depuração
-    assign db_clock               = clock;
+    assign db_clock               = clk;
 	 assign db_nota_correta      = nota_correta;
     assign db_enderecoIgualRodada = enderecoIgualRodada;
     assign db_estado5 = s_db_estado[5];
     assign db_estado4 = s_db_estado[4];
     assign db_tempo_correto = tempo_correto;
+	 
+
+	 contador_m #(.M(10000)) redutor_clock (
+		.conta(1'b1),
+		.meio(),
+		.Q(),
+		.fim(clk),
+		.load(1'b0),
+		.zera_s(1'b0),
+		.zera_as(1'b0),
+		.data(),
+		.clock(clock_50M)
+	 );
+
 
     //Fluxo de Dados
     fluxo_dados #(
@@ -88,7 +104,8 @@ module circuito_principal #(
         .DEBOUNCE_TIME(DEBOUNCE_TIME)
     ) fluxo_dados (
         // Sinais de entrada
-        .clock               ( clock               ),
+        .clock               ( clk               ),
+		  .clock_50M           ( clock_50M           ),
         .reset               ( reset               ),
         .botoes              ( botoes      ),
         .right_arrow_pressed ( right_arrow_pressed ),
