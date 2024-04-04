@@ -352,7 +352,8 @@ module unidade_controle #(
 
     assign leds_mem         = (Eatual == espera_mostra || 
                                Eatual == mostra_ultima ||
-                               Eatual == espera_toca);
+                               Eatual == espera_toca ||
+                               Eatual == espera_mostra_toca);
 
     assign ativa_leds       = (Eatual == toca_nota || 
                                Eatual == espera_mostra || 
