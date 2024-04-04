@@ -268,16 +268,16 @@ module unidade_controle #(
             case (Eatual) 
                 inicializa_elementos: Eprox = inicio_rodada;
                 inicio_rodada:        Eprox = espera_nota;
-                espera_nota:          Eprox = nota_feita ? toca_nota : (press_enter ? iniciar_menu_erro : espera_nota);
+                espera_nota:          Eprox = nota_feita ? toca_nota : (press_enter ? prepara_finaliza : espera_nota);
                 toca_nota:            Eprox = nota_feita ? toca_nota : grava;
                 grava:                Eprox = proxima_nota_e_roda;
                 proxima_nota_e_roda:  Eprox = espera_nota;
-					 iniciar_menu_erro:         Eprox = menu_grava;
-                menu_grava:           Eprox = !press_enter ? menu_grava : (finaliza ? prepara_finaliza : 
+				iniciar_menu_erro:    Eprox = menu_grava;
+                menu_grava:           Eprox = !press_enter ? menu_grava : (finaliza ? inicial : 
                                                 (tocar_preview ? inicio_grava : 
                                                 (rollback ? decrementa : menu_grava)));
                 prepara_finaliza:     Eprox = fim_grava;
-                fim_grava:            Eprox = inicial;
+                fim_grava:            Eprox = iniciar_menu_erro;
                 decrementa:           Eprox = espera_nota;
                 inicio_grava:         Eprox = fimTF ? mostra : inicio_grava;
                 mostra:               Eprox = espera_mostra;
