@@ -5,7 +5,7 @@ module circuito_principal #(
               TOM        = 4,
               MUSICA     = 16,
               ERRO       = 3,
-              GRAVA_OPS  = 3,
+              GRAVA_OPS  = 4,
 
               DEBOUNCE_TIME = 100
 ) (

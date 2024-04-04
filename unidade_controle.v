@@ -123,7 +123,8 @@ module unidade_controle #(
                 decrementa              = 6'h2B,
                 grava                   = 6'h2C,
                 inicio_grava            = 6'h2D,
-                espera_mostra_toca      = 6'h2E;
+                espera_mostra_toca      = 6'h2E,
+                decrementa_nota        = 6'h2F;
 
     
 
@@ -137,7 +138,7 @@ module unidade_controle #(
                 modo_nota_a_nota, modo_genius, rollback, tocar_preview, finaliza;
     wire tentar_dnv_rep, tentar_dnv, apresenta_ultima;
 
-    assign { rollback, tocar_preview, finaliza } = grava_ops;
+    assign { rollback, tocar_preview, volta, finaliza } = grava_ops;
 
     assign { modo_grava, modo_fresstyle, modo_reprodutor, modo_sem_apresenta, 
                 modo_nota_a_nota, modo_genius } = modos;
@@ -278,11 +279,13 @@ module unidade_controle #(
 				iniciar_menu_erro:    Eprox = menu_grava;
                 menu_grava:           Eprox = !press_enter ? menu_grava : (finaliza ? iniciar_menu : 
                                                 (tocar_preview ? inicio_grava : 
-                                                (rollback ? decrementa : menu_grava)));
+                                                (rollback ? decrementa : 
+                                                (volta ? decrementa_nota : menu_grava))));
                 prepara_finaliza:     Eprox = fim_grava;
                 fim_grava:            Eprox = iniciar_menu_erro;
                 decrementa:           Eprox = espera_nota;
                 inicio_grava:         Eprox = fimTF ? mostra : inicio_grava;
+                decrementa_nota:     Eprox = espera_nota;
                 mostra:               Eprox = espera_mostra_toca;
                 espera_mostra_toca:   Eprox = tempo_correto_baixo ? (fim_musica ? menu_grava : mostra_proximo) : espera_mostra_toca;
                 mostra_proximo:       Eprox = mostra;
@@ -392,9 +395,10 @@ module unidade_controle #(
 										 Eatual == menu_grava);
 
     assign menu_sel[1]      = (Eatual == espera_tom || 
-                               Eatual == espera_musica);
+                               Eatual == espera_musica ||
+                               Eatual == acertou);
 
-    assign menu_sel[2]      = (Eatual == menu_erro || Eatual == menu_grava);
+    assign menu_sel[2]      = (Eatual == menu_erro || Eatual == menu_grava || Eatual == acertou);
 
     assign registra_bpm     = (Eatual == espera_bpm);
 
@@ -413,6 +417,6 @@ module unidade_controle #(
 
     assign registra_erro    = ( Eatual == compara );
 
-    assign volta_contador   = ( Eatual == decrementa );
+    assign volta_contador   = ( Eatual == decrementa || Eatual == decrementa_nota);
 
 endmodule
