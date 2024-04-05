@@ -120,7 +120,7 @@ module fluxo_dados #(
     assign db_nota            = s_nota;
     assign db_memoria_nota    = s_memoria_nota;
     assign db_memoria_tempo   = s_memoria_tempo;
-    assign db_tempo   = tempo;
+    assign db_tempo   = tempo_baixo;
 	 assign db_endereco = s_endereco;
 
     // OR dos botoes

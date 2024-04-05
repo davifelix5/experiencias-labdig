@@ -268,7 +268,7 @@ module circuito_principal #(
 
      //Modos
     hexa7seg display_modo (
-        .hexa    ( s_db_endereco   ),
+        .hexa    ( s_db_tempo   ),
         .display ( db_modo )
     );
 
