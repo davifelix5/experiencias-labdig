@@ -42,6 +42,8 @@ module unidade_controle #(
 
     input press_enter,
 
+    input nota_apertada_pulso,
+
     /* Sinais de controle */
     output    zeraC,
     output    contaC,
@@ -294,7 +296,7 @@ module unidade_controle #(
         end else if (modo_fresstyle) begin
             case (Eatual) 
                 inicializa_elementos:     Eprox = espera_livre; 
-                espera_livre:             Eprox = nota_feita ? toca_nota : espera_livre;
+                espera_livre:             Eprox = nota_apertada_pulso ? toca_nota : espera_livre;
                 toca_nota:                Eprox = nota_feita ? toca_nota : espera_livre;
                 default:                  Eprox = espera_livre;
             endcase

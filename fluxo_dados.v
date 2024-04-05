@@ -74,7 +74,8 @@ module fluxo_dados #(
     output [ERRO - 1:0]   erros,
     output [MODO - 1:0]   modos_reg,
     output [GRAVA_OPS - 1:0]   grava_ops,
-    output                press_enter,
+    output                press_enter, 
+    output                nota_apertada_pulso,
 
     // Sinais de saída
     output [12:0] leds,
@@ -97,7 +98,7 @@ module fluxo_dados #(
     localparam NUM_NOTAS = 256;
 
     // Sinais internos
-    wire tem_nota, metro, meio_metro, nota_apertada_pulso;
+    wire tem_nota, metro, meio_metro;
     wire [3:0] s_memoria_nota, s_memoria_tempo, 
                s_nota, tempo, leds_encoded, tempo_baixo;
 	 wire [3:0] botoes_encoded;
@@ -121,17 +122,19 @@ module fluxo_dados #(
     assign db_memoria_nota    = s_memoria_nota;
     assign db_memoria_tempo   = s_memoria_tempo;
     assign db_tempo   = tempo;
-	 assign db_endereco = s_endereco;
+	assign db_endereco = s_endereco;
 
     // OR dos botoes
-    wire [12:0] botoes_debounced;
+    wire [12:0] botoes_debounced, button_posedges;
     assign nota_feita    = |botoes_debounced;
+    assign nota_apertada_pulso = |button_posedges;
 
     botoes_debouncer #(.DEBOUNCE_TIME(DEBOUNCE_TIME)) debouncer (
         .clock(clock),
         .reset(reset),
         .botoes(botoes),
-        .botoes_debounced(botoes_debounced)
+        .botoes_debounced(botoes_debounced),
+        .button_posedges(button_posedges)
     );
 
     debounce #(.DEBOUNCE_TIME(DEBOUNCE_TIME)) enter_debounce (
@@ -157,7 +160,7 @@ module fluxo_dados #(
 
     // Codificador dos botões
 	encoder_nota encoder_botoes (
-		.nota(botoes_debounced),
+		.nota(button_posedges),
 		.enable(1'b1),
 		.valor(botoes_encoded)
 	 );
@@ -264,14 +267,6 @@ module fluxo_dados #(
         .tempo_correto       ( tempo_correto )
     );
 
-    //Edge Detector para a nota escolhida
-    edge_detector EdgeDetectorNota (
-        .clock( clock               ),
-        .reset( 1'b0                ), 
-        .sinal( nota_feita          ), 
-        .pulso( nota_apertada_pulso )
-    );
-
     //Edge Detector para o enter
     edge_detector EdgeDetector (
         .clock( clock         ),
@@ -375,7 +370,7 @@ module fluxo_dados #(
         .D      ( botoes_encoded                    ),
         .clear  ( zeraR                             ),
         .clock  ( clock                             ),
-        .enable ( registraR & nota_apertada_pulso   ),
+        .enable ( nota_apertada_pulso ),
         .Q      ( s_nota                            )
     );
 

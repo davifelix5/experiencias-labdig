@@ -52,8 +52,9 @@ module circuito_principal #(
     wire press_enter;
     wire registra_modo, registra_bpm, registra_tom, registra_musicas;
     wire volta_contador;
-	 wire clk;
-     wire zeraOP;
+    wire clk;
+    wire zeraOP;
+    wire nota_apertada_pulso;
 
     wire [MODO - 1:0] modos;
     wire [$clog2(MODO)-1:0] modos_display;
@@ -154,6 +155,7 @@ module circuito_principal #(
         .grava_ops           ( grava_ops           ),
         .modos_reg           ( modos               ),
         .press_enter         ( press_enter         ),
+        .nota_apertada_pulso ( nota_apertada_pulso ),
         // Sinais de saída
         .leds                ( leds                ),
         .pulso_buzzer        ( pulso_buzzer        ),
@@ -192,6 +194,7 @@ module circuito_principal #(
         .erros               ( erros               ),
         .fim_musica          ( fim_musica          ),
         .press_enter         ( press_enter         ),
+        .nota_apertada_pulso ( nota_apertada_pulso ),
         // Sinais de controle
         .zeraC               ( zeraC               ),
         .contaC              ( contaC              ),

@@ -2,7 +2,8 @@ module botoes_debouncer #(parameter DEBOUNCE_TIME) (
     input clock,
     input reset,
     input [12:0] botoes,
-    output [12:0] botoes_debounced
+    output [12:0] botoes_debounced,
+    output [12:0] button_posedges
 );
 
     genvar i;
@@ -15,7 +16,15 @@ module botoes_debouncer #(parameter DEBOUNCE_TIME) (
                 .real_button(botoes[i]),
                 .debounced_button(botoes_debounced[i])
             );
+
+            edge_detector button_edge_n (
+                .clock(clock),
+                .reset(reset),
+                .sinal(botoes_debounced[i]),
+                .pulso(button_posedges[i])
+            );
         end
+
     endgenerate
 
 
