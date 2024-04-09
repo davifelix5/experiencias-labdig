@@ -135,7 +135,7 @@ module unidade_controle #(
     assign db_estado  = Eatual;
 
     wire modo_grava, modo_sem_apresenta, modo_fresstyle, modo_reprodutor, 
-                modo_nota_a_nota, modo_genius, rollback, tocar_preview, finaliza;
+                modo_nota_a_nota, modo_genius, rollback, tocar_preview, volta, finaliza;
     wire tentar_dnv_rep, tentar_dnv, apresenta_ultima;
 
     assign { rollback, tocar_preview, volta, finaliza } = grava_ops;
@@ -413,7 +413,8 @@ module unidade_controle #(
                                Eatual == espera_tom ||
                                Eatual == espera_modo ||
                                Eatual == menu_erro || 
-                               Eatual == menu_grava);
+                               Eatual == menu_grava ||
+                               Eatual == acertou);
 
     assign registra_erro    = ( Eatual == compara );
 

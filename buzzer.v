@@ -82,6 +82,6 @@ module buzzer #(parameter CLOCK_FREQ, TOM=4) (
         end
     endgenerate
 
-    assign pulso = (toca & |seletor) ? pulsos[tom][seletor] : 0;
+    assign pulso = (toca & |seletor) ? pulsos[tom][seletor] : 1'b0;
 
 endmodule

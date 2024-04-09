@@ -101,7 +101,8 @@ module fluxo_dados #(
     wire [3:0] s_memoria_nota, s_memoria_tempo, 
                s_nota, tempo, leds_encoded, tempo_baixo;
 	 wire [3:0] botoes_encoded;
-    wire [$clog2(NUM_NOTAS) - 1:0] s_endereco, s_rodada, cont_end_data;
+     wire right_arrow_press_deb, left_arrow_press_deb, enter_pressed_deb;
+         wire [$clog2(NUM_NOTAS) - 1:0] s_endereco, s_rodada, cont_end_data;
     wire metro_120BPM;
 
 
@@ -226,19 +227,6 @@ module fluxo_dados #(
         .valor   ( leds_encoded ), 
         .enable ( ativa_leds ), 
         .nota ( leds )       
-    );
-
-    // Contador que indica o tempo a partir do metrônomo
-    contador_m #(.M(16)) ContadorTempo (
-        .clock   ( meio_metro    ), 
-        .zera_s  ( 1'b0          ),  
-        .zera_as ( zeraMetro     ), 
-        .conta   ( contaMetro    ),
-        .load    ( 1'b0          ),
-        .data    ( tempo         ),
-        .Q       ( tempo         ),
-        .fim     (               ),
-        .meio    (               )
     );
 
     contador_m #(.M(16)) ContadorTempoAlto (

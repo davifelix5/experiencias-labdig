@@ -33,7 +33,7 @@ module sync_ram_nx4_file #(
     reg [3:0] ram[N-1:0];
 
     // Registra endereco de acesso
-    reg [4:0] addr_reg;
+    reg [$clog2(N)-1:0] addr_reg;
 
     // Especifica conteudo inicial da RAM
     // a partir da leitura de arquivo usando $readmemb
