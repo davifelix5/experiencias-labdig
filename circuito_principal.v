@@ -9,7 +9,6 @@ module circuito_principal #(
 
               DEBOUNCE_TIME = 100
 ) (
-    input         clock,
 	 input         clock_50M,
     input         reset,
     input         iniciar,

@@ -97,9 +97,10 @@ module fluxo_dados #(
     localparam NUM_NOTAS = 256;
 
     // Sinais internos
-    wire tem_nota, metro, meio_metro, nota_apertada_pulso;
+    wire tem_nota, meio_metro, meio_metro120, meio_metro60, metro60, metro120;
     wire [3:0] s_memoria_nota, s_memoria_tempo, 
-               s_nota, tempo, leds_encoded, tempo_baixo;
+               s_nota, tempo, leds_encoded;
+    wire[3:0] tempo_baixo, tempo_120, tempo_60;
 	 wire [3:0] botoes_encoded;
      wire right_arrow_press_deb, left_arrow_press_deb, enter_pressed_deb;
          wire [$clog2(NUM_NOTAS) - 1:0] s_endereco, s_rodada, cont_end_data;
@@ -122,11 +123,14 @@ module fluxo_dados #(
     assign db_memoria_nota    = s_memoria_nota;
     assign db_memoria_tempo   = s_memoria_tempo;
     assign db_tempo   = tempo_baixo;
-	 assign db_endereco = s_endereco;
+	 assign db_endereco = s_endereco[3:0];
 
     // OR dos botoes
     wire [12:0] botoes_debounced;
     assign nota_feita    = |botoes_debounced;
+
+    assign tempo_baixo = metro_120BPM ? tempo_120 : tempo_60; 
+    assign meio_metro = metro_120BPM ? meio_metro120 : meio_metro60; 
 
     botoes_debouncer #(.DEBOUNCE_TIME(DEBOUNCE_TIME)) debouncer (
         .clock(clock),
@@ -201,13 +205,15 @@ module fluxo_dados #(
     // Módulo para fornecer o pulso do metrônomo
     metronomo #(.CLOCK_FREQ(CLOCK_FREQ)) conta_metronomo (
         .clock        ( clock        ),
-        .zeraMetro    ( zeraMetro    ),
+        .zeraMetro        ( zeraMetro        ),
         .reset        ( reset        ),
         .contaMetro   ( contaMetro   ),
         .metro_120BPM ( metro_120BPM ),
     
-        .metro        ( metro        ),
-        .meio_metro   ( meio_metro   )
+        .metro60      ( metro60        ),
+        .metro120     ( metro120      ),
+        .meio_metro120   ( meio_metro120   ),
+        .meio_metro60   ( meio_metro60   )
     );
 
     //Buzzer para notas
@@ -229,14 +235,26 @@ module fluxo_dados #(
         .nota ( leds )       
     );
 
-    contador_m #(.M(16)) ContadorTempoAlto (
-        .clock   ( metro         ), 
-        .zera_s  ( 1'b0          ),  
-        .zera_as ( zeraMetro     ), 
+    contador_m #(.M(16)) ContadorTempo60 (
+        .clock   ( metro60         ), 
+        .zera_s  ( 1'b0        ),  
+        .zera_as ( zeraMetro      ), 
         .conta   ( contaMetro    ),
         .load    ( 1'b0          ),
         .data    (               ),
-        .Q       ( tempo_baixo   ),
+        .Q       ( tempo_60   ),
+        .fim     (               ),
+        .meio    (               )
+    );
+
+    contador_m #(.M(16)) ContadorTempo120 (
+        .clock   ( metro120         ), 
+        .zera_s  ( 1'b0         ),  
+        .zera_as ( zeraMetro     ),
+        .conta   ( contaMetro    ),
+        .load    ( 1'b0          ),
+        .data    (               ),
+        .Q       ( tempo_120   ),
         .fim     (               ),
         .meio    (               )
     );
@@ -250,14 +268,6 @@ module fluxo_dados #(
         
         .tempo_correto_baixo ( tempo_correto_baixo ),
         .tempo_correto       ( tempo_correto )
-    );
-
-    //Edge Detector para a nota escolhida
-    edge_detector EdgeDetectorNota (
-        .clock( clock               ),
-        .reset( 1'b0                ), 
-        .sinal( nota_feita          ), 
-        .pulso( nota_apertada_pulso )
     );
 
     //Edge Detector para o enter
@@ -363,7 +373,7 @@ module fluxo_dados #(
         .D      ( botoes_encoded                    ),
         .clear  ( zeraR                             ),
         .clock  ( clock                             ),
-        .enable ( registraR & nota_apertada_pulso   ),
+        .enable ( registraR                         ),
         .Q      ( s_nota                            )
     );
 

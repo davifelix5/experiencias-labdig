@@ -1,28 +1,24 @@
 module metronomo #(parameter CLOCK_FREQ) 
 (
     input  clock,
-    input  reset,
     input  zeraMetro,
+    input  reset,
     input  contaMetro,
-    input  metro_120BPM,
+    input metro_120BPM,
     
-    output metro,
-    output meio_metro
+    output metro60,
+    output metro120,
+    output meio_metro120,
+    output meio_metro60
 );
 
     localparam METRO_60BPM = CLOCK_FREQ/2, METRO_120BPM = CLOCK_FREQ/4;
 
-    wire metro60, metro120, meio_metro60, meio_metro120;
-
-    // Seleção do metrônomo: 1 para 120BPM e 0 para 60BPM
-    assign metro      = metro_120BPM ? metro120      : metro60;
-    assign meio_metro = metro_120BPM ? meio_metro120 : meio_metro60; 
-
     // Metronomo 60BPM para a rodada atual
     gerador_pwm #(.M(METRO_60BPM)) Metro60 (
         .clock   ( clock        ), 
-        .zera_s  ( zeraMetro    ), 
-        .zera_as ( 1'b0        ),
+        .zera_s  (    zeraMetro      ), 
+        .zera_as ( reset    ),
         .conta   ( contaMetro   ),
         .Q       (              ),
         .fim     ( metro60      ),
@@ -32,8 +28,8 @@ module metronomo #(parameter CLOCK_FREQ)
     // Metronomo 120BPM para a rodada atual
     gerador_pwm #(.M(METRO_120BPM)) Metro120 (
         .clock   ( clock         ), 
-        .zera_s  ( zeraMetro     ),  
-        .zera_as ( 1'b0          ), 
+        .zera_s  (      zeraMetro    ),  
+        .zera_as ( reset      ), 
         .conta   ( contaMetro    ),
         .Q       (               ),
         .fim     ( metro120      ),

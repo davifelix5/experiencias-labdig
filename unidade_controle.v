@@ -104,7 +104,7 @@ module unidade_controle #(
                 mostra_ultima           = 6'h18,
                 proxima_rodada          = 6'h19,
                 verifica_fim            = 6'h1A,
-                registra                = 6'h1B,
+                atualiza                = 6'h1B,
                 iniciar_menu            = 6'h1C,
                 espera_modo             = 6'h1D,
                 espera_bpm              = 6'h1E,
@@ -124,7 +124,8 @@ module unidade_controle #(
                 grava                   = 6'h2C,
                 inicio_grava            = 6'h2D,
                 espera_mostra_toca      = 6'h2E,
-                decrementa_nota        = 6'h2F;
+                decrementa_nota        = 6'h2F,
+                registra                = 6'h30;
 
     
 
@@ -179,7 +180,8 @@ module unidade_controle #(
                 espera_mostra:            Eprox = tempo_correto_baixo ? (enderecoIgualRodada ? inicio_nota : mostra_proximo) : espera_mostra;
                 mostra_proximo:           Eprox = mostra;
                 inicio_nota:              Eprox = espera_nota;
-                espera_nota:              Eprox = fimTempo ? errou_tempo : (nota_feita ? toca_nota : espera_nota);
+                espera_nota:              Eprox = fimTempo ? errou_tempo : (nota_feita ? registra : espera_nota);
+                registra:                 Eprox = toca_nota;
                 toca_nota:                Eprox = nota_feita ? toca_nota : compara; 
                 compara: begin
                     if (!nota_correta) begin
@@ -204,8 +206,8 @@ module unidade_controle #(
                 menu_erro:                Eprox = !press_enter ? menu_erro : 
                                                     (tentar_dnv_rep ? inicio_rodada : (tentar_dnv ? inicio_nota : (apresenta_ultima ? mostra_ultima : menu_erro)));
                 proxima_nota:             Eprox = espera_nota;
-                incrementa_nota:          Eprox = registra;
-                registra:                 Eprox = verifica_fim;
+                incrementa_nota:          Eprox = atualiza;
+                atualiza:                 Eprox = verifica_fim;
                 verifica_fim:             Eprox = fim_musica ? acertou : proxima_rodada;
                 acertou:                  Eprox = iniciar ? iniciar_menu : acertou;
                 proxima_rodada:           Eprox = inicio_rodada;
@@ -219,15 +221,16 @@ module unidade_controle #(
                 mostra:                   Eprox = espera_mostra;
                 espera_mostra:            Eprox = tempo_correto_baixo ? prepara_nota : espera_mostra;
                 prepara_nota:             Eprox = espera_nota;
-                espera_nota:              Eprox = nota_feita ? toca_nota : espera_nota;
+                espera_nota:              Eprox = nota_feita ? registra : espera_nota;
+                registra:                 Eprox = toca_nota;
                 toca_nota:                Eprox = nota_feita ? toca_nota : compara;
                 compara:                  Eprox = !tempo_correto ? errou_tempo : (!nota_correta ? errou_nota : incrementa_nota);
                 errou_tempo, errou_nota:  Eprox = iniciar_menu_erro;
                 iniciar_menu_erro:        Eprox = menu_erro;
                 menu_erro:                Eprox = !press_enter ? menu_erro : 
                                                     (tentar_dnv_rep ? inicio_rodada : (tentar_dnv ? prepara_nota : (apresenta_ultima ? mostra_ultima : menu_erro)));
-                incrementa_nota:          Eprox = registra;
-                registra:                 Eprox = verifica_fim;
+                incrementa_nota:          Eprox = atualiza;
+                atualiza:                 Eprox = verifica_fim;
                 verifica_fim:             Eprox = fim_musica ? acertou : espera_mostra;
                 mostra_ultima:            Eprox = tempo_correto_baixo ? espera_nota : mostra_ultima;
                 mostra_proximo:           Eprox = espera_mostra;
@@ -240,8 +243,8 @@ module unidade_controle #(
                 inicio_rodada:            Eprox = fimTF ? mostra : inicio_rodada;
                 mostra:                   Eprox = espera_toca;
                 espera_toca:              Eprox = tempo_correto_baixo ? mostra_proximo : espera_toca;
-                mostra_proximo:           Eprox = registra;
-                registra:                 Eprox = verifica_fim;
+                mostra_proximo:           Eprox = atualiza;
+                atualiza:                 Eprox = verifica_fim;
                 verifica_fim:             Eprox = fim_musica ? inicio_rodada : espera_toca;
                 default:                  Eprox = inicial;
             endcase
@@ -254,15 +257,16 @@ module unidade_controle #(
                 espera_mostra:            Eprox = tempo_correto_baixo ? (enderecoIgualRodada ? inicio_nota : mostra_proximo) : espera_mostra;
                 mostra_proximo:           Eprox = mostra;
                 inicio_nota:              Eprox = espera_nota;
-                espera_nota:              Eprox = fimTempo ? errou_tempo : (nota_feita ? toca_nota : espera_nota);
+                espera_nota:              Eprox = fimTempo ? errou_tempo : (nota_feita ? registra : espera_nota);
+                registra:                 Eprox = toca_nota;
                 toca_nota:                Eprox = nota_feita ? toca_nota : compara; 
                 compara:                  Eprox = !nota_correta ? errou_nota : (!tempo_correto ? errou_tempo : proxima_nota_e_roda);
                 errou_tempo, errou_nota:  Eprox = iniciar_menu_erro;
                 iniciar_menu_erro:        Eprox = menu_erro;
                 menu_erro:                Eprox = !press_enter ? menu_erro : 
                                                     (tentar_dnv_rep ? inicio_rodada : (tentar_dnv ? inicio_nota : (apresenta_ultima ? mostra_ultima : menu_erro)));
-                proxima_nota_e_roda:      Eprox = registra;
-                registra:                 Eprox = verifica_fim;
+                proxima_nota_e_roda:      Eprox = atualiza;
+                atualiza:                 Eprox = verifica_fim;
                 verifica_fim:             Eprox = fim_musica ? acertou : espera_nota;
                 acertou:                  Eprox = iniciar ? iniciar_menu : acertou;
                 mostra_ultima:            Eprox = tempo_correto_baixo ? espera_nota : mostra_ultima;
@@ -272,7 +276,8 @@ module unidade_controle #(
             case (Eatual) 
                 inicializa_elementos: Eprox = inicio_rodada;
                 inicio_rodada:        Eprox = espera_nota;
-                espera_nota:          Eprox = nota_feita ? toca_nota : (press_enter ? prepara_finaliza : espera_nota);
+                espera_nota:          Eprox = nota_feita ? registra : (press_enter ? prepara_finaliza : espera_nota);
+                registra:             Eprox = toca_nota;
                 toca_nota:            Eprox = nota_feita ? toca_nota : grava;
                 grava:                Eprox = proxima_nota_e_roda;
                 proxima_nota_e_roda:  Eprox = espera_nota;
@@ -294,7 +299,8 @@ module unidade_controle #(
         end else if (modo_fresstyle) begin
             case (Eatual) 
                 inicializa_elementos:     Eprox = espera_livre; 
-                espera_livre:             Eprox = nota_feita ? toca_nota : espera_livre;
+                espera_livre:             Eprox = nota_feita ? registra : espera_livre;
+                registra:                 Eprox = toca_nota;
                 toca_nota:                Eprox = nota_feita ? toca_nota : espera_livre;
                 default:                  Eprox = espera_livre;
             endcase
@@ -344,7 +350,7 @@ module unidade_controle #(
 
     assign vez_jogador      = (Eatual == espera_nota);
 
-    assign registraR        = (Eatual == toca_nota);
+    assign registraR        = (Eatual == registra);
 
     assign contaCR          = (Eatual == proxima_rodada ||
                                Eatual == proxima_nota_e_roda);
@@ -418,6 +424,6 @@ module unidade_controle #(
 
     assign registra_erro    = ( Eatual == compara );
 
-    assign volta_contador   = ( Eatual == decrementa || Eatual == decrementa_nota);
+    assign volta_contador   = ( Eatual == decrementa);
 
 endmodule
